@@ -11,7 +11,7 @@ public class GameEventEditor : Editor
     private const float PADDING = 30;
     private const float HEADER_HEIGHT = 18;
     private const float BACKGROUND_HEIGHT = 250;
-    private const float LINE_HEIGHT = 20;
+    private const float LINE_HEIGHT = 18;
     private const string STACK_TRACE_WINDOW_KEY = "StackTraceWindow";
 
     private const float CLEAR_LEFT_PADDING = 3;
