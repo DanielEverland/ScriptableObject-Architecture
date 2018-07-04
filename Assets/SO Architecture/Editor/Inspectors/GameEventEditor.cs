@@ -7,19 +7,28 @@ using UnityEditor.AnimatedValues;
 public class GameEventEditor : Editor
 {
     private GameEvent Target { get { return target as GameEvent; } }
-
+    
     private const float PADDING = 30;
     private const float HEADER_HEIGHT = 18;
-    private const float BACKGROUND_HEIGHT = 250;
+    private const float BACKGROUND_HEIGHT = 400;
     private const float LINE_HEIGHT = 18;
     private const string STACK_TRACE_WINDOW_KEY = "StackTraceWindow";
 
     private const float CLEAR_LEFT_PADDING = 3;
     private const float CLEAR_WIDTH = 45;
 
-    private Rect _rect;
-    private Vector2 _scrollPosition;
+    private const float RESIZE_MARGIN = 0.2f;
+    private const float RESIZE_HEIGHT = 5;
+
+    private Rect _stackTraceRect;
+    private Rect _listRect;
+    private Rect _contentRect;
+    private Vector2 _listScrollPosition;
+    private Vector2 _contentScrollPosition;
     private GameEventStackTrace _selectedTrace;
+    private float _subWindowValue;
+    private float _splitHeight;
+    private bool _resizeMouseDown;
 
     private void OnEnable()
     {
@@ -50,9 +59,9 @@ public class GameEventEditor : Editor
         if (Event.current.type == EventType.Repaint)
         {
             //This is necessary due to Unity's retarded handling of events - https://answers.unity.com/questions/515197/how-to-use-guilayoututilitygetrect-properly.html
-            _rect = rect;
+            _stackTraceRect = rect;
 
-            Rect boxRect = _rect;
+            Rect boxRect = _stackTraceRect;
 
             boxRect.x--;
             boxRect.y--;
@@ -61,29 +70,81 @@ public class GameEventEditor : Editor
             boxRect.height++;
 
             Styles.Box.Draw(boxRect, GUIContent.none, 0);
-        }            
+        }
 
-        GUILayout.BeginArea(_rect);
+
+        _subWindowValue = Mathf.Clamp(_subWindowValue, RESIZE_MARGIN, 1 - RESIZE_MARGIN);
+
+        _splitHeight = _stackTraceRect.height * _subWindowValue;
+        _contentRect = new Rect(-1, _splitHeight, _stackTraceRect.width + 1, _stackTraceRect.height - _splitHeight);
+        _listRect = new Rect()
+        {
+            y = HEADER_HEIGHT,
+            height = (_stackTraceRect.height - HEADER_HEIGHT) - _contentRect.height,
+            width = _stackTraceRect.width,
+        };
+
+        GUILayout.BeginArea(_stackTraceRect);
 
         DrawStackTraceHeader();
-        DrawElements();
+        DrawList();
+        DrawSelecteContent();
 
         GUILayout.EndArea();
     }
-    private void DrawElements()
+    private void DrawSelecteContent()
     {
-        Rect elementsRect = new Rect()
-        {
-            y = HEADER_HEIGHT,
-            height = _rect.height - HEADER_HEIGHT,
-            width = _rect.width,
-        };
+        Rect cursorRect = new Rect(0, _splitHeight - (RESIZE_HEIGHT / 2), _stackTraceRect.width, RESIZE_HEIGHT);
+        Event currentEvent = Event.current;
         
+        EditorGUIUtility.AddCursorRect(cursorRect, MouseCursor.ResizeVertical);
+        
+        if(currentEvent.type == EventType.Repaint)
+        {
+            Styles.Box.Draw(_contentRect, GUIContent.none, 0);                           
+        }
+        else if(currentEvent.type == EventType.MouseDown && cursorRect.Contains(currentEvent.mousePosition))
+        {
+            _resizeMouseDown = true;
+        }
+        else if(currentEvent.type == EventType.MouseUp && _resizeMouseDown)
+        {
+            _resizeMouseDown = false;
+        }
+        else if(_resizeMouseDown)
+        {
+            _subWindowValue = currentEvent.mousePosition.y / _stackTraceRect.height;
+
+            Repaint();
+        }
+
+        if (_selectedTrace != null)
+        {
+            Rect scrollViewRect = new Rect()
+            {
+                y = _contentRect.y,
+                height = _contentRect.height,
+                width = _contentRect.width,
+            };
+
+            Vector2 textSize = Styles.MessageStyle.CalcSize(new GUIContent(_selectedTrace));
+
+            Rect position = new Rect(Vector2.zero, textSize);
+
+            _contentScrollPosition = GUI.BeginScrollView(scrollViewRect, _contentScrollPosition, position);
+
+            EditorGUI.SelectableLabel(position, _selectedTrace, Styles.MessageStyle);
+
+            GUI.EndScrollView();
+        }
+    }
+    private void DrawList()
+    {
         Rect scrollViewRect = new Rect()
         {
-            y = elementsRect.y,
-            height = elementsRect.height,
-            width = elementsRect.width,
+            y = _listRect.y,
+            height = _listRect.height,
+            width = _listRect.width,
         };
         Rect position = new Rect()
         {
@@ -91,7 +152,7 @@ public class GameEventEditor : Editor
             width = scrollViewRect.width - 20,
         };
 
-        _scrollPosition = GUI.BeginScrollView(scrollViewRect, _scrollPosition, position);
+        _listScrollPosition = GUI.BeginScrollView(scrollViewRect, _listScrollPosition, position);
 
         for (int i = 0; i < Target.StackTraces.Count; i++)
         {
@@ -100,7 +161,7 @@ public class GameEventEditor : Editor
 
             Rect elementRect = new Rect()
             {
-                width = elementsRect.width,
+                width = _listRect.width,
                 height = LINE_HEIGHT,
                 y = i * LINE_HEIGHT,
             };
@@ -127,7 +188,7 @@ public class GameEventEditor : Editor
     {
         Rect rect = new Rect()
         {
-            width = _rect.width,
+            width = _stackTraceRect.width,
             height = HEADER_HEIGHT,
         };
 
@@ -162,6 +223,7 @@ public class GameEventEditor : Editor
             EvenBackground = new GUIStyle("CN EntryBackEven");
             OddBackground = new GUIStyle("CN EntryBackodd");
             HeaderButton = new GUIStyle("ToolbarButton");
+            MessageStyle = new GUIStyle("CN Message");
 
             Header = new GUIStyle("Toolbar");
             Header.alignment = TextAnchor.MiddleCenter;
@@ -176,5 +238,6 @@ public class GameEventEditor : Editor
         public static GUIStyle Header;
         public static GUIStyle EvenBackground;
         public static GUIStyle OddBackground;
+        public static GUIStyle MessageStyle;
     }
 }
