@@ -26,11 +26,13 @@ public class GameEventListener : MonoBehaviour
 
     private void OnEnable()
     {
-        _event.RegisterListener(this);
+        if(_event != null)
+            _event.RegisterListener(this);
     }
     private void OnDisable()
     {
-        _event.UnregisterListener(this);
+        if (_event != null)
+            _event.UnregisterListener(this);
     }
     public void OnEventRaised()
     {
@@ -152,7 +154,7 @@ public class GameEventListener : MonoBehaviour
         }
         else
         {
-            throw new System.NotImplementedException();
+            return null;
         }
     }
     private class DebugEvent
