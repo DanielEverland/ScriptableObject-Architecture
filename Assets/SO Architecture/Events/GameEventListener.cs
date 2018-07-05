@@ -70,7 +70,8 @@ public class GameEventListener : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        UpdateDebugInfo();
+        if(Application.isPlaying)
+            UpdateDebugInfo();
     }
     private void UpdateDebugInfo()
     {

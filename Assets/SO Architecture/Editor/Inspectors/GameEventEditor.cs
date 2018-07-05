@@ -46,10 +46,14 @@ public class GameEventEditor : Editor
     }
     private void DrawRaiseButton()
     {
+        EditorGUI.BeginDisabledGroup(!Application.isPlaying);
+
         if (GUILayout.Button("Raise"))
         {
             Target.Raise();
         }
+
+        EditorGUI.EndDisabledGroup();
     }
     private void DrawStackTrace()
     {
