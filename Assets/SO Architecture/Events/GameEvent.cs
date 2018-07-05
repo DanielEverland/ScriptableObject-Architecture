@@ -17,7 +17,6 @@ public class GameEvent : ScriptableObject
     public void Raise()
     {
 #if UNITY_EDITOR
-        Debug.Log(Environment.StackTrace);
         StackTraces.Insert(0, GameEventStackTrace.Create());
 #endif
 
