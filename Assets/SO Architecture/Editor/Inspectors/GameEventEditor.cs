@@ -14,7 +14,7 @@ public class GameEventEditor : Editor
     private const float LINE_HEIGHT = 18;
     private const string STACK_TRACE_WINDOW_KEY = "StackTraceWindow";
 
-    private const float CLEAR_LEFT_PADDING = 3;
+    private const float CLEAR_LEFT_PADDING = 6;
     private const float CLEAR_WIDTH = 45;
 
     private const float RESIZE_MARGIN = 0.2f;
