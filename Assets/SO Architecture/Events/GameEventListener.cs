@@ -53,7 +53,7 @@ public class GameEventListener : MonoBehaviour
     private const float DOTTED_LINE_LENGTH = 5;
     private const float DOT_LENGTH = 0.5f;
     private const float DOT_WIDTH = 3;
-    private const float EVENT_MOVEMENT_SPEED = 5;
+    private const float EVENT_MOVEMENT_SPEED = 3;
 
     private List<DebugEvent> _debugEntries = new List<DebugEvent>();
 
