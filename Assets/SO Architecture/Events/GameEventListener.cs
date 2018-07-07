@@ -42,7 +42,9 @@ public class GameEventListener : MonoBehaviour
         for (int i = 0; i < _response.GetPersistentEventCount(); i++)
         {
             GameObject gameObjectTarget = GetGameObject(_response.GetPersistentTarget(i));
-            string functionName = string.Format("{0} ({1})", gameObjectTarget.name, _response.GetPersistentMethodName(i));
+            string targetName = gameObject ? gameObject.name : "Null";
+
+            string functionName = string.Format("{0} ({1})", targetName, _response.GetPersistentMethodName(i));
 
             _debugEntries.Add(new DebugEvent(gameObjectTarget, functionName));
         }
@@ -91,6 +93,9 @@ public class GameEventListener : MonoBehaviour
     private void DrawEvent(int index)
     {
         DebugEvent debugEvent = _debugEntries[index];
+
+        if (debugEvent.Target == null)
+            return;
         
         debugEvent.Offset += EVENT_MOVEMENT_SPEED * Time.deltaTime;
 
