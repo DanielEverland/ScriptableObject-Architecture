@@ -12,7 +12,7 @@ public class GameEvent : ScriptableObject
     public List<GameEventStackTrace> StackTraces = new List<GameEventStackTrace>();
 #endif
 
-    private readonly List<GameEventListener> _listeners = new List<GameEventListener>();
+    private readonly List<IGameEventListener> _listeners = new List<IGameEventListener>();
 
     public void Raise()
     {
@@ -23,12 +23,12 @@ public class GameEvent : ScriptableObject
         for (int i = _listeners.Count - 1; i >= 0; i--)
             _listeners[i].OnEventRaised();
     }
-    public void RegisterListener(GameEventListener listener)
+    public void RegisterListener(IGameEventListener listener)
     {
         if (!_listeners.Contains(listener))
             _listeners.Add(listener);
     }
-    public void UnregisterListener(GameEventListener listener)
+    public void UnregisterListener(IGameEventListener listener)
     {
         if (_listeners.Contains(listener))
             _listeners.Remove(listener);
