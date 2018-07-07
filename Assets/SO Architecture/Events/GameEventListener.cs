@@ -136,7 +136,7 @@ public class GameEventListener : MonoBehaviour
     {
         GameObject toAdd = GetGameObject(obj);
 
-        if (!listeningObjects.Contains(toAdd))
+        if (!listeningObjects.Contains(toAdd) && toAdd != null)
         {
             listeningObjects.Add(toAdd);
         }
