@@ -4,8 +4,9 @@ Makes using Scriptable Objects as a fundamental part of your architecture in Uni
 # Features
 - Variables - All C# primitives
 - Variable References
-- Events
+- Typed Events
 - Runtime Sets
+- Custom Icons
 
 # Debugging Features
 Full stacktrace and editor invocation for events
