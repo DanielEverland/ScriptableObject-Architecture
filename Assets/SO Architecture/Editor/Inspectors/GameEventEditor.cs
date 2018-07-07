@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 
-[CustomEditor(typeof(GameEvent))]
+[CustomEditor(typeof(GameEvent), true)]
 public class GameEventEditor : Editor
 {
     private GameEvent Target { get { return target as GameEvent; } }

@@ -9,7 +9,7 @@ using UnityEditor;
 
 public abstract class BaseGameEventListener<TEvent, TResponse> : MonoBehaviour, IGameEventListener
     where TEvent : GameEvent
-    where TResponse : UnityEvent
+    where TResponse : UnityEventBase
 {
     [Tooltip("Event to register with."), SerializeField]
     private TEvent _event;

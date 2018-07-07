@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class IntReference : BaseReference<int, IntVariable>
+public sealed class IntReference : BaseReference<int, IntVariable>
 {
     public IntReference() : base() { }
     public IntReference(int value) : base(value) { }

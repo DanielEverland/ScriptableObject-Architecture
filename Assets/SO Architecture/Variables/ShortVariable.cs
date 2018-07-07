@@ -5,7 +5,7 @@
     menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "Short",
     order = SOArchitecture_Utility.ADVANCED_ASSET_MENU_ORDER)]
 
-public class ShortVariable : BaseVariable<short>
+public sealed class ShortVariable : BaseVariable<short>
 {
 
 }

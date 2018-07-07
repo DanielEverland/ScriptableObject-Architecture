@@ -5,7 +5,10 @@ using UnityEngine;
 using System;
 #endif
 
-[CreateAssetMenu(fileName = "GameEvent.asset", menuName = SOArchitecture_Utility.GAME_EVENT, order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
+[CreateAssetMenu(
+    fileName = "GameEvent.asset",
+    menuName = SOArchitecture_Utility.GAME_EVENT + "Void",
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
 public class GameEvent : ScriptableObject
 {
 #if UNITY_EDITOR

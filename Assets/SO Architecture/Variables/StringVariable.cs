@@ -5,7 +5,7 @@
     menuName = SOArchitecture_Utility.VARIABLE_SUBMENU + "String",
     order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
 
-public class StringVariable : BaseVariable<string>
+public sealed class StringVariable : BaseVariable<string>
 {
 
 }

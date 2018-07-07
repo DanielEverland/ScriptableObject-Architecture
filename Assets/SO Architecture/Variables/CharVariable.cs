@@ -5,7 +5,7 @@
     menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "Char",
     order = SOArchitecture_Utility.ADVANCED_ASSET_MENU_ORDER)]
 
-public class CharVariable : BaseVariable<char>
+public sealed class CharVariable : BaseVariable<char>
 {
 
 }
