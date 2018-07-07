@@ -8,7 +8,7 @@
 public sealed class DoubleGameEvent : GameEvent
 {
     [SerializeField]
-    private double _value;
+    private DoubleReference _value;
 
     public double Value { get { return _value; } }
 }

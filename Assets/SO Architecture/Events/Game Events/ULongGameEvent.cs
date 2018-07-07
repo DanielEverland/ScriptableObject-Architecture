@@ -8,7 +8,7 @@
 public sealed class ULongGameEvent : GameEvent
 {
     [SerializeField]
-    private ulong _value;
+    private ULongReference _value;
 
     public ulong Value { get { return _value; } }
 }

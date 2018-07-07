@@ -8,7 +8,7 @@
 public sealed class BoolGameEvent : GameEvent
 {
     [SerializeField]
-    private bool _value;
+    private BoolReference _value;
 
     public bool Value { get { return _value; } }
 }

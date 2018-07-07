@@ -8,7 +8,7 @@
 public sealed class ByteGameEvent : GameEvent
 {
     [SerializeField]
-    private byte _value;
+    private ByteReference _value;
 
     public byte Value { get { return _value; } }
 }

@@ -8,7 +8,7 @@
 public sealed class LongGameEvent : GameEvent
 {
     [SerializeField]
-    private long _value;
+    private LongReference _value;
 
     public long Value { get { return _value; } }
 }

@@ -8,7 +8,7 @@
 public sealed class FloatGameEvent : GameEvent {
 
     [SerializeField]
-    private float _value;
+    private FloatReference _value;
 
     public float Value { get { return _value; } }
 }

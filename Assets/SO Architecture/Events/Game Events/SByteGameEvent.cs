@@ -8,7 +8,7 @@
 public sealed class SByteGameEvent : GameEvent
 {
     [SerializeField]
-    private sbyte _value;
+    private SByteReference _value;
 
     public sbyte Value { get { return _value; } }
 }

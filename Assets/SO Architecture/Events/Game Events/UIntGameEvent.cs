@@ -8,7 +8,7 @@
 public sealed class UIntGameEvent : GameEvent
 {
     [SerializeField]
-    private uint _value;
+    private UIntReference _value;
 
     public uint Value { get { return _value; } }
 }

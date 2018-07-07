@@ -8,7 +8,7 @@
 public sealed class ShortGameEvent : GameEvent
 {
     [SerializeField]
-    private short _value;
+    private ShortReference _value;
 
     public short Value { get { return _value; } }
 }

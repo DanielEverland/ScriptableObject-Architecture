@@ -8,7 +8,7 @@
 public class ObjectGameEvent : GameEvent
 {
     [SerializeField]
-    private Object _value;
+    private ObjectReference _value;
 
     public Object Value { get { return _value; } }
 }
