@@ -20,6 +20,13 @@ public abstract class BaseReference<TBase, TVariable> : BaseReference where TVar
     public TBase Value
     {
         get { return _useConstant ? _constantValue : _variable.Value; }
+        set
+        {
+            if (!_useConstant && _variable != null)
+                _variable.Value = value;
+            else if (_useConstant)
+                _constantValue = value;
+        }
     }
     public static implicit operator TBase(BaseReference<TBase, TVariable> reference)
     {
