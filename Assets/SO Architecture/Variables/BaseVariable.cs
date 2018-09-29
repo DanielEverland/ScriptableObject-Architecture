@@ -30,4 +30,9 @@ public class BaseVariable<T> : ScriptableObject
     {
         Value = value.Value;
     }
+
+    public static implicit operator T(BaseVariable<T> variable)
+    {
+        return variable.Value;
+    }
 }
