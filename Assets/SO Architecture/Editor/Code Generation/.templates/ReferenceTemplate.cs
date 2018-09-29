@@ -1,0 +1,6 @@
+﻿[System.Serializable]
+public sealed class $TYPE_NAME$Reference : BaseReference<$TYPE$, $TYPE_NAME$Variable>
+{
+    public $TYPE_NAME$Reference() : base() { }
+    public $TYPE_NAME$Reference($TYPE$ value) : base(value) { }
+}
