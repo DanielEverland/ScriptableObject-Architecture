@@ -48,7 +48,7 @@ public class SO_CodeGenerationWindow : EditorWindow {
     {
         false, true, false, true, false, true
     };
-
+    
     private string _typeName;
     private string _menuName;
     private AnimBool _menuAnim;
@@ -88,7 +88,7 @@ public class SO_CodeGenerationWindow : EditorWindow {
     }
     private void TypeSelection()
     {
-        EditorGUILayout.LabelField("Select Type(s)");
+        EditorGUILayout.LabelField("Select Type(s)", EditorStyles.boldLabel);
 
         for (int i = 0; i < SO_CodeGenerator.TYPE_COUNT; i++)
         {
@@ -108,7 +108,7 @@ public class SO_CodeGenerationWindow : EditorWindow {
     }
     private void DataFields()
     {
-        EditorGUILayout.LabelField("Information");
+        EditorGUILayout.LabelField("Information", EditorStyles.boldLabel);
 
         _typeName = EditorGUILayout.TextField(new GUIContent("Type Name", "Case sensitive, ensure exact match with actual type name"), _typeName);
 
