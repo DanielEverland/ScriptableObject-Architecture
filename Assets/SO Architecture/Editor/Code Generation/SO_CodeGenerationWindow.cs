@@ -74,7 +74,14 @@ public class SO_CodeGenerationWindow : EditorWindow {
 
         if(GUILayout.Button("Generate"))
         {
+            SO_CodeGenerator.Data data = new SO_CodeGenerator.Data()
+            {
+                Types = _states,
+                TypeName = _typeName,
+                MenuName = RequiresMenu() ? _menuName : default(string),
+            };
 
+            SO_CodeGenerator.Generate(data);
 
             Close();
         }
