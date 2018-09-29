@@ -26,7 +26,7 @@ public class GameEventEditor : Editor
     private Vector2 _listScrollPosition;
     private Vector2 _contentScrollPosition;
     private GameEventStackTrace _selectedTrace;
-    private float _subWindowValue;
+    private float _subWindowValue = 0.6f;
     private float _splitHeight;
     private bool _resizeMouseDown;
 
