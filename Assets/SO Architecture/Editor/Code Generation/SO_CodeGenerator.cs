@@ -1,8 +1,9 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using UnityEditor;
 
 public static class SO_CodeGenerator {
 
@@ -15,12 +16,12 @@ public static class SO_CodeGenerator {
     {
         _targetDirectories = new string[TYPE_COUNT]
         {
-            Application.dataPath + "SO Architecture/Events/Listeners",
-            Application.dataPath + "SO Architecture/Events/Game Events",
-            Application.dataPath + "SO Architecture/References",
-            Application.dataPath + "SO Architecture/Runtime Sets",
-            Application.dataPath + "SO Architecture/Events/Responses",
-            Application.dataPath + "SO Architecture/Variables",
+            Application.dataPath + "/SO Architecture/Events/Listeners",
+            Application.dataPath + "/SO Architecture/Events/Game Events",
+            Application.dataPath + "/SO Architecture/References",
+            Application.dataPath + "/SO Architecture/Runtime Sets",
+            Application.dataPath + "/SO Architecture/Events/Responses",
+            Application.dataPath + "/SO Architecture/Variables",
         };
     }
     private static void GatherFilePaths()
@@ -111,13 +112,15 @@ public static class SO_CodeGenerator {
                 GenerateScript(i);
             }
         }
+
+        AssetDatabase.Refresh();
     }
     private static void GenerateScript(int index)
     {
         string targetFilePath = GetTargetFilePath(index);
         string contents = GetScriptContents(index);
 
-        Debug.Log("Creating " + Path.GetFileName(targetFilePath));
+        Debug.Log("Creating " + targetFilePath);
 
         File.WriteAllText(targetFilePath, contents);
     }
@@ -128,7 +131,7 @@ public static class SO_CodeGenerator {
 
         string output = templateContent;
 
-        for (int i = 0; i < _replacementStrings.Length; i++)
+        for (int i = 0; i < _replacementStrings.GetLength(0); i++)
         {
             output = output.Replace(_replacementStrings[i, 0], _replacementStrings[i, 1]);
         }
