@@ -12,7 +12,7 @@ Makes using Scriptable Objects as a fundamental part of your architecture in Uni
 # Debugging Features
 Full stacktrace and editor invocation for events
 
-![](https://i.imgur.com/Us01gYA.png)
+![](https://i.imgur.com/GHkiIBd.png)
 
 Visual debugging of events
 
