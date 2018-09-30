@@ -9,7 +9,6 @@ Makes using Scriptable Objects as a fundamental part of your architecture in Uni
 - Runtime Sets
 - Custom Icons
 
-# Features
 Visual debugging of events
 
 ![](https://i.imgur.com/GPP3aVR.gif)
