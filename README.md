@@ -22,3 +22,7 @@ Full stacktrace and editor invocation for events
 Custom icons
 
 ![](https://i.imgur.com/hNzvM9Y.png)
+
+Easy and automatic script generation
+
+![](https://i.imgur.com/GHkiIBd.png)
