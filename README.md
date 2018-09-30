@@ -1,6 +1,8 @@
 # ScriptableObject-Architecture
 Makes using Scriptable Objects as a fundamental part of your architecture in Unity super easy
 
+Based on Ryan Hipple's 2017 Unite talk https://www.youtube.com/watch?v=raQ3iHhE_Kk
+
 # Features
 - Automatic Script Generation
 - Variables - All C# primitives
@@ -20,5 +22,3 @@ Full stacktrace and editor invocation for events
 Custom icons
 
 ![](https://i.imgur.com/hNzvM9Y.png)
-
-Based on Ryan Hipple's 2017 Unite talk https://www.youtube.com/watch?v=raQ3iHhE_Kk
