@@ -15,15 +15,28 @@ public class GameEventStackTrace : IEquatable<GameEventStackTrace>
             _frameCount = Time.frameCount;
         }
     }
+    private GameEventStackTrace(string trace, object value)
+    {
+        _value = value;
+        _constructedWithValue = true;
+        _id = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        _stackTrace = trace;
+
+        if (Application.isPlaying)
+        {
+            _frameCount = Time.frameCount;
+        }
+    }
 
     private readonly int _id;
     private readonly int _frameCount;
     private readonly string _stackTrace;
-
+    private readonly object _value;
+    private readonly bool _constructedWithValue = false;
+    
     public static GameEventStackTrace Create(object obj)
     {
-        // throw new System.NotImplementedException();
-        return new GameEventStackTrace(Environment.StackTrace);
+        return new GameEventStackTrace(Environment.StackTrace, obj);
     }
     public static GameEventStackTrace Create()
     {
@@ -51,13 +64,13 @@ public class GameEventStackTrace : IEquatable<GameEventStackTrace>
     }
     public override string ToString()
     {
-        if (_frameCount > 0)
+        if(_constructedWithValue)
         {
-            return string.Format("{0} {1}", _frameCount, _stackTrace);
+            return string.Format("{1}   [{0}] {2}", _value == null ? "null" : _value.ToString(), _frameCount, _stackTrace);
         }
         else
         {
-            return _stackTrace;
+            return string.Format("{0} {1}", _frameCount, _stackTrace);
         }
     }
 
