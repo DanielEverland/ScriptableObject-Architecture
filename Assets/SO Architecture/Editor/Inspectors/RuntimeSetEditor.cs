@@ -5,6 +5,8 @@ using UnityEngine;
 [CustomEditor(typeof(RuntimeSet<>), true)]
 public class RuntimeSetEditor : Editor
 {
+    private SOArchitectureBaseObject Target { get { return (SOArchitectureBaseObject)target; } }
+
     private ReorderableList _reorderableList;
 
     private void OnEnable()
@@ -19,6 +21,8 @@ public class RuntimeSetEditor : Editor
         _reorderableList.DoLayoutList();
 
         _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+
+        Target.DeveloperDescription = SOArchitectureBaseObjectEditor.DrawDescription(Target.DeveloperDescription);
     }
     private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
     {

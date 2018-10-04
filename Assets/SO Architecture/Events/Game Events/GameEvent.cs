@@ -9,7 +9,7 @@ using System;
     fileName = "GameEvent.asset",
     menuName = SOArchitecture_Utility.GAME_EVENT + "Void",
     order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
-public class GameEvent : ScriptableObject
+public class GameEvent : SOArchitectureBaseObject
 {
 #if UNITY_EDITOR
     public List<GameEventStackTrace> StackTraces = new List<GameEventStackTrace>();

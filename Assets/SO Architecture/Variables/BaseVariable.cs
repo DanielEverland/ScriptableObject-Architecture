@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BaseVariable<T> : ScriptableObject
+public class BaseVariable<T> : SOArchitectureBaseObject
 {
     public T Value
     {
@@ -13,15 +13,10 @@ public class BaseVariable<T> : ScriptableObject
             _value = value;
         }
     }
-
-#if UNITY_EDITOR
-    [Multiline]
-    public string DeveloperDescription = "";
-#endif    
-
+    
     [SerializeField]
     protected T _value;
-
+    
     public void SetValue(T value)
     {
         Value = value;

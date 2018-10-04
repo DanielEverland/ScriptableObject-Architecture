@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuntimeSet<T> : ScriptableObject, IEnumerable<T>
+public class RuntimeSet<T> : SOArchitectureBaseObject, IEnumerable<T>
 {
     [SerializeField]
     private List<T> _items = new List<T>();

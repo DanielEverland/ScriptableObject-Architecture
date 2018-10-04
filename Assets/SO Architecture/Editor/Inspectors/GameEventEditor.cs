@@ -36,13 +36,13 @@ public class GameEventEditor : Editor
     }
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-
         DrawRaiseButton();
 
         EditorGUILayout.Space();
 
         DrawStackTrace();
+
+        Target.DeveloperDescription = SOArchitectureBaseObjectEditor.DrawDescription(Target.DeveloperDescription);
     }
     private void DrawRaiseButton()
     {
@@ -87,7 +87,7 @@ public class GameEventEditor : Editor
             height = (_stackTraceRect.height - HEADER_HEIGHT) - _contentRect.height,
             width = _stackTraceRect.width,
         };
-
+        
         GUILayout.BeginArea(_stackTraceRect);
 
         DrawStackTraceHeader();
@@ -95,6 +95,10 @@ public class GameEventEditor : Editor
         DrawSelecteContent();
 
         GUILayout.EndArea();
+
+        //Not sure why the layout hasn't reserved the bottom 100 pixels of the stack trace
+        //Oh boy, here I go hacking again
+        EditorGUILayout.GetControlRect(false, 100);
     }
     private void DrawSelecteContent()
     {
