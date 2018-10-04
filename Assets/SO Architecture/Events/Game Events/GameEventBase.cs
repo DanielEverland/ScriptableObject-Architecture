@@ -33,7 +33,7 @@ public abstract class GameEventBase : GameEventStackTraceBase, IGameEvent
 
     public void Raise()
     {
-        AddStackTrace(null);
+        AddStackTrace();
         
         for (int i = _listeners.Count - 1; i >= 0; i--)
             _listeners[i].OnEventRaised();
@@ -58,14 +58,13 @@ public abstract class GameEventStackTraceBase : SOArchitectureBaseObject
     protected void AddStackTrace(object obj)
     {
 #if UNITY_EDITOR
-        if(obj == null)
-        {
-            StackTraces.Insert(0, GameEventStackTrace.Create());
-        }
-        else
-        {
-            StackTraces.Insert(0, GameEventStackTrace.Create(obj));
-        }
+        StackTraces.Insert(0, GameEventStackTrace.Create(obj));
+#endif
+    }
+    protected void AddStackTrace()
+    {
+#if UNITY_EDITOR
+        StackTraces.Insert(0, GameEventStackTrace.Create());
 #endif
     }
 }
