@@ -14,17 +14,31 @@ public class SOArchitectureBaseObjectEditor : Editor {
 
         Target.DeveloperDescription = DrawDescription(Target.DeveloperDescription);
     }
+    public static void DrawDescription(SerializedProperty property)
+    {
+        StartDescriptionGroup();
+            property.stringValue = EditorGUILayout.TextArea(property.stringValue, Styles.TextAreaStyle);
+        EndDescriptionGroup();
+    }
     public static string DrawDescription(string text)
     {
         string toReturn = text;
+
+        StartDescriptionGroup();
+            toReturn = EditorGUILayout.TextArea(toReturn, Styles.TextAreaStyle);
+        EndDescriptionGroup();
         
+        return toReturn;
+    }
+    private static void StartDescriptionGroup()
+    {
         EditorGUILayout.LabelField(new GUIContent("Description", "Click below this field to add a description"));
 
         EditorGUI.indentLevel++;
-            toReturn = EditorGUILayout.TextArea(toReturn, Styles.TextAreaStyle);
+    }
+    private static void EndDescriptionGroup()
+    {
         EditorGUI.indentLevel--;
-        
-        return toReturn;
     }
 
     private static class Styles
