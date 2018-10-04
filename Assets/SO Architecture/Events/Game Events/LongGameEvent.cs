@@ -5,10 +5,6 @@
     fileName = "LongGameEvent.asset",
     menuName = SOArchitecture_Utility.ADVANCED_GAME_EVENT + "Long",
     order = SOArchitecture_Utility.ADVANCED_ASSET_MENU_ORDER)]
-public sealed class LongGameEvent : GameEvent
+public sealed class LongGameEvent : GameEventBase<long>
 {
-    [SerializeField]
-    private LongReference _value;
-
-    public long Value { get { return _value; } }
 }

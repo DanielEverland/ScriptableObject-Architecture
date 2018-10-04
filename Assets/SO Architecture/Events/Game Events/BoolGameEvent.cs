@@ -5,10 +5,6 @@
     fileName = "BoolGameEvent.asset",
     menuName = SOArchitecture_Utility.GAME_EVENT + "Bool",
     order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
-public sealed class BoolGameEvent : GameEvent
+public sealed class BoolGameEvent : GameEventBase<bool>
 {
-    [SerializeField]
-    private BoolReference _value;
-
-    public bool Value { get { return _value; } }
 }

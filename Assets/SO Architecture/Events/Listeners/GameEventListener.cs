@@ -3,10 +3,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [ExecuteInEditMode]
-public class GameEventListener : BaseGameEventListener<GameEvent, UnityEvent>
+public class GameEventListener : BaseGameEventListener<GameEventBase, UnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke();
-    }
 }

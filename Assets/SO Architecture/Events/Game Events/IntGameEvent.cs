@@ -5,10 +5,6 @@
     fileName = "IntGameEvent.asset",
     menuName = SOArchitecture_Utility.GAME_EVENT + "Integer",
     order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
-public sealed class IntGameEvent : GameEvent
+public sealed class IntGameEvent : GameEventBase<int>
 {
-    [SerializeField]
-    private IntReference _value;
-
-    public int Value { get { return _value; } }
 }

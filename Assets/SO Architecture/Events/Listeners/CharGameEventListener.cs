@@ -1,7 +1,3 @@
-﻿public sealed class CharGameEventListener : BaseGameEventListener<CharGameEvent, CharUnityEvent>
+﻿public sealed class CharGameEventListener : BaseGameEventListener<char, CharGameEvent, CharUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

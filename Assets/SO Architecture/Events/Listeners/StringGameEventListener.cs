@@ -1,7 +1,3 @@
-﻿public sealed class StringGameEventListener : BaseGameEventListener<StringGameEvent, StringUnityEvent>
+﻿public sealed class StringGameEventListener : BaseGameEventListener<string, StringGameEvent, StringUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

@@ -7,28 +7,29 @@ using UnityEngine.Events;
 using UnityEditor;
 #endif
 
-public abstract class BaseGameEventListener<TEvent, TResponse> : MonoBehaviour, IGameEventListener
-    where TEvent : GameEvent
-    where TResponse : UnityEventBase
+public abstract class BaseGameEventListener<TType, TEvent, TResponse> : DebuggableGameEventListener, IGameEventListener<TType>
+    where TEvent : GameEventBase<TType>
+    where TResponse : UnityEvent<TType>
 {
     [Tooltip("Event to register with."), SerializeField]
     private TEvent _event;
 
-#if UNITY_EDITOR
-    [Tooltip("Debug color to use when debugging events"), SerializeField]
-    private Color _debugColor = Color.cyan;
-#endif
-
-    [Space()]
-
     [Tooltip("Response to invoke when Event is raised."), SerializeField]
     private TResponse _response;
 
-    protected TEvent GameEvent { get { return _event; } }
-    protected TResponse Response { get { return _response; } }
+    protected override ScriptableObject GameEvent { get { return _event; } }
+    protected override UnityEventBase Response { get { return _response; } }
     
-    protected abstract void RaiseResponse();
+    public void OnEventRaised(TType value)
+    {
+        RaiseResponse(value);
 
+        CreateDebugEntry(_response);
+    }
+    private void RaiseResponse(TType value)
+    {
+        _response.Invoke(value);
+    }
     private void OnEnable()
     {
         if (_event != null)
@@ -39,28 +40,57 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : MonoBehaviour, 
         if (_event != null)
             _event.UnregisterListener(this);
     }
+    
+}
+public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameEventListener, IGameEventListener
+    where TEvent : GameEventBase
+    where TResponse : UnityEvent
+{
+    [Tooltip("Event to register with."), SerializeField]
+    private TEvent _event;
+    
+    [Tooltip("Response to invoke when Event is raised."), SerializeField]
+    private TResponse _response;
+
+    protected override ScriptableObject GameEvent { get { return _event; } }
+    protected override UnityEventBase Response { get { return _response; } }
+    
     public void OnEventRaised()
     {
         RaiseResponse();
 
-#if UNITY_EDITOR
-        for (int i = 0; i < _response.GetPersistentEventCount(); i++)
-        {
-            GameObject gameObjectTarget = GetGameObject(_response.GetPersistentTarget(i));
-            string targetName = gameObject ? gameObject.name : "Null";
-
-            string functionName = string.Format("{0} ({1})", targetName, _response.GetPersistentMethodName(i));
-
-            _debugEntries.Add(new DebugEvent(gameObjectTarget, functionName));
-        }
-#endif
+        CreateDebugEntry(_response);
     }
+    protected void RaiseResponse()
+    {
+        _response.Invoke();
+    }
+    private void OnEnable()
+    {
+        if (_event != null)
+            _event.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        if (_event != null)
+            _event.UnregisterListener(this);
+    }    
+}
+public abstract class DebuggableGameEventListener : MonoBehaviour
+{
+#if UNITY_EDITOR
+    [Tooltip("Debug color to use when debugging events"), SerializeField]
+    private Color _debugColor = Color.cyan;
+#endif
 
 #if UNITY_EDITOR
     private const float DOTTED_LINE_LENGTH = 5;
     private const float DOT_LENGTH = 0.5f;
     private const float DOT_WIDTH = 3;
     private const float EVENT_MOVEMENT_SPEED = 3;
+
+    protected abstract ScriptableObject GameEvent { get; }
+    protected abstract UnityEventBase Response { get; }
 
     private List<DebugEvent> _debugEntries = new List<DebugEvent>();
 
@@ -75,6 +105,20 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : MonoBehaviour, 
         public static GUIStyle TextStyle;
     }
 
+    protected void CreateDebugEntry(UnityEventBase response)
+    {
+#if UNITY_EDITOR
+        for (int i = 0; i < response.GetPersistentEventCount(); i++)
+        {
+            GameObject gameObjectTarget = GetGameObject(response.GetPersistentTarget(i));
+            string targetName = gameObject ? gameObject.name : "Null";
+
+            string functionName = string.Format("{0} ({1})", targetName, response.GetPersistentMethodName(i));
+
+            _debugEntries.Add(new DebugEvent(gameObjectTarget, functionName));
+        }
+#endif
+    }
     private void OnDrawGizmos()
     {
         if (Application.isPlaying)
@@ -117,7 +161,7 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : MonoBehaviour, 
     }
     private void DrawText(Vector3 position, DebugEvent debugEvent)
     {
-        string text = string.Join("\n", new string[] { _event.name, debugEvent.FunctionName });
+        string text = string.Join("\n", new string[] { GameEvent.name, debugEvent.FunctionName });
 
         Handles.Label(position, text, Styles.TextStyle);
     }
@@ -125,9 +169,9 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : MonoBehaviour, 
     {
         List<GameObject> listeningObjects = new List<GameObject>();
 
-        for (int i = 0; i < _response.GetPersistentEventCount(); i++)
+        for (int i = 0; i < Response.GetPersistentEventCount(); i++)
         {
-            AddObject(listeningObjects, _response.GetPersistentTarget(i));
+            AddObject(listeningObjects, Response.GetPersistentTarget(i));
         }
 
         foreach (GameObject obj in listeningObjects)

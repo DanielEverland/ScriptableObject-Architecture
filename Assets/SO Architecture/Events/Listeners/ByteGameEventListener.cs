@@ -1,7 +1,3 @@
-﻿public sealed class ByteGameEventListener : BaseGameEventListener<ByteGameEvent, ByteUnityEvent>
+﻿public sealed class ByteGameEventListener : BaseGameEventListener<byte, ByteGameEvent, ByteUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

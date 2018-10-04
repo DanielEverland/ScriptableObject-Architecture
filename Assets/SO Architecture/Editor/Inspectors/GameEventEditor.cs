@@ -3,10 +3,10 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 
-[CustomEditor(typeof(GameEvent), true)]
+[CustomEditor(typeof(GameEventBase), true)]
 public class GameEventEditor : Editor
 {
-    private GameEvent Target { get { return target as GameEvent; } }
+    private GameEventBase Target { get { return target as GameEventBase; } }
     
     private const float PADDING = 30;
     private const float HEADER_HEIGHT = 18;

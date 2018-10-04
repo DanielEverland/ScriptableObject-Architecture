@@ -1,7 +1,3 @@
-﻿public sealed class BoolGameEventListener : BaseGameEventListener<BoolGameEvent, BoolUnityEvent>
+﻿public sealed class BoolGameEventListener : BaseGameEventListener<bool, BoolGameEvent, BoolUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

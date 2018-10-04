@@ -1,7 +1,3 @@
-﻿public sealed class UShortGameEventListener : BaseGameEventListener<UShortGameEvent, UShortUnityEvent>
+﻿public sealed class UShortGameEventListener : BaseGameEventListener<ushort, UShortGameEvent, UShortUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

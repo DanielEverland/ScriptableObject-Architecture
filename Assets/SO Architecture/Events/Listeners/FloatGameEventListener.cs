@@ -1,7 +1,3 @@
-﻿public sealed class FloatGameEventListener : BaseGameEventListener<FloatGameEvent, FloatUnityEvent>
+﻿public sealed class FloatGameEventListener : BaseGameEventListener<float, FloatGameEvent, FloatUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

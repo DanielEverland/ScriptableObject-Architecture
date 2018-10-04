@@ -1,7 +1,3 @@
-﻿public sealed class LongGameEventListener : BaseGameEventListener<LongGameEvent, LongUnityEvent>
+﻿public sealed class LongGameEventListener : BaseGameEventListener<long, LongGameEvent, LongUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

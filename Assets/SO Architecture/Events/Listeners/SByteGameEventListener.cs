@@ -1,7 +1,3 @@
-﻿public sealed class SByteGameEventListener : BaseGameEventListener<SByteGameEvent, SByteUnityEvent>
+﻿public sealed class SByteGameEventListener : BaseGameEventListener<sbyte, SByteGameEvent, SByteUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

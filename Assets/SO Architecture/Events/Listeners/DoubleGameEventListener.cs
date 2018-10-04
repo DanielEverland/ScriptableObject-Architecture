@@ -1,7 +1,3 @@
-﻿public sealed class DoubleGameEventListener : BaseGameEventListener<DoubleGameEvent, DoubleUnityEvent>
+﻿public sealed class DoubleGameEventListener : BaseGameEventListener<double, DoubleGameEvent, DoubleUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

@@ -1,7 +1,3 @@
-﻿public sealed class UIntGameEventListener : BaseGameEventListener<UIntGameEvent, UIntUnityEvent>
+﻿public sealed class UIntGameEventListener : BaseGameEventListener<uint, UIntGameEvent, UIntUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
 
-public class ObjectGameEventListener : BaseGameEventListener<ObjectGameEvent, ObjectUnityEvent>
+public class ObjectGameEventListener : BaseGameEventListener<Object, ObjectGameEvent, ObjectUnityEvent>
 {
-    protected override void RaiseResponse()
-    {
-        Response.Invoke(GameEvent.Value);
-    }
 }

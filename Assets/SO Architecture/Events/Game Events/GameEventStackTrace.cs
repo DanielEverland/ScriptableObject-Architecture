@@ -20,6 +20,11 @@ public class GameEventStackTrace : IEquatable<GameEventStackTrace>
     private readonly int _frameCount;
     private readonly string _stackTrace;
 
+    public static GameEventStackTrace Create(object obj)
+    {
+        // throw new System.NotImplementedException();
+        return new GameEventStackTrace(Environment.StackTrace);
+    }
     public static GameEventStackTrace Create()
     {
         return new GameEventStackTrace(Environment.StackTrace);
