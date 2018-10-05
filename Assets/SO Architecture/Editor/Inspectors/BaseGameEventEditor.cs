@@ -22,9 +22,7 @@ public abstract class BaseGameEventEditor : Editor
         EditorGUI.BeginDisabledGroup(!Application.isPlaying);
             DrawRaiseButton();
         EditorGUI.EndDisabledGroup();
-
-        EditorGUILayout.Space();
-        
+                
         _stackTrace.Draw();
 
         SOArchitectureBaseObjectEditor.DrawDescription(DeveloperDescrption);

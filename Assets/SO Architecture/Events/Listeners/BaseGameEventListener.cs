@@ -80,16 +80,19 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
             _event.UnregisterListener(this);
     }    
 }
-public abstract class DebuggableGameEventListener : MonoBehaviour
+public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehaviour, IStackTraceObject
 {
 #if UNITY_EDITOR
     [Tooltip("Debug color to use when debugging events"), SerializeField]
     private Color _debugColor = Color.cyan;
-
-    public List<StackTraceEntry> StackTraces = new List<StackTraceEntry>();    
 #endif
 
+    public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
+    private List<DebugEvent> _debugEntries = new List<DebugEvent>();
+
 #if UNITY_EDITOR
+
+
     private const float DOTTED_LINE_LENGTH = 5;
     private const float DOT_LENGTH = 0.5f;
     private const float DOT_WIDTH = 3;
@@ -98,7 +101,8 @@ public abstract class DebuggableGameEventListener : MonoBehaviour
     protected abstract ScriptableObject GameEvent { get; }
     protected abstract UnityEventBase Response { get; }
 
-    private List<DebugEvent> _debugEntries = new List<DebugEvent>();
+    private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
+    
 
     private static class Styles
     {
@@ -111,13 +115,13 @@ public abstract class DebuggableGameEventListener : MonoBehaviour
         public static GUIStyle TextStyle;
     }
 
-    protected void AddStackTrace(object obj)
+    public void AddStackTrace(object obj)
     {
 #if UNITY_EDITOR
         StackTraces.Insert(0, StackTraceEntry.Create(obj));
 #endif
     }
-    protected void AddStackTrace()
+    public void AddStackTrace()
     {
 #if UNITY_EDITOR
         StackTraces.Insert(0, StackTraceEntry.Create());

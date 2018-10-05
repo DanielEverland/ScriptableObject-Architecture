@@ -46,8 +46,9 @@ public class StackTrace
     
     public void Draw()
     {
-        Rect rect = GUILayoutUtility.GetRect(GUIContent.none, Styles.Box);
-        rect.height = Height;
+        EditorGUILayout.Space();
+
+        Rect rect = GUILayoutUtility.GetRect(0, Height);
 
         if (Event.current.type == EventType.Repaint)
         {
@@ -85,9 +86,7 @@ public class StackTrace
 
         GUILayout.EndArea();
 
-        //Not sure why the layout hasn't reserved the bottom 100 pixels of the stack trace
-        //Oh boy, here I go hacking again
-        EditorGUILayout.GetControlRect(false, 100);
+        EditorGUILayout.Space();
     }
     private void DrawSelectedContent()
     {

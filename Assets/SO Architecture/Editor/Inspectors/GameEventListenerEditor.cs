@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class GameEventListenerEditor : MonoBehaviour
+[CustomEditor(typeof(BaseGameEventListener<,>), true)]
+public class GameEventListenerEditor : BaseGameEventListenerEditor
 {
 }
