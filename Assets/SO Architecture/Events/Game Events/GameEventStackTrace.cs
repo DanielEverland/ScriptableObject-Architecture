@@ -2,10 +2,10 @@
 using UnityEngine;
 
 #if UNITY_EDITOR
-public class GameEventStackTrace : IEquatable<GameEventStackTrace>
+public class StackTraceEntry : IEquatable<StackTraceEntry>
 {
-    private GameEventStackTrace() { }
-    private GameEventStackTrace(string trace)
+    private StackTraceEntry() { }
+    private StackTraceEntry(string trace)
     {
         _id = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         _stackTrace = trace;
@@ -15,7 +15,7 @@ public class GameEventStackTrace : IEquatable<GameEventStackTrace>
             _frameCount = Time.frameCount;
         }
     }
-    private GameEventStackTrace(string trace, object value)
+    private StackTraceEntry(string trace, object value)
     {
         _value = value;
         _constructedWithValue = true;
@@ -34,27 +34,27 @@ public class GameEventStackTrace : IEquatable<GameEventStackTrace>
     private readonly object _value;
     private readonly bool _constructedWithValue = false;
     
-    public static GameEventStackTrace Create(object obj)
+    public static StackTraceEntry Create(object obj)
     {
-        return new GameEventStackTrace(Environment.StackTrace, obj);
+        return new StackTraceEntry(Environment.StackTrace, obj);
     }
-    public static GameEventStackTrace Create()
+    public static StackTraceEntry Create()
     {
-        return new GameEventStackTrace(Environment.StackTrace);
+        return new StackTraceEntry(Environment.StackTrace);
     }
     public override bool Equals(object obj)
     {
         if (obj == null)
             return false;
 
-        if (obj is GameEventStackTrace)
+        if (obj is StackTraceEntry)
         {
-            return Equals(obj as GameEventStackTrace);
+            return Equals(obj as StackTraceEntry);
         }
 
         return false;
     }
-    public bool Equals(GameEventStackTrace other)
+    public bool Equals(StackTraceEntry other)
     {
         return other._id == this._id;
     }
@@ -74,7 +74,7 @@ public class GameEventStackTrace : IEquatable<GameEventStackTrace>
         }
     }
 
-    public static implicit operator string(GameEventStackTrace trace)
+    public static implicit operator string(StackTraceEntry trace)
     {
         return trace.ToString();
     }

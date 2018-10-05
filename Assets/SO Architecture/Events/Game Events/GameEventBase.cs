@@ -5,10 +5,21 @@ using UnityEngine;
 using System;
 #endif
 
-public abstract class GameEventBase<T> : GameEventStackTraceBase, IGameEvent<T>
+public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>, IStackTraceObject
 {
     private readonly List<IGameEventListener<T>> _listeners = new List<IGameEventListener<T>>();
 
+    public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
+    private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
+
+    public void AddStackTrace()
+    {
+        _stackTraces.Insert(0, StackTraceEntry.Create());
+    }
+    public void AddStackTrace(object value)
+    {
+        _stackTraces.Insert(0, StackTraceEntry.Create(value));
+    }
     public void Raise(T value)
     {
         AddStackTrace(value);
@@ -27,10 +38,21 @@ public abstract class GameEventBase<T> : GameEventStackTraceBase, IGameEvent<T>
             _listeners.Remove(listener);
     }
 }
-public abstract class GameEventBase : GameEventStackTraceBase, IGameEvent
+public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, IStackTraceObject
 {
     private readonly List<IGameEventListener> _listeners = new List<IGameEventListener>();
 
+    public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
+    private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
+
+    public void AddStackTrace()
+    {
+        _stackTraces.Insert(0, StackTraceEntry.Create());
+    }
+    public void AddStackTrace(object value)
+    {
+        _stackTraces.Insert(0, StackTraceEntry.Create(value));
+    }
     public void Raise()
     {
         AddStackTrace();
@@ -47,24 +69,5 @@ public abstract class GameEventBase : GameEventStackTraceBase, IGameEvent
     {
         if (_listeners.Contains(listener))
             _listeners.Remove(listener);
-    }
-}
-public abstract class GameEventStackTraceBase : SOArchitectureBaseObject
-{
-#if UNITY_EDITOR
-    public List<GameEventStackTrace> StackTraces = new List<GameEventStackTrace>();
-#endif
-
-    protected void AddStackTrace(object obj)
-    {
-#if UNITY_EDITOR
-        StackTraces.Insert(0, GameEventStackTrace.Create(obj));
-#endif
-    }
-    protected void AddStackTrace()
-    {
-#if UNITY_EDITOR
-        StackTraces.Insert(0, GameEventStackTrace.Create());
-#endif
     }
 }

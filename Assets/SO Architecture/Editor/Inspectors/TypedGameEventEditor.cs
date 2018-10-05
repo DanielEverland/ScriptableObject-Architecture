@@ -12,8 +12,10 @@ public sealed class TypedGameEventEditor : BaseGameEventEditor
     private MethodInfo _raiseMethod;
     private MutableObject _value = new MutableObject();
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         _raiseMethod = target.GetType().BaseType.GetMethod("Raise");
     }
     protected override void DrawRaiseButton()

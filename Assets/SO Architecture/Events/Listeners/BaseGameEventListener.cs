@@ -25,6 +25,8 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
         RaiseResponse(value);
 
         CreateDebugEntry(_response);
+
+        AddStackTrace(value);
     }
     private void RaiseResponse(TType value)
     {
@@ -60,6 +62,8 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
         RaiseResponse();
 
         CreateDebugEntry(_response);
+
+        AddStackTrace();
     }
     protected void RaiseResponse()
     {
@@ -81,6 +85,8 @@ public abstract class DebuggableGameEventListener : MonoBehaviour
 #if UNITY_EDITOR
     [Tooltip("Debug color to use when debugging events"), SerializeField]
     private Color _debugColor = Color.cyan;
+
+    public List<StackTraceEntry> StackTraces = new List<StackTraceEntry>();    
 #endif
 
 #if UNITY_EDITOR
@@ -105,6 +111,18 @@ public abstract class DebuggableGameEventListener : MonoBehaviour
         public static GUIStyle TextStyle;
     }
 
+    protected void AddStackTrace(object obj)
+    {
+#if UNITY_EDITOR
+        StackTraces.Insert(0, StackTraceEntry.Create(obj));
+#endif
+    }
+    protected void AddStackTrace()
+    {
+#if UNITY_EDITOR
+        StackTraces.Insert(0, StackTraceEntry.Create());
+#endif
+    }
     protected void CreateDebugEntry(UnityEventBase response)
     {
 #if UNITY_EDITOR
