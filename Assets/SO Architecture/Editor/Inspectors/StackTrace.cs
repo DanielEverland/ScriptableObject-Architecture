@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
+using UnityEditor.AnimatedValues;
 
 public class StackTrace
 {
-    public StackTrace(IStackTraceObject target)
+    public StackTrace(IStackTraceObject target, bool startCollapsed = false)
     {
         if (target == null)
             throw new System.NullReferenceException();
 
         _target = target;
+
+        _collapseAnimation = new AnimBool();
+        _collapseAnimation.valueChanged.AddListener(Repaint);
+        _collapseAnimation.target = !startCollapsed;
 
         OnRepaint = new UnityEvent();
     }
@@ -27,6 +32,7 @@ public class StackTrace
     private const float RESIZE_HEIGHT = 5;
     private const float CLEAR_LEFT_PADDING = 6;
     private const float CLEAR_WIDTH = 45;
+    private const float COLLAPSE_WIDTH = 55;
     private const float PADDING = 30;
     private const float LINE_HEIGHT = 18;
 
@@ -38,7 +44,8 @@ public class StackTrace
     private Rect _stackTraceRect;
     private Rect _contentRect;
     private Vector2 _listScrollPosition;
-    private Vector2 _contentScrollPosition;    
+    private Vector2 _contentScrollPosition;
+    private AnimBool _collapseAnimation;
     private float _height = DEFAULT_HEIGHT;
     private float _subWindowValue = 0.6f;
     private float _splitHeight;
@@ -48,8 +55,8 @@ public class StackTrace
     {
         EditorGUILayout.Space();
 
-        Rect rect = GUILayoutUtility.GetRect(0, Height);
-
+        Rect rect = GUILayoutUtility.GetRect(0, GetHeight());
+                
         if (Event.current.type == EventType.Repaint)
         {
             //This is necessary due to Unity's retarded handling of events - https://answers.unity.com/questions/515197/how-to-use-guilayoututilitygetrect-properly.html
@@ -65,8 +72,7 @@ public class StackTrace
 
             Styles.Box.Draw(boxRect, GUIContent.none, 0);
         }
-
-
+        
         _subWindowValue = Mathf.Clamp(_subWindowValue, RESIZE_MARGIN, 1 - RESIZE_MARGIN);
 
         _splitHeight = _stackTraceRect.height * _subWindowValue;
@@ -81,8 +87,16 @@ public class StackTrace
         GUILayout.BeginArea(_stackTraceRect);
 
         DrawStackTraceHeader();
-        DrawList();
-        DrawSelectedContent();
+
+        EditorGUILayout.BeginFadeGroup(_collapseAnimation.faded);
+
+        if(_collapseAnimation.faded > 0)
+        {
+            DrawList();
+            DrawSelectedContent();
+        }        
+
+        EditorGUILayout.EndFadeGroup();
 
         GUILayout.EndArea();
 
@@ -201,14 +215,19 @@ public class StackTrace
             _target.StackTraces.Clear();
             Deselect();
         }
+
+        rect.x += CLEAR_WIDTH;
+        rect.width = COLLAPSE_WIDTH;
+
+        _collapseAnimation.target = !GUI.Toggle(rect, !_collapseAnimation.target, new GUIContent("Collapse"), Styles.HeaderButton);
+    }
+    private float GetHeight()
+    {
+        return Mathf.Clamp(Height * _collapseAnimation.faded, HEADER_HEIGHT, float.MaxValue);
     }
     private void Repaint()
     {
         OnRepaint.Invoke();
-    }
-    private void OnEnable()
-    {
-        Deselect();
     }
     private string GetFirstLine(string value)
     {
