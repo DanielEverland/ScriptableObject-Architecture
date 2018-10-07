@@ -14,9 +14,8 @@ public class StackTrace
 
         _target = target;
 
-        _collapseAnimation = new AnimBool();
+        _collapseAnimation = new AnimBool(!startCollapsed);
         _collapseAnimation.valueChanged.AddListener(Repaint);
-        _collapseAnimation.target = !startCollapsed;
 
         OnRepaint = new UnityEvent();
     }
