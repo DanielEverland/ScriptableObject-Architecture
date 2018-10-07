@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(BaseReference), true)]
-public abstract class BaseReferenceDrawer : PropertyDrawer
+public class BaseReferenceDrawer : PropertyDrawer
 {
     /// <summary>
     /// Options to display in the popup to select constant or variable.
