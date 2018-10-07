@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 
 [CustomEditor(typeof(GameEventBase), true)]
 public sealed class GameEventEditor : BaseGameEventEditor
@@ -10,7 +8,7 @@ public sealed class GameEventEditor : BaseGameEventEditor
 
     protected override void DrawRaiseButton()
     {
-        if(GUILayout.Button("Raise"))
+        if (GUILayout.Button("Raise"))
         {
             Target.Raise();
         }

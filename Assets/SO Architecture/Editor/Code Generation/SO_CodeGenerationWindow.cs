@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.AnimatedValues;
+using UnityEngine;
 
-public class SO_CodeGenerationWindow : EditorWindow {
-
+public class SO_CodeGenerationWindow : EditorWindow
+{
     /* --------- DEPENDENCY GRAPH ---------*
      * [1] Game Event Listener
      * [2] Game Event
@@ -13,7 +11,7 @@ public class SO_CodeGenerationWindow : EditorWindow {
      * [4] Runtime Set
      * [5] Unity Event
      * [6] Variable
-     * 
+     *
      * /  1  2  3  4  5  6
      * 1     X        X
      * 2        X
@@ -22,7 +20,7 @@ public class SO_CodeGenerationWindow : EditorWindow {
      * 5
      * 6
      */
-        
+
     private bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
     {
         { false, true, false, false, true, false },
@@ -48,13 +46,12 @@ public class SO_CodeGenerationWindow : EditorWindow {
     {
         false, true, false, true, false, true
     };
-    
+
     private string _typeName;
     private string _menuName;
     private AnimBool _menuAnim;
-    
-    
-	[MenuItem("Window/SO Code Generation")]
+
+    [MenuItem("Window/SO Code Generation")]
     private static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(SO_CodeGenerationWindow), true, "SO Code Generation");
@@ -72,7 +69,7 @@ public class SO_CodeGenerationWindow : EditorWindow {
 
         DataFields();
 
-        if(GUILayout.Button("Generate"))
+        if (GUILayout.Button("Generate"))
         {
             SO_CodeGenerator.Data data = new SO_CodeGenerator.Data()
             {

@@ -1,22 +1,12 @@
 ﻿using UnityEngine;
 
-public class BaseVariable<T> : SOArchitectureBaseObject
+public abstract class BaseVariable<T> : SOArchitectureBaseObject
 {
-    public T Value
-    {
-        get
-        {
-            return _value;
-        }
-        set
-        {
-            _value = value;
-        }
-    }
-    
+    public T Value { get { return _value; } set { _value = value; } }
+
     [SerializeField]
     protected T _value;
-    
+
     public void SetValue(T value)
     {
         Value = value;

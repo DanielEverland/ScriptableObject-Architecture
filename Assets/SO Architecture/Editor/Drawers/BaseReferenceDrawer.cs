@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(BaseReference), true)]
-public class BaseReferenceDrawer : PropertyDrawer
+public abstract class BaseReferenceDrawer : PropertyDrawer
 {
     /// <summary>
     /// Options to display in the popup to select constant or variable.
@@ -15,7 +15,7 @@ public class BaseReferenceDrawer : PropertyDrawer
 
     /// <summary> Cached style to use to draw the popup button. </summary>
     private GUIStyle popupStyle;
-    
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         if (popupStyle == null)

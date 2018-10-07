@@ -1,9 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
-
-#if UNITY_EDITOR
-using System;
-#endif
 
 public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>, IStackTraceObject
 {
@@ -23,7 +18,7 @@ public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>
     public void Raise(T value)
     {
         AddStackTrace(value);
-        
+
         for (int i = _listeners.Count - 1; i >= 0; i--)
             _listeners[i].OnEventRaised(value);
     }
@@ -56,7 +51,7 @@ public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, ISta
     public void Raise()
     {
         AddStackTrace();
-        
+
         for (int i = _listeners.Count - 1; i >= 0; i--)
             _listeners[i].OnEventRaised();
     }

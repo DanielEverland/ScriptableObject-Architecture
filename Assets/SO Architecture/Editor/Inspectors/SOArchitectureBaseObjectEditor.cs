@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 
 [CustomEditor(typeof(SOArchitectureBaseObject), true)]
-public class SOArchitectureBaseObjectEditor : Editor {
-
+public class SOArchitectureBaseObjectEditor : Editor
+{
     private SOArchitectureBaseObject Target { get { return (SOArchitectureBaseObject)target; } }
-    
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -17,7 +15,7 @@ public class SOArchitectureBaseObjectEditor : Editor {
     public static void DrawDescription(SerializedProperty property)
     {
         StartDescriptionGroup();
-            property.stringValue = EditorGUILayout.TextArea(property.stringValue, Styles.TextAreaStyle);
+        property.stringValue = EditorGUILayout.TextArea(property.stringValue, Styles.TextAreaStyle);
         EndDescriptionGroup();
     }
     public static string DrawDescription(string text)
@@ -25,9 +23,9 @@ public class SOArchitectureBaseObjectEditor : Editor {
         string toReturn = text;
 
         StartDescriptionGroup();
-            toReturn = EditorGUILayout.TextArea(toReturn, Styles.TextAreaStyle);
+        toReturn = EditorGUILayout.TextArea(toReturn, Styles.TextAreaStyle);
         EndDescriptionGroup();
-        
+
         return toReturn;
     }
     private static void StartDescriptionGroup()

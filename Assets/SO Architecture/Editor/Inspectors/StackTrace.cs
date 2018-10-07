@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
+using UnityEngine;
+using UnityEngine.Events;
 
 public class StackTrace
 {
@@ -21,10 +20,10 @@ public class StackTrace
 
         OnRepaint = new UnityEvent();
     }
-    
+
     public float Height { get { return _height; } set { _height = value; } }
     public UnityEvent OnRepaint { get; set; }
-        
+
     private const float DEFAULT_HEIGHT = 400;
 
     private const float HEADER_HEIGHT = 18;
@@ -35,8 +34,7 @@ public class StackTrace
     private const float COLLAPSE_WIDTH = 55;
     private const float PADDING = 30;
     private const float LINE_HEIGHT = 18;
-
-    private List<StackTraceEntry> StackTraces = new List<StackTraceEntry>();
+    
     private StackTraceEntry _selectedTrace;
 
     private IStackTraceObject _target;
@@ -50,13 +48,13 @@ public class StackTrace
     private float _subWindowValue = 0.6f;
     private float _splitHeight;
     private bool _resizeMouseDown;
-    
+
     public void Draw()
     {
         EditorGUILayout.Space();
 
         Rect rect = GUILayoutUtility.GetRect(0, GetHeight());
-                
+
         if (Event.current.type == EventType.Repaint)
         {
             //This is necessary due to Unity's retarded handling of events - https://answers.unity.com/questions/515197/how-to-use-guilayoututilitygetrect-properly.html
@@ -72,7 +70,7 @@ public class StackTrace
 
             Styles.Box.Draw(boxRect, GUIContent.none, 0);
         }
-        
+
         _subWindowValue = Mathf.Clamp(_subWindowValue, RESIZE_MARGIN, 1 - RESIZE_MARGIN);
 
         _splitHeight = _stackTraceRect.height * _subWindowValue;
@@ -90,11 +88,11 @@ public class StackTrace
 
         EditorGUILayout.BeginFadeGroup(_collapseAnimation.faded);
 
-        if(_collapseAnimation.faded > 0)
+        if (_collapseAnimation.faded > 0)
         {
             DrawList();
             DrawSelectedContent();
-        }        
+        }
 
         EditorGUILayout.EndFadeGroup();
 

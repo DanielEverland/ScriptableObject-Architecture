@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,15 +10,14 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     where TEvent : GameEventBase<TType>
     where TResponse : UnityEvent<TType>
 {
-    [Tooltip("Event to register with."), SerializeField]
-    private TEvent _event;
-
-    [Tooltip("Response to invoke when Event is raised."), SerializeField]
-    private TResponse _response;
-
     protected override ScriptableObject GameEvent { get { return _event; } }
     protected override UnityEventBase Response { get { return _response; } }
-    
+
+    [SerializeField]
+    private TEvent _event;
+    [SerializeField]
+    private TResponse _response;
+
     public void OnEventRaised(TType value)
     {
         RaiseResponse(value);
@@ -42,21 +40,19 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
         if (_event != null)
             _event.UnregisterListener(this);
     }
-    
 }
 public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameEventListener, IGameEventListener
     where TEvent : GameEventBase
     where TResponse : UnityEvent
 {
-    [Tooltip("Event to register with."), SerializeField]
-    private TEvent _event;
-    
-    [Tooltip("Response to invoke when Event is raised."), SerializeField]
-    private TResponse _response;
-
     protected override ScriptableObject GameEvent { get { return _event; } }
     protected override UnityEventBase Response { get { return _response; } }
-    
+
+    [SerializeField]
+    private TEvent _event;
+    [SerializeField]
+    private TResponse _response;
+
     public void OnEventRaised()
     {
         RaiseResponse();
@@ -78,12 +74,12 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
     {
         if (_event != null)
             _event.UnregisterListener(this);
-    }    
+    }
 }
 public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehaviour, IStackTraceObject
 {
 #if UNITY_EDITOR
-    [Tooltip("Debug color to use when debugging events"), SerializeField]
+    [SerializeField]
     private Color _debugColor = Color.cyan;
 #endif
 
@@ -91,7 +87,6 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     private List<DebugEvent> _debugEntries = new List<DebugEvent>();
 
 #if UNITY_EDITOR
-
 
     private const float DOTTED_LINE_LENGTH = 5;
     private const float DOT_LENGTH = 0.5f;
@@ -102,7 +97,6 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     protected abstract UnityEventBase Response { get; }
 
     private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
-    
 
     private static class Styles
     {

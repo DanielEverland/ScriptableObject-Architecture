@@ -1,12 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-public static class SO_CodeGenerator {
-
+public static class SO_CodeGenerator
+{
     static SO_CodeGenerator()
     {
         CreateTargetDirectories();

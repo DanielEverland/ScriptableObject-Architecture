@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-#if UNITY_EDITOR
 public class StackTraceEntry : IEquatable<StackTraceEntry>
 {
     private StackTraceEntry() { }
@@ -33,7 +32,7 @@ public class StackTraceEntry : IEquatable<StackTraceEntry>
     private readonly string _stackTrace;
     private readonly object _value;
     private readonly bool _constructedWithValue = false;
-    
+
     public static StackTraceEntry Create(object obj)
     {
         return new StackTraceEntry(Environment.StackTrace, obj);
@@ -64,7 +63,7 @@ public class StackTraceEntry : IEquatable<StackTraceEntry>
     }
     public override string ToString()
     {
-        if(_constructedWithValue)
+        if (_constructedWithValue)
         {
             return string.Format("{1}   [{0}] {2}", _value == null ? "null" : _value.ToString(), _frameCount, _stackTrace);
         }
@@ -79,4 +78,3 @@ public class StackTraceEntry : IEquatable<StackTraceEntry>
         return trace.ToString();
     }
 }
-#endif

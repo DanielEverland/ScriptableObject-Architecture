@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IGameEvent<T>
+﻿public interface IGameEvent<T>
 {
     void Raise(T value);
     void RegisterListener(IGameEventListener<T> listener);

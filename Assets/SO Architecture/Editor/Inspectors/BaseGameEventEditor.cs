@@ -1,11 +1,9 @@
-﻿using System.Linq;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
-using UnityEditor.AnimatedValues;
 
 public abstract class BaseGameEventEditor : Editor
 {
-    private IStackTraceObject Target { get { return (IStackTraceObject)target; } }    
+    private IStackTraceObject Target { get { return (IStackTraceObject)target; } }
     private SerializedProperty DeveloperDescrption { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
     private StackTrace _stackTrace;
@@ -20,9 +18,9 @@ public abstract class BaseGameEventEditor : Editor
     public override void OnInspectorGUI()
     {
         EditorGUI.BeginDisabledGroup(!Application.isPlaying);
-            DrawRaiseButton();
+        DrawRaiseButton();
         EditorGUI.EndDisabledGroup();
-                
+
         _stackTrace.Draw();
 
         SOArchitectureBaseObjectEditor.DrawDescription(DeveloperDescrption);

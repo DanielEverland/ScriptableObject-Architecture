@@ -5,7 +5,7 @@ using UnityEngine;
 public class RuntimeSet<T> : SOArchitectureBaseObject, IEnumerable<T>
 {
     [SerializeField]
-    private List<T> _items = new List<T>();
+    protected List<T> _items = new List<T>();
 
     public void Add(T obj)
     {
@@ -19,7 +19,7 @@ public class RuntimeSet<T> : SOArchitectureBaseObject, IEnumerable<T>
     }
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return GetEnumerator();        
+        return GetEnumerator();
     }
     public IEnumerator<T> GetEnumerator()
     {
