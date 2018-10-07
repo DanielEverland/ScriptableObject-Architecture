@@ -28,10 +28,6 @@ public abstract class BaseReference<TBase, TVariable> : BaseReference where TVar
                 _constantValue = value;
         }
     }
-    public static implicit operator TBase(BaseReference<TBase, TVariable> reference)
-    {
-        return reference.Value;
-    }
 }
 
 //Can't get property drawer to work with generic arguments
