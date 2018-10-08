@@ -11,6 +11,8 @@ public abstract class BaseGameEventListenerEditor : Editor
     private SerializedProperty _debugColor;
     private SerializedProperty _response;
 
+    protected abstract void DrawRaiseButton();
+
     protected virtual void OnEnable()
     {
         _stackTrace = new StackTrace(Target, true);
@@ -26,6 +28,8 @@ public abstract class BaseGameEventListenerEditor : Editor
         _debugColor.colorValue = EditorGUILayout.ColorField(new GUIContent("Debug Color", "Color used to draw debug gizmos in the scene"), _debugColor.colorValue);
 
         EditorGUILayout.PropertyField(_response, new GUIContent("Response"));
+
+        DrawRaiseButton();
 
         _stackTrace.Draw();
 

@@ -17,9 +17,9 @@ public abstract class BaseGameEventEditor : Editor
     }
     public override void OnInspectorGUI()
     {
-        EditorGUI.BeginDisabledGroup(!Application.isPlaying);
+        //EditorGUI.BeginDisabledGroup(!Application.isPlaying);
         DrawRaiseButton();
-        EditorGUI.EndDisabledGroup();
+        //EditorGUI.EndDisabledGroup();
 
         _stackTrace.Draw();
 
