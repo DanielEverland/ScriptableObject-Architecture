@@ -11,7 +11,7 @@ public abstract class BaseReference<TBase, TVariable> : BaseReference where TVar
     }
 
     [SerializeField]
-    protected bool _useConstant = true;
+    protected bool _useConstant = false;
     [SerializeField]
     protected TBase _constantValue;
     [SerializeField]
