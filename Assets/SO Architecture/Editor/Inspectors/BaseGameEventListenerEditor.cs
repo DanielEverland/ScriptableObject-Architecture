@@ -30,5 +30,7 @@ public abstract class BaseGameEventListenerEditor : Editor
         _stackTrace.Draw();
 
         SOArchitectureBaseObjectEditor.DrawDescription(DeveloperDescrption);
+
+        serializedObject.ApplyModifiedProperties();
     }
 }
