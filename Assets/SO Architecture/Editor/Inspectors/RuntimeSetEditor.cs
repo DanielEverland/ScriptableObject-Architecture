@@ -21,8 +21,6 @@ public class RuntimeSetEditor : Editor
         _reorderableList.DoLayoutList();
 
         _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
-
-        Target.DeveloperDescription = SOArchitectureBaseObjectEditor.DrawDescription(Target.DeveloperDescription);
     }
     private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
     {

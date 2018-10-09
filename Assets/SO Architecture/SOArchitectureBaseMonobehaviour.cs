@@ -7,6 +7,7 @@
 public abstract class SOArchitectureBaseMonobehaviour : MonoBehaviour
 {
 #if UNITY_EDITOR
-    public string DeveloperDescription = string.Empty;
+    [SerializeField]
+    private DeveloperDescription DeveloperDescription = new DeveloperDescription();
 #endif
 }

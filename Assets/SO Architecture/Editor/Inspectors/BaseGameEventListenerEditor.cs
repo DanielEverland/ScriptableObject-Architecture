@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class BaseGameEventListenerEditor : Editor
 {
     private IStackTraceObject Target { get { return (IStackTraceObject)target; } }
-    private SerializedProperty DeveloperDescrption { get { return serializedObject.FindProperty("DeveloperDescription"); } }
+    private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
     private StackTrace _stackTrace;
     private SerializedProperty _event;
@@ -32,8 +32,8 @@ public abstract class BaseGameEventListenerEditor : Editor
         DrawRaiseButton();
 
         _stackTrace.Draw();
-
-        SOArchitectureBaseObjectEditor.DrawDescription(DeveloperDescrption);
+        
+        EditorGUILayout.PropertyField(DeveloperDescription);
 
         serializedObject.ApplyModifiedProperties();
     }
