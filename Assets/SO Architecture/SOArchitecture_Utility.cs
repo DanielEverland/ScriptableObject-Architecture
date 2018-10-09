@@ -1,6 +1,7 @@
 ﻿internal static class SOArchitecture_Utility
 {
     public const int ASSET_MENU_ORDER = 120;
+    public const int ASSET_MENU_ORDER_PRIORITY = 119;
 
     public const string VARIABLE_SUBMENU = "Variables/";
     public const string SETS_SUBMENU = "Runtime Sets/";
