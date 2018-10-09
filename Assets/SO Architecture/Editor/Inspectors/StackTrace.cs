@@ -96,8 +96,6 @@ public class StackTrace
         EditorGUILayout.EndFadeGroup();
 
         GUILayout.EndArea();
-
-        EditorGUILayout.Space();
     }
     private void DrawSelectedContent()
     {
