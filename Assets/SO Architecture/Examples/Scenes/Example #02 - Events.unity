@@ -273,7 +273,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Now we''re going to add some particles whenever the player is damaged.
     We obviously don''t want to check the player health every frame to see when this
-    occurs, so instead we''re going to implement an event using ScriptableObjects
+    occurs, so instead we''re going to implement an event using Scriptable Objects
 
 
     Notice how the Particle System is hooked up without a single line of code being
