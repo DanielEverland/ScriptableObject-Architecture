@@ -6,12 +6,12 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(DeveloperDescription))]
 public class DeveloperDescriptionDrawer : PropertyDrawer
 {
-    private SerializedProperty property;
-
+    private SerializedProperty _property;
+    
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        this.property = property;
-
+        this._property = property;
+        
         DrawTitle();
         DrawTextArea();
     }
@@ -21,8 +21,8 @@ public class DeveloperDescriptionDrawer : PropertyDrawer
     }
     private void DrawTextArea()
     {
-        SerializedProperty stringValue = property.FindPropertyRelative("_value");
-
+        SerializedProperty stringValue = _property.FindPropertyRelative("_value");
+        
         Vector2 fieldSize = Styles.TextAreaStyle.CalcSize(new GUIContent(stringValue.stringValue));
         Rect textAreaRect = GUILayoutUtility.GetRect(fieldSize.x, fieldSize.y);
 
@@ -56,11 +56,11 @@ public class DeveloperDescriptionDrawer : PropertyDrawer
     private void RemoveFocus()
     {
         GUI.FocusControl(null);
-        Repaint();
+        //Repaint();
     }
     private void Repaint()
     {
-        EditorUtility.SetDirty(property.serializedObject.targetObject);
+        EditorUtility.SetDirty(_property.serializedObject.targetObject);
     }
     private static class Styles
     {
