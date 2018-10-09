@@ -14,6 +14,8 @@ public class DeveloperDescriptionDrawer : PropertyDrawer
         
         DrawTitle();
         DrawTextArea();
+
+        property.serializedObject.ApplyModifiedProperties();
     }
     private void DrawTitle()
     {
