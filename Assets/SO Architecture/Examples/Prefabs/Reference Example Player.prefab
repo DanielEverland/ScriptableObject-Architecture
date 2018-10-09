@@ -125,10 +125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e1b83887e9c9d4e8300e77aaa4f9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerHealth:
-    _useConstant: 1
+  Health:
+    _useConstant: 0
     _constantValue: 0
-    _variable: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 00040033833585f4b940c1e6c8d5d2e1, type: 2}
   _resetOnStartup: 1
   _startingHealth:
     _useConstant: 0
