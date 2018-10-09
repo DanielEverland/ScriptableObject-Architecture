@@ -56,7 +56,7 @@ public class DeveloperDescriptionDrawer : PropertyDrawer
     private void RemoveFocus()
     {
         GUI.FocusControl(null);
-        //Repaint();
+        Repaint();
     }
     private void Repaint()
     {
