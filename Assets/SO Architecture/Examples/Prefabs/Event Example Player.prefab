@@ -177,7 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeveloperDescription: 
+  DeveloperDescription:
+    _value: 
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
   _event: {fileID: 11400000, guid: 6205baf386184bf4c879e8216918a90a, type: 2}
   _response:

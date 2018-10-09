@@ -11,4 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a78c7052899406438e9fc79486b45c0, type: 3}
   m_Name: OnPlayerDamaged
   m_EditorClassIdentifier: 
-  DeveloperDescription: 
+  DeveloperDescription:
+    _value: 
