@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Reflection;
+using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -8,11 +9,14 @@ public class RuntimeSetEditor : Editor
     private SOArchitectureBaseObject Target { get { return (SOArchitectureBaseObject)target; } }
     private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
-    private ReorderableList _reorderableList;    
+    private ReorderableList _reorderableList;
+    private System.Type _targetType;
 
     private void OnEnable()
     {
         SerializedProperty items = serializedObject.FindProperty("_items");
+
+        _targetType = Target.GetType().BaseType.GetGenericArguments()[0];
 
         _reorderableList = new ReorderableList(items.serializedObject, items);
         _reorderableList.drawElementCallback += DrawElement;
@@ -32,7 +36,15 @@ public class RuntimeSetEditor : Editor
 
         SerializedProperty property = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
 
-        EditorGUI.PropertyField(rect, property);
+        
+        if(property.propertyType == SerializedPropertyType.ObjectReference)
+        {
+            property.objectReferenceValue = EditorGUI.ObjectField(rect, "Element " + index, property.objectReferenceValue, _targetType, true);
+        }
+        else
+        {
+            EditorGUI.PropertyField(rect, property);
+        }
         
         property.serializedObject.ApplyModifiedProperties();
     }
