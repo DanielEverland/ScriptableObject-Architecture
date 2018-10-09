@@ -6,8 +6,9 @@ using UnityEngine;
 public class RuntimeSetEditor : Editor
 {
     private SOArchitectureBaseObject Target { get { return (SOArchitectureBaseObject)target; } }
+    private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
-    private ReorderableList _reorderableList;
+    private ReorderableList _reorderableList;    
 
     private void OnEnable()
     {
@@ -20,6 +21,8 @@ public class RuntimeSetEditor : Editor
     {
         _reorderableList.DoLayoutList();
 
+        EditorGUILayout.PropertyField(DeveloperDescription);
+
         _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
     }
     private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
@@ -30,7 +33,7 @@ public class RuntimeSetEditor : Editor
         SerializedProperty property = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
 
         EditorGUI.PropertyField(rect, property);
-
+        
         property.serializedObject.ApplyModifiedProperties();
     }
 }
