@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Type = System.Type;
 
 public abstract class BaseRuntimeSet : SOArchitectureBaseObject, IEnumerable
 {
@@ -19,6 +20,7 @@ public abstract class BaseRuntimeSet : SOArchitectureBaseObject, IEnumerable
     public int Count { get { return Items.Count; } }
 
     public abstract IList Items { get; }
+    public abstract Type Type { get; }
     
     IEnumerator IEnumerable.GetEnumerator()
     {

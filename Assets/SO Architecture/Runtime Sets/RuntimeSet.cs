@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,13 @@ public class RuntimeSet<T> : BaseRuntimeSet, IEnumerable<T>
         get
         {
             return _items;
+        }
+    }
+    public override Type Type
+    {
+        get
+        {
+            return typeof(T);
         }
     }
 
