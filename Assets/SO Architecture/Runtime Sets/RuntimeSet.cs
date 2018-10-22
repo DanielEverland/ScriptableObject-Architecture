@@ -2,12 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuntimeSet<T> : SOArchitectureBaseObject, IEnumerable<T>
+public class RuntimeSet<T> : BaseRuntimeSet, IEnumerable<T>
 {
-    [SerializeField]
-    protected List<T> _items = new List<T>();
+    public new T this[int index]
+    {
+        get
+        {
+            return _items[index];
+        }
+        set
+        {
+            _items[index] = value;
+        }
+    }
 
-    public int Count { get { return _items.Count; } }
+    [SerializeField]
+    private List<T> _items = new List<T>();
+
+    public override IList Items
+    {
+        get
+        {
+            return _items;
+        }
+    }
 
     public void Add(T obj)
     {
