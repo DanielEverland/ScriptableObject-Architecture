@@ -18,7 +18,7 @@ public class RuntimeSetEditor : Editor
 
         _targetType = Target.GetType().BaseType.GetGenericArguments()[0];
 
-        _reorderableList = new ReorderableList(items.serializedObject, items);
+        _reorderableList = new ReorderableList(serializedObject, items);
         _reorderableList.drawElementCallback += DrawElement;
     }
     public override void OnInspectorGUI()
@@ -26,7 +26,7 @@ public class RuntimeSetEditor : Editor
         _reorderableList.DoLayoutList();
 
         EditorGUILayout.PropertyField(DeveloperDescription);
-
+        
         _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
     }
     private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
@@ -35,11 +35,10 @@ public class RuntimeSetEditor : Editor
         rect.y++;
 
         SerializedProperty property = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-
         
-        if(property.propertyType == SerializedPropertyType.ObjectReference)
+        if(Application.isPlaying)
         {
-            property.objectReferenceValue = EditorGUI.ObjectField(rect, "Element " + index, property.objectReferenceValue, _targetType, true);
+            EditorGUI.ObjectField(rect, "Element " + index, property.objectReferenceValue, _targetType, true);
         }
         else
         {
