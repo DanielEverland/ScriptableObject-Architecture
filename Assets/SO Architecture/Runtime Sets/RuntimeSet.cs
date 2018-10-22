@@ -7,6 +7,8 @@ public class RuntimeSet<T> : SOArchitectureBaseObject, IEnumerable<T>
     [SerializeField]
     protected List<T> _items = new List<T>();
 
+    public int Count { get { return _items.Count; } }
+
     public void Add(T obj)
     {
         if (!_items.Contains(obj))
