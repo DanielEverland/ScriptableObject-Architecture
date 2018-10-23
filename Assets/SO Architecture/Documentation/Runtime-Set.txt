@@ -1,0 +1,14 @@
+## Introduction
+Runtime Sets are simply a collection of objects that are assigned during runtime. Note that the inspector is merely there for debugging purposes, and not supposed to let you drag data into the set. You can see all objects within the set, click on them to see where they are in the scene view, and even remove entries.
+
+## Script Reference
+There are various ways to interact with the runtime set. Available are the following members
+
+T this[int index]
+
+IList Items { get; }
+int Count { get; }
+Type Type { get; }
+
+void Add(T)
+void Remove(T)
