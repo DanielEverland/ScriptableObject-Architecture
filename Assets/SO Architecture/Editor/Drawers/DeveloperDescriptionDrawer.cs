@@ -2,35 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.AnimatedValues;
 
 [CustomPropertyDrawer(typeof(DeveloperDescription))]
 public class DeveloperDescriptionDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        SerializedProperty stringValue = property.FindPropertyRelative("_value");
-
-        return Styles.TextAreaStyle.CalcSize(new GUIContent("Descriptions\n" + stringValue.stringValue)).y;
+        return GetHeight(property);
     }
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        DrawTitle(ref position);
+        DrawTitle(ref position, property);
         DrawTextArea(ref position, property);
 
         property.serializedObject.ApplyModifiedProperties();
     }
-    private void DrawTitle(ref Rect rect)
+    private void DrawTitle(ref Rect rect, SerializedProperty property)
     {
-        EditorGUI.LabelField(rect, new GUIContent("Description", "Click below this field to add a description"));
+        if(HasContent(property))
+        {
+            rect.height = 0;
+        }
 
-        rect.y += EditorGUIUtility.singleLineHeight;
+        EditorGUI.LabelField(rect, new GUIContent("Description", "Click below this field to add a description"));
     }
     private void DrawTextArea(ref Rect rect, SerializedProperty property)
     {
         SerializedProperty stringValue = property.FindPropertyRelative("_value");
-        
-        Vector2 fieldSize = Styles.TextAreaStyle.CalcSize(new GUIContent(stringValue.stringValue));
-        rect.height = fieldSize.y;
+
+        if (!HasContent(property))
+            rect.y += EditorGUIUtility.singleLineHeight;
+
+        rect.height = Styles.TextAreaStyle.CalcSize(new GUIContent(stringValue.stringValue)).y;
 
         EditorGUI.indentLevel++;        
             stringValue.stringValue = EditorGUI.TextArea(rect, stringValue.stringValue, Styles.TextAreaStyle);
@@ -63,6 +67,29 @@ public class DeveloperDescriptionDrawer : PropertyDrawer
     private void Repaint(SerializedProperty property)
     {
         EditorUtility.SetDirty(property.serializedObject.targetObject);
+    }
+    private static bool HasContent(SerializedProperty property)
+    {
+        string content = GetContent(property);
+
+        return content != "" && content != string.Empty;
+    }
+    private static string GetContent(SerializedProperty property)
+    {
+        return property.FindPropertyRelative("_value").stringValue;
+    }
+    private static float GetHeight(SerializedProperty property)
+    {
+        string content = GetContent(property);
+
+        if (!HasContent(property))
+        {
+            return EditorGUIUtility.singleLineHeight * 2;
+        }
+        else
+        {
+            return Styles.TextAreaStyle.CalcSize(new GUIContent(content)).y;
+        }
     }
     private static class Styles
     {
