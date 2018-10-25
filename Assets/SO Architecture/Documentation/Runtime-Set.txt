@@ -1,5 +1,7 @@
 ## Introduction
-Runtime Sets are simply a collection of objects that are assigned during runtime. Note that the inspector is merely there for debugging purposes, and not supposed to let you drag data into the set. You can see all objects within the set, click on them to see where they are in the scene view, and even remove entries.
+Runtime Sets are simply a collection of objects
+
+Note that Unity **realy** doesn't like it if you reference scene objects in assets, and as such have made certain editor functions incompatible with them. Therefore if any object in the set is not persistent they're disabled, although you can still reorder, delete and click on them to see them in your scene view. Note that none of these conditions affect how they work under the hood, these precautions are merely related to the editor
 
 ## Script Reference
 There are various ways to interact with the runtime set. Available are the following members

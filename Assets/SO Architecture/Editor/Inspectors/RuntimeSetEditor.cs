@@ -56,7 +56,18 @@ public class RuntimeSetEditor : Editor
 
         if (SOArchitecture_EditorUtility.HasPropertyDrawer(Target.Type))
         {
-            EditorGUI.PropertyField(rect, property, new GUIContent(""));
+            //Unity doesn't like it when you have scene objects on assets,
+            //so we do some magic to display it anyway
+            if (typeof(Object).IsAssignableFrom(Target.Type) && !EditorUtility.IsPersistent(property.objectReferenceValue) && property.objectReferenceValue != null)
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                    EditorGUI.ObjectField(rect, new GUIContent(""), property.objectReferenceValue, Target.Type, false);
+                EditorGUI.EndDisabledGroup();
+            }
+            else
+            {
+                EditorGUI.PropertyField(rect, property, new GUIContent(""));
+            }            
         }
         else
         {
