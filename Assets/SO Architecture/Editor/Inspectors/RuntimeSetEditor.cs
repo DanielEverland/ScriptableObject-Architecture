@@ -13,6 +13,10 @@ public class RuntimeSetEditor : Editor
     private ReorderableList _reorderableList;
 
     private const bool DISABLE_ELEMENTS = false;
+    private const bool ELEMENT_DRAGGABLE = true;
+    private const bool LIST_DISPLAY_HEADER = true;
+    private const bool LIST_DISPLAY_ADD_BUTTON = true;
+    private const bool LIST_DISPLAY_REMOVE_BUTTON = true;
 
     private void OnEnable()
     {
@@ -20,7 +24,7 @@ public class RuntimeSetEditor : Editor
 
         string title = "List (" + Target.Type + ")";
         
-        _reorderableList = new ReorderableList(serializedObject, items, false, true, false, true);
+        _reorderableList = new ReorderableList(serializedObject, items, ELEMENT_DRAGGABLE, LIST_DISPLAY_HEADER, LIST_DISPLAY_ADD_BUTTON, LIST_DISPLAY_REMOVE_BUTTON);
         _reorderableList.drawHeaderCallback += (Rect rect) => { EditorGUI.LabelField(rect, title); };
         _reorderableList.drawElementCallback += DrawElement;
         _reorderableList.onRemoveCallback += Remove;
