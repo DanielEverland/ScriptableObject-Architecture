@@ -18,6 +18,11 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     [SerializeField]
     private TResponse _response;
 
+#if UNITY_EDITOR
+    [SerializeField]
+    protected TType _debugValue;
+#endif
+
     public void OnEventRaised(TType value)
     {
         RaiseResponse(value);

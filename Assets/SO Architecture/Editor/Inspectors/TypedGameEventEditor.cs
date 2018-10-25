@@ -1,25 +1,40 @@
 ﻿using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Type = System.Type;
 
 [CustomEditor(typeof(GameEventBase<>), true)]
 public class TypedGameEventEditor : BaseGameEventEditor
 {
-    private System.Type GenericType { get { return target.GetType().BaseType.GetGenericArguments()[0]; } }
+    private Type GenericType { get { return target.GetType().BaseType.GetGenericArguments()[0]; } }
 
     private MethodInfo _raiseMethod;
-    private TypedRaiseButton _raiseButton;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
         _raiseMethod = target.GetType().BaseType.GetMethod("Raise");
-        _raiseButton = new TypedRaiseButton(GenericType, CallMethod);
     }
     protected override void DrawRaiseButton()
     {
-        _raiseButton.Draw();
+        SerializedProperty property = serializedObject.FindProperty("_debugValue");
+
+        EditorGUILayout.PropertyField(property);
+        
+        if(GUILayout.Button("Raise"))
+        {
+            CallMethod(GetDebugValue(property));
+        }
+    }
+    private object GetDebugValue(SerializedProperty property)
+    {
+        object parent = SerializedPropertyHelper.GetParent(property);
+        Type parentType = parent.GetType();
+
+        FieldInfo targetField = parentType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        return targetField.GetValue(parent);
     }
     private void CallMethod(object value)
     {

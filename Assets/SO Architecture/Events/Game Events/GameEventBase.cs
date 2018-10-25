@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>, IStackTraceObject
 {
@@ -6,6 +7,11 @@ public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>
 
     public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
     private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
+
+#if UNITY_EDITOR
+    [SerializeField]
+    protected T _debugValue;
+#endif
 
     public void AddStackTrace()
     {
