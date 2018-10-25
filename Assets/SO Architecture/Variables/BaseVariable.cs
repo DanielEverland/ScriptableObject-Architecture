@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 
-public abstract class BaseVariable<T> : SOArchitectureBaseObject
+public interface IBaseVariable
+{
+    System.Type Type { get; }
+}
+public abstract class BaseVariable<T> : SOArchitectureBaseObject, IBaseVariable
 {
     public T Value { get { return _value; } set { _value = value; } }
+    public System.Type Type { get { return typeof(T); } }
 
     [SerializeField]
     protected T _value;
