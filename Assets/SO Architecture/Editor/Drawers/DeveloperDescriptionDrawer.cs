@@ -6,63 +6,63 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(DeveloperDescription))]
 public class DeveloperDescriptionDrawer : PropertyDrawer
 {
-    private SerializedProperty _property;
-    
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        SerializedProperty stringValue = property.FindPropertyRelative("_value");
+
+        return Styles.TextAreaStyle.CalcSize(new GUIContent("Descriptions\n" + stringValue.stringValue)).y;
+    }
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        this._property = property;
-        
-        DrawTitle();
-        DrawTextArea();
+        DrawTitle(ref position);
+        DrawTextArea(ref position, property);
 
         property.serializedObject.ApplyModifiedProperties();
     }
-    private void DrawTitle()
+    private void DrawTitle(ref Rect rect)
     {
-        EditorGUILayout.LabelField(new GUIContent("Description", "Click below this field to add a description"));
+        EditorGUI.LabelField(rect, new GUIContent("Description", "Click below this field to add a description"));
+
+        rect.y += EditorGUIUtility.singleLineHeight;
     }
-    private void DrawTextArea()
+    private void DrawTextArea(ref Rect rect, SerializedProperty property)
     {
-        SerializedProperty stringValue = _property.FindPropertyRelative("_value");
+        SerializedProperty stringValue = property.FindPropertyRelative("_value");
         
         Vector2 fieldSize = Styles.TextAreaStyle.CalcSize(new GUIContent(stringValue.stringValue));
-        Rect textAreaRect = GUILayoutUtility.GetRect(fieldSize.x, fieldSize.y);
+        rect.height = fieldSize.y;
 
-
-        EditorGUI.indentLevel++;
-
-        stringValue.stringValue = EditorGUI.TextArea(textAreaRect, stringValue.stringValue, Styles.TextAreaStyle);
-
+        EditorGUI.indentLevel++;        
+            stringValue.stringValue = EditorGUI.TextArea(rect, stringValue.stringValue, Styles.TextAreaStyle);
         EditorGUI.indentLevel--;
 
-
-        HandleInput(textAreaRect);
+        HandleInput(rect, property);
     }
-    private void HandleInput(Rect textAreaRect)
+    private void HandleInput(Rect textAreaRect, SerializedProperty property)
     {
         Event e = Event.current;
         
         if(e.type == EventType.MouseDown)
         {
             if (!textAreaRect.Contains(e.mousePosition))
-                RemoveFocus();
+                RemoveFocus(property);
         }
         else if(e.type == EventType.KeyDown || e.type == EventType.KeyUp)
         {
             if (Event.current.keyCode == (KeyCode.Escape))
             {
-                RemoveFocus();
+                RemoveFocus(property);
             }
         }
     }
-    private void RemoveFocus()
+    private void RemoveFocus(SerializedProperty property)
     {
         GUI.FocusControl(null);
-        Repaint();
+        Repaint(property);
     }
-    private void Repaint()
+    private void Repaint(SerializedProperty property)
     {
-        EditorUtility.SetDirty(_property.serializedObject.targetObject);
+        EditorUtility.SetDirty(property.serializedObject.targetObject);
     }
     private static class Styles
     {
