@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Type = System.Type;
 
 [CustomEditor(typeof(BaseRuntimeSet), true)]
 public class RuntimeSetEditor : Editor
@@ -10,6 +11,8 @@ public class RuntimeSetEditor : Editor
     private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
     private ReorderableList _reorderableList;
+
+    private const bool DISABLE_ELEMENTS = false;
 
     private void OnEnable()
     {
@@ -40,8 +43,23 @@ public class RuntimeSetEditor : Editor
 
         SerializedProperty property = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
 
-        EditorGUI.BeginDisabledGroup(true);
-            EditorGUI.ObjectField(rect, "Element " + index, property.objectReferenceValue, Target.Type, false);
+        EditorGUI.BeginDisabledGroup(DISABLE_ELEMENTS);
+
+        EditorGUI.LabelField(rect, "Element " + index);
+
+        rect.width /= 2;
+        rect.x += rect.width;
+
+        if (SOArchitecture_EditorUtility.HasPropertyDrawer(Target.Type))
+        {
+            EditorGUI.PropertyField(rect, property, new GUIContent(""));
+        }
+        else
+        {
+            EditorGUI.LabelField(rect, "No PropertyDrawer");
+        }
+
+            //EditorGUI.ObjectField(rect, "Element " + index, property.objectReferenceValue, Target.Type, false);
         EditorGUI.EndDisabledGroup();
     }
     private void Remove(ReorderableList list)
