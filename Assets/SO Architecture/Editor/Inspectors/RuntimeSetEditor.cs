@@ -56,7 +56,9 @@ public class RuntimeSetEditor : Editor
         }
         else
         {
-            EditorGUI.LabelField(rect, "No PropertyDrawer");
+            string content = "No PropertyDrawer for " + Target.Type;
+
+            EditorGUI.LabelField(rect, new GUIContent(content, content));
         }
 
             //EditorGUI.ObjectField(rect, "Element " + index, property.objectReferenceValue, Target.Type, false);
