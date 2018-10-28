@@ -38,6 +38,10 @@ public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>
         if (_listeners.Contains(listener))
             _listeners.Remove(listener);
     }
+    public override string ToString()
+    {
+        return "GameEventBase<" + typeof(T) + ">";
+    }
 }
 public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, IStackTraceObject
 {

@@ -73,4 +73,8 @@ public class Collection<T> : BaseCollection, IEnumerable<T>
     {
         return _list.GetEnumerator();
     }
+    public override string ToString()
+    {
+        return "Collection<" + typeof(T) + ">(" + Count + ")";
+    }
 }

@@ -26,7 +26,11 @@ public abstract class BaseVariable<T> : BaseVariable
     {
         Value = value.Value;
     }
-
+    
+    public override string ToString()
+    {
+        return _value.ToString();
+    }
     public static implicit operator T(BaseVariable<T> variable)
     {
         return variable.Value;

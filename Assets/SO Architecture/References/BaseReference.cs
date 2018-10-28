@@ -28,6 +28,10 @@ public abstract class BaseReference<TBase, TVariable> : BaseReference where TVar
                 _constantValue = value;
         }
     }
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }
 
 //Can't get property drawer to work with generic arguments
