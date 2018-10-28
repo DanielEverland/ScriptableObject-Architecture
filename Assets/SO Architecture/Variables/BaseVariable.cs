@@ -4,10 +4,16 @@ public interface IBaseVariable
 {
     System.Type Type { get; }
 }
-public abstract class BaseVariable<T> : SOArchitectureBaseObject, IBaseVariable
+public abstract class BaseVariable : SOArchitectureBaseObject, IBaseVariable
+{
+    public abstract System.Type Type { get; }
+    public abstract object BaseValue { get; set; }
+}
+public abstract class BaseVariable<T> : BaseVariable
 {
     public T Value { get { return _value; } set { _value = value; } }
-    public System.Type Type { get { return typeof(T); } }
+    public override System.Type Type { get { return typeof(T); } }
+    public override object BaseValue { get { return _value; } set { _value = (T)value; } }
 
     [SerializeField]
     protected T _value;
