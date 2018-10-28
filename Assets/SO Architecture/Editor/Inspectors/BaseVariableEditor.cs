@@ -23,14 +23,28 @@ public class BaseVariableEditor : Editor
 
         if (SOArchitecture_EditorUtility.HasPropertyDrawer(Target.Type))
         {
-            EditorGUILayout.PropertyField(_valueProperty);
+            //Unity doesn't like it when you have scene objects on assets,
+            //so we do some magic to display it anyway
+            if (typeof(Object).IsAssignableFrom(Target.Type)
+                && !EditorUtility.IsPersistent(_valueProperty.objectReferenceValue)
+                && _valueProperty.objectReferenceValue != null)
+            {
+                using (new EditorGUI.DisabledGroupScope(true))
+                {
+                    EditorGUILayout.ObjectField(new GUIContent("Value"), _valueProperty.objectReferenceValue, Target.Type, false);
+                }
+            }
+            else
+            {
+                EditorGUILayout.PropertyField(_valueProperty);
+            }
         }
         else
         {
             EditorGUILayout.LabelField("Cannot display value. No PropertyDrawer for " + Target.Type);
         }
 
-        
+
         EditorGUILayout.PropertyField(_developerDescription);
     }
 }
