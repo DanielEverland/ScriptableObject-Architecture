@@ -85,7 +85,9 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
 {
 #if UNITY_EDITOR
     [SerializeField]
-    private bool _enableDebug = true;
+    private bool _showDebugFields = false;
+    [SerializeField]
+    private bool _enableGizmoDebugging = true;
     [SerializeField]
     private Color _debugColor = Color.cyan;
 #endif
@@ -188,7 +190,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void DrawText(Vector3 position, DebugEvent debugEvent)
     {
-        if (!_enableDebug)
+        if (!_enableGizmoDebugging)
             return;
 
         string text = string.Join("\n", new string[] { GameEvent.name, debugEvent.FunctionName });
@@ -197,7 +199,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void DrawLine()
     {
-        if (!_enableDebug)
+        if (!_enableGizmoDebugging)
             return;
 
         List<GameObject> listeningObjects = new List<GameObject>();
@@ -217,7 +219,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void DrawPoint(Vector3 position, Vector3 direction)
     {
-        if(_enableDebug)
+        if(_enableGizmoDebugging)
             Handles.DrawAAPolyLine(DOT_WIDTH, position, position + (direction.normalized * DOT_LENGTH));
     }
     private void AddObject(List<GameObject> listeningObjects, Object obj)
