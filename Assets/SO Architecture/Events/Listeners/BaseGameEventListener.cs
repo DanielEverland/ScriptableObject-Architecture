@@ -97,6 +97,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     private const float DOT_LENGTH = 0.5f;
     private const float DOT_WIDTH = 3;
     private const float EVENT_MOVEMENT_SPEED = 3;
+    private const float EVENT_MIN_DISTANCE = 0.3f;
 
     protected abstract ScriptableObject GameEvent { get; }
     protected abstract UnityEventBase Response { get; }
@@ -132,6 +133,10 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
         for (int i = 0; i < response.GetPersistentEventCount(); i++)
         {
             GameObject gameObjectTarget = GetGameObject(response.GetPersistentTarget(i));
+
+            if (Vector3.Distance(gameObject.transform.position, gameObjectTarget.transform.position) <= EVENT_MIN_DISTANCE)
+                continue;
+
             string targetName = gameObject ? gameObject.name : "Null";
 
             string functionName = string.Format("{0} ({1})", targetName, response.GetPersistentMethodName(i));
