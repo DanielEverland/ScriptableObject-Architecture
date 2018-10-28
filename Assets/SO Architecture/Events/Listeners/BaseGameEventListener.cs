@@ -142,8 +142,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void OnDrawGizmos()
     {
-        if (Application.isPlaying)
-            UpdateDebugInfo();
+        UpdateDebugInfo();
     }
     private void UpdateDebugInfo()
     {
