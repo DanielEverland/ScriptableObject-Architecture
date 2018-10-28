@@ -18,7 +18,7 @@ public static class SO_CodeGenerator
             Application.dataPath + "/SO Architecture/Events/Listeners",
             Application.dataPath + "/SO Architecture/Events/Game Events",
             Application.dataPath + "/SO Architecture/References",
-            Application.dataPath + "/SO Architecture/Runtime Sets",
+            Application.dataPath + "/SO Architecture/Collections",
             Application.dataPath + "/SO Architecture/Events/Responses",
             Application.dataPath + "/SO Architecture/Variables",
         };
@@ -72,7 +72,7 @@ public static class SO_CodeGenerator
         "GameEventListenerTemplate",
         "GameEventTemplate",
         "ReferenceTemplate",
-        "RuntimeSetTemplate",
+        "CollectionTemplate",
         "UnityEventTemplate",
         "VariableTemplate"
     };
@@ -82,7 +82,7 @@ public static class SO_CodeGenerator
         "{0}GameEventListener.cs",
         "{0}GameEvent.cs",
         "{0}Reference.cs",
-        "{0}Set.cs",
+        "{0}Collection.cs",
         "{0}UnityEvent.cs",
         "{0}Variable.cs"
     };

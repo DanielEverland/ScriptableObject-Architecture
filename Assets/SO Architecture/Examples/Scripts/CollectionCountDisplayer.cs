@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RuntimeSetCountDisplayer : MonoBehaviour
+public class CollectionCountDisplayer : MonoBehaviour
 {
     [SerializeField]
     private Text _textTarget;
     [SerializeField]
-    private BaseRuntimeSet _setTarget;
+    private BaseCollection _setTarget;
     [SerializeField]
     private string _textFormat = "There are {0} things.";
 

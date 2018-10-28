@@ -4,10 +4,10 @@ using UnityEditorInternal;
 using UnityEngine;
 using Type = System.Type;
 
-[CustomEditor(typeof(BaseRuntimeSet), true)]
-public class RuntimeSetEditor : Editor
+[CustomEditor(typeof(BaseCollection), true)]
+public class CollectionEditor : Editor
 {
-    private BaseRuntimeSet Target { get { return (BaseRuntimeSet)target; } }
+    private BaseCollection Target { get { return (BaseCollection)target; } }
     private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
     private ReorderableList _reorderableList;
@@ -81,6 +81,6 @@ public class RuntimeSetEditor : Editor
     }
     private void Remove(ReorderableList list)
     {
-        Target.Items.RemoveAt(list.index);
+        Target.List.RemoveAt(list.index);
     }
 }

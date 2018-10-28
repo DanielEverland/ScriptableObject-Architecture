@@ -6,6 +6,6 @@ using UnityEngine;
     fileName = "GameObjectSet.asset",
     menuName = SOArchitecture_Utility.SETS_SUBMENU + "GameObject",
     order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
-public class GameObjectSet : RuntimeSet<GameObject>
+public class GameObjectSet : Collection<GameObject>
 {
 }

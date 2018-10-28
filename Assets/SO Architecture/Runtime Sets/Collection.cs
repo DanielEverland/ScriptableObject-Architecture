@@ -3,28 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuntimeSet<T> : BaseRuntimeSet, IEnumerable<T>
+public class Collection<T> : BaseCollection, IEnumerable<T>
 {
     public new T this[int index]
     {
         get
         {
-            return _items[index];
+            return _list[index];
         }
         set
         {
-            _items[index] = value;
+            _list[index] = value;
         }
     }
 
     [SerializeField]
-    private List<T> _items = new List<T>();
+    private List<T> _list = new List<T>();
 
-    public override IList Items
+    public override IList List
     {
         get
         {
-            return _items;
+            return _list;
         }
     }
     public override Type Type
@@ -37,13 +37,13 @@ public class RuntimeSet<T> : BaseRuntimeSet, IEnumerable<T>
 
     public void Add(T obj)
     {
-        if (!_items.Contains(obj))
-            _items.Add(obj);
+        if (!_list.Contains(obj))
+            _list.Add(obj);
     }
     public void Remove(T obj)
     {
-        if (_items.Contains(obj))
-            _items.Remove(obj);
+        if (_list.Contains(obj))
+            _list.Remove(obj);
     }
     IEnumerator IEnumerable.GetEnumerator()
     {
@@ -51,6 +51,6 @@ public class RuntimeSet<T> : BaseRuntimeSet, IEnumerable<T>
     }
     public IEnumerator<T> GetEnumerator()
     {
-        return _items.GetEnumerator();
+        return _list.GetEnumerator();
     }
 }

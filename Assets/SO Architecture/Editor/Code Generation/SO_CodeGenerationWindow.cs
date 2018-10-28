@@ -8,7 +8,7 @@ public class SO_CodeGenerationWindow : EditorWindow
      * [1] Game Event Listener
      * [2] Game Event
      * [3] Reference
-     * [4] Runtime Set
+     * [4] Collection
      * [5] Unity Event
      * [6] Variable
      *
@@ -37,7 +37,7 @@ public class SO_CodeGenerationWindow : EditorWindow
         "Event Listener",
         "Game Event",
         "Reference",
-        "Runtime Set",
+        "Collection",
         "Unity Event",
         "Variable"
     };

@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Type = System.Type;
 
-public abstract class BaseRuntimeSet : SOArchitectureBaseObject, IEnumerable
+public abstract class BaseCollection : SOArchitectureBaseObject, IEnumerable
 {
     public object this[int index]
     {
         get
         {
-            return Items[index];
+            return List[index];
         }
         set
         {
-            Items[index] = value;
+            List[index] = value;
         }
     }
 
-    public int Count { get { return Items.Count; } }
+    public int Count { get { return List.Count; } }
 
-    public abstract IList Items { get; }
+    public abstract IList List { get; }
     public abstract Type Type { get; }
     
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return Items.GetEnumerator();
+        return List.GetEnumerator();
     }
 }
