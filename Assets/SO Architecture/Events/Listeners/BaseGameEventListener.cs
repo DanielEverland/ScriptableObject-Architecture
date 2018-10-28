@@ -84,8 +84,10 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
 public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehaviour, IStackTraceObject
 {
 #if UNITY_EDITOR
+#pragma warning disable 0414
     [SerializeField]
     private bool _showDebugFields = false;
+#pragma warning restore
     [SerializeField]
     private bool _enableGizmoDebugging = true;
     [SerializeField]
