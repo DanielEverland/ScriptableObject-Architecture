@@ -19,6 +19,8 @@ public class BaseVariableEditor : Editor
     }
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+
         if (SOArchitecture_EditorUtility.HasPropertyDrawer(Target.Type))
         {
             EditorGUILayout.PropertyField(_valueProperty);
