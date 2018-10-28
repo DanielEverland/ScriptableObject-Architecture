@@ -11,7 +11,6 @@ public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>
 #if UNITY_EDITOR
     [SerializeField]
     protected T _debugValue;
-#endif
 
     public void AddStackTrace()
     {
@@ -21,6 +20,7 @@ public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>
     {
         _stackTraces.Insert(0, StackTraceEntry.Create(value));
     }
+#endif
     public void Raise(T value)
     {
         AddStackTrace(value);
@@ -46,6 +46,7 @@ public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, ISta
     public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
     private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
 
+#if UNITY_EDITOR
     public void AddStackTrace()
     {
         _stackTraces.Insert(0, StackTraceEntry.Create());
@@ -54,6 +55,8 @@ public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, ISta
     {
         _stackTraces.Insert(0, StackTraceEntry.Create(value));
     }
+#endif
+
     public void Raise()
     {
         AddStackTrace();
