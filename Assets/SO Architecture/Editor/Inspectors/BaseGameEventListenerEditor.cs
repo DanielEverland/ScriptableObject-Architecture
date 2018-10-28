@@ -10,6 +10,7 @@ public abstract class BaseGameEventListenerEditor : Editor
     private SerializedProperty _event;
     private SerializedProperty _debugColor;
     private SerializedProperty _response;
+    private SerializedProperty _enableDebug;
 
     protected abstract void DrawRaiseButton();
 
@@ -21,9 +22,12 @@ public abstract class BaseGameEventListenerEditor : Editor
         _event = serializedObject.FindProperty("_event");
         _debugColor = serializedObject.FindProperty("_debugColor");
         _response = serializedObject.FindProperty("_response");
+        _enableDebug = serializedObject.FindProperty("_enableDebug");
     }
     public override void OnInspectorGUI()
     {
+        EditorGUILayout.PropertyField(_enableDebug);
+
         EditorGUILayout.ObjectField(_event, new GUIContent("Event", "Event which will trigger the response"));
         _debugColor.colorValue = EditorGUILayout.ColorField(new GUIContent("Debug Color", "Color used to draw debug gizmos in the scene"), _debugColor.colorValue);
 
