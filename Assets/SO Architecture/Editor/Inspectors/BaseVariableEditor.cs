@@ -7,7 +7,7 @@ using UnityEditor;
 [CustomEditor(typeof(BaseVariable<>), true)]
 public class BaseVariableEditor : Editor
 {
-    private IBaseVariable Target { get { return (IBaseVariable)target; } }
+    private BaseVariable Target { get { return (BaseVariable)target; } }
 
     private SerializedProperty _valueProperty;
     private SerializedProperty _developerDescription;
@@ -41,7 +41,9 @@ public class BaseVariableEditor : Editor
         }
         else
         {
-            EditorGUILayout.LabelField("Cannot display value. No PropertyDrawer for " + Target.Type);
+            string labelContent = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.BaseValue.ToString() + "]";
+
+            EditorGUILayout.LabelField(new GUIContent(labelContent, labelContent));
         }
 
 
