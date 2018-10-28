@@ -45,6 +45,26 @@ public class Collection<T> : BaseCollection, IEnumerable<T>
         if (_list.Contains(obj))
             _list.Remove(obj);
     }
+    public void Clear()
+    {
+        _list.Clear();
+    }
+    public bool Contains(T value)
+    {
+        return _list.Contains(value);
+    }
+    public int IndexOf(T value)
+    {
+        return _list.IndexOf(value);
+    }
+    public void RemoveAt(int index)
+    {
+        _list.RemoveAt(index);
+    }
+    public void Insert(int index, T value)
+    {
+        _list.Insert(index, value);
+    }
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
