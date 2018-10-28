@@ -14,3 +14,8 @@ Type Type { get; }
 
 void Add(T)
 void Remove(T)
+RemoveAt(int)
+void Clear()
+bool Contains(T)
+int IndexOf(T)
+Insert(int, T)
