@@ -38,12 +38,12 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     private void OnEnable()
     {
         if (_event != null)
-            _event.RegisterListener(this);
+            _event.AddListener(this);
     }
     private void OnDisable()
     {
         if (_event != null)
-            _event.UnregisterListener(this);
+            _event.RemoveListener(this);
     }
 }
 public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameEventListener, IGameEventListener
@@ -73,12 +73,12 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
     private void OnEnable()
     {
         if (_event != null)
-            _event.RegisterListener(this);
+            _event.AddListener(this);
     }
     private void OnDisable()
     {
         if (_event != null)
-            _event.UnregisterListener(this);
+            _event.RemoveListener(this);
     }
 }
 public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehaviour, IStackTraceObject

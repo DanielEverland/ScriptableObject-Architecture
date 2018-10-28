@@ -28,12 +28,12 @@ public abstract class GameEventBase<T> : SOArchitectureBaseObject, IGameEvent<T>
         for (int i = _listeners.Count - 1; i >= 0; i--)
             _listeners[i].OnEventRaised(value);
     }
-    public void RegisterListener(IGameEventListener<T> listener)
+    public void AddListener(IGameEventListener<T> listener)
     {
         if (!_listeners.Contains(listener))
             _listeners.Add(listener);
     }
-    public void UnregisterListener(IGameEventListener<T> listener)
+    public void RemoveListener(IGameEventListener<T> listener)
     {
         if (_listeners.Contains(listener))
             _listeners.Remove(listener);
@@ -64,12 +64,12 @@ public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, ISta
         for (int i = _listeners.Count - 1; i >= 0; i--)
             _listeners[i].OnEventRaised();
     }
-    public void RegisterListener(IGameEventListener listener)
+    public void AddListener(IGameEventListener listener)
     {
         if (!_listeners.Contains(listener))
             _listeners.Add(listener);
     }
-    public void UnregisterListener(IGameEventListener listener)
+    public void RemoveListener(IGameEventListener listener)
     {
         if (_listeners.Contains(listener))
             _listeners.Remove(listener);
