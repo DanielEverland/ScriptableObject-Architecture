@@ -17,7 +17,6 @@ public static class SOArchitecture_EditorUtility
     }
 
     private static PropertyDrawerGraph _propertyDrawerGraph;
-    private static Regex _removeWhiteSpace = new Regex(@"\s+");
     private static Assembly _defaultTargetType;
     private static BindingFlags _fieldBindingsFlag = BindingFlags.Instance | BindingFlags.NonPublic;
 
