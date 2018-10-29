@@ -13,8 +13,8 @@ public class TypedGameEventEditor : BaseGameEventEditor
     protected override void OnEnable()
     {
         base.OnEnable();
-
-        _raiseMethod = target.GetType().BaseType.GetMethod("Raise");
+        
+        _raiseMethod = target.GetType().BaseType.GetMethod("Raise", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
     }
     protected override void DrawRaiseButton()
     {

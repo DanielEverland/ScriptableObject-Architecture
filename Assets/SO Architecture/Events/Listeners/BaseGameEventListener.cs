@@ -14,6 +14,8 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     protected override UnityEventBase Response { get { return _response; } }
 
     [SerializeField]
+    private TEvent _previouslyRegisteredEvent;
+    [SerializeField]
     private TEvent _event;
     [SerializeField]
     private TResponse _response;
@@ -35,15 +37,30 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     {
         _response.Invoke(value);
     }
+    private void OnValidate()
+    {
+        if (_event != null)
+            Register();
+    }
     private void OnEnable()
     {
         if (_event != null)
-            _event.AddListener(this);
+            Register();
     }
     private void OnDisable()
     {
         if (_event != null)
             _event.RemoveListener(this);
+    }
+    private void Register()
+    {
+        if(_previouslyRegisteredEvent != null)
+        {
+            _previouslyRegisteredEvent.RemoveListener(this);
+        }
+
+        _event.AddListener(this);
+        _previouslyRegisteredEvent = _event;
     }
 }
 public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameEventListener, IGameEventListener
@@ -53,6 +70,8 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
     protected override ScriptableObject GameEvent { get { return _event; } }
     protected override UnityEventBase Response { get { return _response; } }
 
+    [SerializeField]
+    private TEvent _previouslyRegisteredEvent;
     [SerializeField]
     private TEvent _event;
     [SerializeField]
@@ -70,15 +89,30 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
     {
         _response.Invoke();
     }
+    private void OnValidate()
+    {
+        if (_event != null)
+            Register();
+    }
     private void OnEnable()
     {
         if (_event != null)
-            _event.AddListener(this);
+            Register();
     }
     private void OnDisable()
     {
         if (_event != null)
             _event.RemoveListener(this);
+    }
+    private void Register()
+    {
+        if (_previouslyRegisteredEvent != null)
+        {
+            _previouslyRegisteredEvent.RemoveListener(this);
+        }
+
+        _event.AddListener(this);
+        _previouslyRegisteredEvent = _event;
     }
 }
 public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehaviour, IStackTraceObject
