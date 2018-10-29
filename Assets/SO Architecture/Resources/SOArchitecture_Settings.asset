@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Name: SOArchitecture_Settings
   m_EditorClassIdentifier: 
   _drawEventGizmos: 1
+  _codeGenerationTargetDirectory: CODE_GENERATION
+  _codeGenerationAllowOverwrite: 0

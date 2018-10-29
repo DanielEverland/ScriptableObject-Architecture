@@ -49,7 +49,13 @@ public class SOArchitecture_Settings : ScriptableObject
     #endregion
 
     public bool DrawEventGizmos { get { return _drawEventGizmos; } }
+    public string CodeGenerationTargetDirectory { get { return _codeGenerationTargetDirectory; } }
+    public bool CodeGenerationAllowOverwrite { get { return _codeGenerationAllowOverwrite; } }
 
     [SerializeField]
     private bool _drawEventGizmos = true;
+    [SerializeField]
+    private string _codeGenerationTargetDirectory = "CODE_GENERATION";
+    [SerializeField, Tooltip("Allow newly generated code files to overwrite existing ones")]
+    private bool _codeGenerationAllowOverwrite = false;
 }

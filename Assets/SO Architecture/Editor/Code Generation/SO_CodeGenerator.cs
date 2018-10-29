@@ -15,12 +15,12 @@ public static class SO_CodeGenerator
     {
         _targetDirectories = new string[TYPE_COUNT]
         {
-            Application.dataPath + "/SO Architecture/Events/Listeners",
-            Application.dataPath + "/SO Architecture/Events/Game Events",
-            Application.dataPath + "/SO Architecture/References",
-            Application.dataPath + "/SO Architecture/Collections",
-            Application.dataPath + "/SO Architecture/Events/Responses",
-            Application.dataPath + "/SO Architecture/Variables",
+            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Listeners",
+            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Game Events",
+            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/References",
+            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Collections",
+            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Responses",
+            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables",
         };
     }
     private static void GatherFilePaths()
@@ -119,8 +119,15 @@ public static class SO_CodeGenerator
         string targetFilePath = GetTargetFilePath(index);
         string contents = GetScriptContents(index);
 
+        if (File.Exists(targetFilePath) && !SOArchitecture_Settings.Instance.CodeGenerationAllowOverwrite)
+        {
+            Debug.Log("Cannot create file at " + targetFilePath + " because a file already exists, and overwrites are disabled");
+            return;
+        }            
+
         Debug.Log("Creating " + targetFilePath);
 
+        Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
         File.WriteAllText(targetFilePath, contents);
     }
     private static string GetScriptContents(int index)
