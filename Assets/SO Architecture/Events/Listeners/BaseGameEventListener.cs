@@ -192,7 +192,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void DrawText(Vector3 position, DebugEvent debugEvent)
     {
-        if (!_enableGizmoDebugging)
+        if (!EnableGizmoDebuggin())
             return;
 
         string text = string.Join("\n", new string[] { GameEvent.name, debugEvent.FunctionName });
@@ -201,7 +201,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void DrawLine()
     {
-        if (!_enableGizmoDebugging)
+        if (!EnableGizmoDebuggin())
             return;
 
         List<GameObject> listeningObjects = new List<GameObject>();
@@ -221,8 +221,15 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void DrawPoint(Vector3 position, Vector3 direction)
     {
-        if(_enableGizmoDebugging)
+        if(EnableGizmoDebuggin())
             Handles.DrawAAPolyLine(DOT_WIDTH, position, position + (direction.normalized * DOT_LENGTH));
+    }
+    private bool EnableGizmoDebuggin()
+    {
+        if (!SOArchitecture_Settings.Instance.DrawEventGizmos)
+            return false;
+
+        return _enableGizmoDebugging;
     }
     private void AddObject(List<GameObject> listeningObjects, Object obj)
     {
