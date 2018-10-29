@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.AnimatedValues;
 
 [CustomEditor(typeof(BaseVariable<>), true)]
 public class BaseVariableEditor : Editor
@@ -11,16 +12,27 @@ public class BaseVariableEditor : Editor
 
     private SerializedProperty _valueProperty;
     private SerializedProperty _developerDescription;
+    private SerializedProperty _readOnly;
+    private SerializedProperty _raiseWarning;
+    private AnimBool _raiseWarningAnimation;
+
+    private const string READONLY_TOOLTIP = "Should this value be changable during runtime? Will still be editable in the inspector regardless";
 
     private void OnEnable()
     {
         _valueProperty = serializedObject.FindProperty("_value");
         _developerDescription = serializedObject.FindProperty("DeveloperDescription");
+        _readOnly = serializedObject.FindProperty("_readOnly");
+        _raiseWarning = serializedObject.FindProperty("_raiseWarning");
+
+        _raiseWarningAnimation = new AnimBool(_readOnly.boolValue);
+        _raiseWarningAnimation.valueChanged.AddListener(Repaint);
     }
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-
+        
+        // Value.
         if (SOArchitecture_EditorUtility.HasPropertyDrawer(Target.Type))
         {
             //Unity doesn't like it when you have scene objects on assets,
@@ -46,7 +58,21 @@ public class BaseVariableEditor : Editor
             EditorGUILayout.LabelField(new GUIContent(labelContent, labelContent));
         }
 
+        // Readonly.
+        EditorGUILayout.PropertyField(_readOnly, new GUIContent("Read Only", READONLY_TOOLTIP));
 
+        _raiseWarningAnimation.target = _readOnly.boolValue;
+        using (var fadeGroup = new EditorGUILayout.FadeGroupScope(_raiseWarningAnimation.faded))
+        {
+            if(fadeGroup.visible)
+            {
+                EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(_raiseWarning);
+                EditorGUI.indentLevel--;
+            }                
+        }        
+
+        // Developer Description.
         EditorGUILayout.PropertyField(_developerDescription);
     }
 }
