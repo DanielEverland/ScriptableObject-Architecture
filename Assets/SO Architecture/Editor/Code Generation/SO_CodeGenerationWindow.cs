@@ -83,8 +83,6 @@ public class SO_CodeGenerationWindow : EditorWindow
             };
 
             SO_CodeGenerator.Generate(data);
-
-            Close();
         }
     }
     private void TypeSelection()
