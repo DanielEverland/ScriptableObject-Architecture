@@ -51,6 +51,7 @@ public class SOArchitecture_Settings : ScriptableObject
     public bool DrawEventGizmos { get { return _drawEventGizmos; } }
     public string CodeGenerationTargetDirectory { get { return _codeGenerationTargetDirectory; } }
     public bool CodeGenerationAllowOverwrite { get { return _codeGenerationAllowOverwrite; } }
+    public int DefaultCreateAssetMenuOrder { get { return _defualtCreateAssetMenuOrder; } }
 
     [SerializeField]
     private bool _drawEventGizmos = true;
@@ -58,4 +59,6 @@ public class SOArchitecture_Settings : ScriptableObject
     private string _codeGenerationTargetDirectory = "CODE_GENERATION";
     [SerializeField, Tooltip("Allow newly generated code files to overwrite existing ones")]
     private bool _codeGenerationAllowOverwrite = false;
+    [SerializeField]
+    private int _defualtCreateAssetMenuOrder = 120;
 }

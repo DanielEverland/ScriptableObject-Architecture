@@ -65,6 +65,7 @@ public static class SO_CodeGenerator
         public bool[] Types;
         public string TypeName;
         public string MenuName;
+        public int Order;
     }
 
     private static string[] _templateNames = new string[TYPE_COUNT]
@@ -94,14 +95,16 @@ public static class SO_CodeGenerator
     private static string Type { get { return _replacementStrings[0, 1]; } }
     private static string TypeName { get { return _replacementStrings[1, 1]; } }
     private static string MenuName { get { return _replacementStrings[2, 1]; } }
+    private static string Order { get { return _replacementStrings[3, 1]; } }
 
     public static void Generate(Data data)
     {
-        _replacementStrings = new string[3, 2]
+        _replacementStrings = new string[4, 2]
         {
             { "$TYPE$", data.TypeName },
             { "$TYPE_NAME$", CapitalizeFirstLetter(data.TypeName) },
             { "$MENU_NAME$", data.MenuName },
+            { "$ORDER$", data.Order.ToString() },
         };
 
         for (int i = 0; i < TYPE_COUNT; i++)

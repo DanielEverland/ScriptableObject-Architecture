@@ -47,6 +47,7 @@ public class SO_CodeGenerationWindow : EditorWindow
         false, true, false, true, false, true
     };
 
+    private int _order;
     private string _typeName;
     private string _menuName;
     private AnimBool _menuAnim;
@@ -60,6 +61,8 @@ public class SO_CodeGenerationWindow : EditorWindow
     {
         _menuAnim = new AnimBool();
         _menuAnim.valueChanged.AddListener(Repaint);
+
+        _order = SOArchitecture_Settings.Instance.DefaultCreateAssetMenuOrder;
     }
     private void OnGUI()
     {
@@ -76,6 +79,7 @@ public class SO_CodeGenerationWindow : EditorWindow
                 Types = _states,
                 TypeName = _typeName,
                 MenuName = RequiresMenu() ? _menuName : default(string),
+                Order = _order,
             };
 
             SO_CodeGenerator.Generate(data);
@@ -107,15 +111,20 @@ public class SO_CodeGenerationWindow : EditorWindow
     {
         EditorGUILayout.LabelField("Information", EditorStyles.boldLabel);
 
+        // Type name.
         _typeName = EditorGUILayout.TextField(new GUIContent("Type Name", "Case sensitive, ensure exact match with actual type name"), _typeName);
 
+        // Menu name.
         _menuAnim.target = RequiresMenu();
         EditorGUILayout.BeginFadeGroup(_menuAnim.faded);
 
         if (_menuAnim.value)
             _menuName = EditorGUILayout.TextField("Menu Name", _menuName);
-
+        
         EditorGUILayout.EndFadeGroup();
+
+        // Order.
+        _order = EditorGUILayout.IntField(new GUIContent("Order", "Use default if unsure"), _order);
     }
     /// <summary>
     /// Polls the currently selected state types to determine whether any require menus
