@@ -1,9 +1,9 @@
 using UnityEngine;
 
 [CreateAssetMenu(
-    fileName = "SbyteCollection.asset",
+    fileName = "SByteCollection.asset",
     menuName = SOArchitecture_Utility.COLLECTION_SUBMENU + "Advanced/sbyte",
     order = 120)]
-public class SbyteCollection : Collection<sbyte>
+public class SByteCollection : Collection<sbyte>
 {
 }
