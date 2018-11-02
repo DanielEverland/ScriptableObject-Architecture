@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectAdder : MonoBehaviour
 {
     [SerializeField]
-    private GameObjectSet _targetCollection;
+    private GameObjectCollection _targetCollection;
 
     private void OnEnable()
     {
