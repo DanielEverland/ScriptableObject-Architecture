@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "SByteCollection.asset",
     menuName = SOArchitecture_Utility.COLLECTION_SUBMENU + "Advanced/sbyte",
-    order = 120)]
+    order = 165)]
 public class SByteCollection : Collection<sbyte>
 {
 }
