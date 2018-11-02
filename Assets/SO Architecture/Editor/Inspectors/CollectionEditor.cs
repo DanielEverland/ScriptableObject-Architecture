@@ -20,7 +20,7 @@ public class CollectionEditor : Editor
 
     private void OnEnable()
     {
-        SerializedProperty items = serializedObject.FindProperty("_items");
+        SerializedProperty items = serializedObject.FindProperty("_list");
 
         string title = "List (" + Target.Type + ")";
         
