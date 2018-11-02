@@ -4,6 +4,6 @@
     fileName = "$TYPE_NAME$Collection.asset",
     menuName = SOArchitecture_Utility.SETS_SUBMENU + "$MENU_NAME$",
     order = $ORDER$)]
-public class $TYPE_NAME$Set : Collection<$TYPE$>
+public class $TYPE_NAME$Collection : Collection<$TYPE$>
 {
 }
