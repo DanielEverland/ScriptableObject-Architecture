@@ -3,8 +3,8 @@
 [System.Serializable]
 [CreateAssetMenu(
     fileName = "CharGameEvent.asset",
-    menuName = SOArchitecture_Utility.ADVANCED_GAME_EVENT + "Char",
-    order = SOArchitecture_Utility.ADVANCED_ASSET_MENU_ORDER)]
+    menuName = SOArchitecture_Utility.ADVANCED_GAME_EVENT + "char",
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_EVENTS + 7)]
 public sealed class CharGameEvent : GameEventBase<char>
 {
 }

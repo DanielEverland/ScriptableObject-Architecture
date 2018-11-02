@@ -2,8 +2,8 @@
 
 [CreateAssetMenu(
     fileName = "UnsignedIntVariable.asset",
-    menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "Unsigned Int",
-    order = SOArchitecture_Utility.ADVANCED_ASSET_MENU_ORDER)]
+    menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "uint",
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 16)]
 public sealed class UIntVariable : BaseVariable<uint>
 {
 }

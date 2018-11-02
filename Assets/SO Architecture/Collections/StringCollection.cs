@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "StringCollection.asset",
     menuName = SOArchitecture_Utility.COLLECTION_SUBMENU + "string",
-    order = 152)]
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 2)]
 public class StringCollection : Collection<string>
 {
 }

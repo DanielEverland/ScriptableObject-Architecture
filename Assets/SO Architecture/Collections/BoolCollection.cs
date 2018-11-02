@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "BoolCollection.asset",
     menuName = SOArchitecture_Utility.COLLECTION_SUBMENU + "bool",
-    order = 155)]
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 5)]
 public class BoolCollection : Collection<bool>
 {
 }

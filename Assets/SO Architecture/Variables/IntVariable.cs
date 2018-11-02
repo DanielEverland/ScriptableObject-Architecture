@@ -2,8 +2,8 @@
 
 [CreateAssetMenu(
     fileName = "IntVariable.asset",
-    menuName = SOArchitecture_Utility.VARIABLE_SUBMENU + "Integer",
-    order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
+    menuName = SOArchitecture_Utility.VARIABLE_SUBMENU + "int",
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 4)]
 public sealed class IntVariable : BaseVariable<int>
 {
 }

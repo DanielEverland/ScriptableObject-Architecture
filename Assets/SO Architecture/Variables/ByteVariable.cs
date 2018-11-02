@@ -2,8 +2,8 @@
 
 [CreateAssetMenu(
     fileName = "ByteVariable.asset",
-    menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "Byte",
-    order = SOArchitecture_Utility.ADVANCED_ASSET_MENU_ORDER)]
+    menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "byte",
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 6)]
 public sealed class ByteVariable : BaseVariable<byte>
 {
 }

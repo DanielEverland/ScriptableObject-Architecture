@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "QuaternionGameEvent.asset",
     menuName = SOArchitecture_Utility.GAME_EVENT + "Structs/Quaternion",
-    order = 120)]
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_EVENTS + 13)]
 public sealed class QuaternionGameEvent : GameEventBase<Quaternion>
 {
 }

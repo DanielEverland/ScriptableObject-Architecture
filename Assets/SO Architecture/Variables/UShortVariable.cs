@@ -2,8 +2,8 @@
 
 [CreateAssetMenu(
     fileName = "UnsignedShortVariable.asset",
-    menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "Unsigned Short",
-    order = SOArchitecture_Utility.ADVANCED_ASSET_MENU_ORDER)]
+    menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "ushort",
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 18)]
 public sealed class UShortVariable : BaseVariable<ushort>
 {
 }
