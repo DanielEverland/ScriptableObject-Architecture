@@ -38,10 +38,14 @@ public static class SOArchitecture_EditorUtility
     }
     private static bool HasBuiltinPropertyDrawer(Type type)
     {
-        if (type.IsPrimitive || type == typeof(string) || typeof(Object).IsAssignableFrom(type))
+        if (type.IsPrimitive || type == typeof(string) || IsFromUnityAssembly(type))
             return true;
 
         return false;
+    }
+    private static bool IsFromUnityAssembly(Type type)
+    {
+        return type.Assembly == typeof(GameObject).Assembly;
     }
     [DidReloadScripts]
     private static void OnProjectReloaded()
