@@ -1,9 +1,9 @@
 using UnityEngine;
 
 [CreateAssetMenu(
-    fileName = "UshortCollection.asset",
+    fileName = "UShortCollection.asset",
     menuName = SOArchitecture_Utility.COLLECTION_SUBMENU + "Advanced/ushort",
     order = 120)]
-public class UshortCollection : Collection<ushort>
+public class UShortCollection : Collection<ushort>
 {
 }
