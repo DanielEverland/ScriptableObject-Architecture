@@ -14,3 +14,4 @@ MonoBehaviour:
   _drawEventGizmos: 1
   _codeGenerationTargetDirectory: CODE_GENERATION
   _codeGenerationAllowOverwrite: 0
+  _defualtCreateAssetMenuOrder: 120
