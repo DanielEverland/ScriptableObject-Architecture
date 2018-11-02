@@ -3,7 +3,7 @@
 [CreateAssetMenu(
     fileName = "$TYPE_NAME$Collection.asset",
     menuName = SOArchitecture_Utility.SETS_SUBMENU + "$MENU_NAME$",
-    order = SOArchitecture_Utility.ASSET_MENU_ORDER)]
-public class $TYPE_NAME$Set : RuntimeSet<$TYPE$>
+    order = $ORDER$)]
+public class $TYPE_NAME$Set : Collection<$TYPE$>
 {
 }
