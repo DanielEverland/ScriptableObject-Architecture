@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public sealed class $TYPE_NAME$Reference : BaseReference<$TYPE$, $TYPE_NAME$Variable>
 {
     public $TYPE_NAME$Reference() : base() { }

@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public sealed class $TYPE_NAME$UnityEvent : UnityEvent<$TYPE$>
