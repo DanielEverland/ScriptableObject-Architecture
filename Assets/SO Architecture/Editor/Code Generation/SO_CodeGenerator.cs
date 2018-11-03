@@ -21,6 +21,7 @@ public static class SO_CodeGenerator
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Collections",
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Responses",
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables",
+            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables/Clamped",
         };
     }
     private static void GatherFilePaths()
@@ -58,7 +59,7 @@ public static class SO_CodeGenerator
         }
     }
 
-    public const int TYPE_COUNT = 6;
+    public const int TYPE_COUNT = 7;
 
     public struct Data
     {
@@ -75,7 +76,8 @@ public static class SO_CodeGenerator
         "ReferenceTemplate",
         "CollectionTemplate",
         "UnityEventTemplate",
-        "VariableTemplate"
+        "VariableTemplate",
+        "ClampedVariableTemplate",
     };
 
     private static string[] _targetFileNames = new string[TYPE_COUNT]
@@ -85,7 +87,8 @@ public static class SO_CodeGenerator
         "{0}Reference.cs",
         "{0}Collection.cs",
         "{0}UnityEvent.cs",
-        "{0}Variable.cs"
+        "{0}Variable.cs",
+        "{0}ClampedVariable.cs",
     };
 
     private static string[] _targetDirectories = null;

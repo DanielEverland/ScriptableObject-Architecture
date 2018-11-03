@@ -1,0 +1,9 @@
+using UnityEngine;
+
+[CreateAssetMenu(
+    fileName = "$TYPE_NAME$ClampedVariable.asset",
+    menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "$MENU_NAME$",
+    order = $ORDER$)]
+public class $TYPE_NAME$ClampedVariable : ClampedVariable<$TYPE$>
+{
+}

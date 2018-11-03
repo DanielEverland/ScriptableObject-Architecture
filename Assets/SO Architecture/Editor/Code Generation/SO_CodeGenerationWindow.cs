@@ -11,24 +11,27 @@ public class SO_CodeGenerationWindow : EditorWindow
      * [4] Collection
      * [5] Unity Event
      * [6] Variable
+     * [7] Clamped Variable
      *
-     * /  1  2  3  4  5  6
+     * /  1  2  3  4  5  6  7
      * 1     X        X
      * 2        X
      * 3                 X
      * 4
      * 5
      * 6
+     * 7
      */
 
     private bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
     {
-        { false, true, false, false, true, false },
-        { false, false, true, false, false, false },
-        { false, false, false, false, false, true },
-        { false, false, false, false, false, false },
-        { false, false, false, false, false, false },
-        { false, false, false, false, false, false },
+        { false, true, false, false, true, false, false },
+        { false, false, true, false, false, false, false },
+        { false, false, false, false, false, true, false },
+        { false, false, false, false, false, false, false },
+        { false, false, false, false, false, false, false },
+        { false, false, false, false, false, false, false },
+        { false, false, false, false, false, false, false },
     };
 
     private bool[] _states = new bool[SO_CodeGenerator.TYPE_COUNT];
@@ -39,18 +42,22 @@ public class SO_CodeGenerationWindow : EditorWindow
         "Reference",
         "Collection",
         "Unity Event",
-        "Variable"
+        "Variable",
+        "Clamped Variable",
     };
 
     private bool[] _menuRequirement = new bool[SO_CodeGenerator.TYPE_COUNT]
     {
-        false, true, false, true, false, true
+        false, true, false, true, false, true, true
     };
+
+    private const int INDEX_CLAMPED_VARIABLE = 6;
 
     private int _order;
     private string _typeName;
     private string _menuName;
     private AnimBool _menuAnim;
+    private AnimBool _clampedValueHelpBoxAnim;
 
     [MenuItem("Window/SO Code Generation")]
     private static void ShowWindow()
@@ -62,6 +69,9 @@ public class SO_CodeGenerationWindow : EditorWindow
         _menuAnim = new AnimBool();
         _menuAnim.valueChanged.AddListener(Repaint);
 
+        _clampedValueHelpBoxAnim = new AnimBool();
+        _clampedValueHelpBoxAnim.valueChanged.AddListener(Repaint);
+
         _order = SOArchitecture_Settings.Instance.DefaultCreateAssetMenuOrder;
     }
     private void OnGUI()
@@ -71,6 +81,7 @@ public class SO_CodeGenerationWindow : EditorWindow
         EditorGUILayout.Space();
 
         DataFields();
+        ClampedVariableHelpBox();
 
         if (GUILayout.Button("Generate"))
         {
@@ -104,6 +115,18 @@ public class SO_CodeGenerationWindow : EditorWindow
 
             EditorGUI.EndDisabledGroup();
         }
+    }
+    private void ClampedVariableHelpBox()
+    {
+        _clampedValueHelpBoxAnim.target = _states[INDEX_CLAMPED_VARIABLE];
+
+        using (var anim = new EditorGUILayout.FadeGroupScope(_clampedValueHelpBoxAnim.faded))
+        {
+            if(anim.visible)
+                EditorGUILayout.HelpBox(
+                    "Clamped values are abstract and require implementation.\nAn error will be raised in your console upon creation",
+                    MessageType.Warning);
+        }       
     }
     private void DataFields()
     {
