@@ -5,6 +5,7 @@
     public const int ASSET_MENU_ORDER_COLLECTIONS = 123;
 
     public const string VARIABLE_SUBMENU = "Variables/";
+    public const string VARIABLE_CLAMPED_SUBMENU = VARIABLE_SUBMENU + "Clamped/";
     public const string COLLECTION_SUBMENU = "Collections/";
     public const string GAME_EVENT = "Game Events/";
     

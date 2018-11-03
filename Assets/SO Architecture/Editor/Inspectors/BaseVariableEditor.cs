@@ -18,7 +18,7 @@ public class BaseVariableEditor : Editor
 
     private const string READONLY_TOOLTIP = "Should this value be changable during runtime? Will still be editable in the inspector regardless";
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         _valueProperty = serializedObject.FindProperty("_value");
         _developerDescription = serializedObject.FindProperty("DeveloperDescription");
@@ -32,7 +32,12 @@ public class BaseVariableEditor : Editor
     {
         serializedObject.Update();
         
-        // Value.
+        DrawValue();
+        DrawReadonlyField();
+        DrawDeveloperDescription();
+    }
+    protected void DrawValue()
+    {
         if (SOArchitecture_EditorUtility.HasPropertyDrawer(Target.Type))
         {
             //Unity doesn't like it when you have scene objects on assets,
@@ -57,22 +62,24 @@ public class BaseVariableEditor : Editor
 
             EditorGUILayout.LabelField(new GUIContent(labelContent, labelContent));
         }
-
-        // Readonly.
+    }
+    protected void DrawReadonlyField()
+    {
         EditorGUILayout.PropertyField(_readOnly, new GUIContent("Read Only", READONLY_TOOLTIP));
 
         _raiseWarningAnimation.target = _readOnly.boolValue;
         using (var fadeGroup = new EditorGUILayout.FadeGroupScope(_raiseWarningAnimation.faded))
         {
-            if(fadeGroup.visible)
+            if (fadeGroup.visible)
             {
                 EditorGUI.indentLevel++;
-                    EditorGUILayout.PropertyField(_raiseWarning);
+                EditorGUILayout.PropertyField(_raiseWarning);
                 EditorGUI.indentLevel--;
-            }                
-        }        
-
-        // Developer Description.
+            }
+        }
+    }
+    protected void DrawDeveloperDescription()
+    {
         EditorGUILayout.PropertyField(_developerDescription);
     }
 }

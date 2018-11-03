@@ -12,10 +12,10 @@ public abstract class BaseVariable : SOArchitectureBaseObject, IBaseVariable
 }
 public abstract class BaseVariable<T> : BaseVariable
 {
-    public T Value { get { return _value; } set { SetValue(value); } }
+    public virtual T Value { get { return _value; } set { _value = SetValue(value); } }
     public override bool ReadOnly { get { return _readOnly; } }    
     public override System.Type Type { get { return typeof(T); } }
-    public override object BaseValue { get { return _value; } set { SetValue((T)value); } }
+    public override object BaseValue { get { return _value; } set { _value = SetValue((T)value); } }
 
     [SerializeField]
     protected T _value;
@@ -24,25 +24,25 @@ public abstract class BaseVariable<T> : BaseVariable
     [SerializeField]
     private bool _raiseWarning = true;
     
-    public void SetValue(T value)
+    public virtual T SetValue(T value)
     {
         if (_readOnly)
         {
             RaiseReadonlyWarning();
-            return;
+            return _value;
         }
 
-        _value = value;
+        return value;
     }
-    public void SetValue(BaseVariable<T> value)
+    public virtual T SetValue(BaseVariable<T> value)
     {
         if (_readOnly)
         {
             RaiseReadonlyWarning();
-            return;
+            return _value;
         }
 
-        _value = value.Value;
+        return value.Value;
     }
     private void RaiseReadonlyWarning()
     {
