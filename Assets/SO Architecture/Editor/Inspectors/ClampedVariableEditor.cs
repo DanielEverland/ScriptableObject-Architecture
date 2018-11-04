@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ClampedVariable<>), true)]
+[CustomEditor(typeof(ClampedVariable<,,>), true)]
 public class ClampedVariableEditor : BaseVariableEditor
 {
     private SerializedProperty _minValueProperty;

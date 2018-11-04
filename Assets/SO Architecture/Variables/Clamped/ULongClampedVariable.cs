@@ -4,15 +4,15 @@ using UnityEngine;
     fileName = "UlongClampedVariable.asset",
     menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "ulong",
     order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 8)]
-public class ULongClampedVariable : ClampedVariable<ulong>
+public class ULongClampedVariable : ClampedVariable<ulong, ULongVariable, ULongReference>
 {
     protected override ulong ClampValue(ulong value)
     {
-        if (value < MinValue)
-            return MinValue;
+        if (value < MinValue.Value)
+            return MinValue.Value;
 
-        if (value > MaxValue)
-            return MaxValue;
+        if (value > MaxValue.Value)
+            return MaxValue.Value;
 
         return value;
     }

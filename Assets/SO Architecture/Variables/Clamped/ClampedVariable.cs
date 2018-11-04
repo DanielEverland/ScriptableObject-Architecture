@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ClampedVariable<T> : BaseVariable<T>
+public abstract class ClampedVariable<TType, TVariable, TReference> : BaseVariable<TType>
+    where TVariable : BaseVariable<TType>
+    where TReference : BaseReference<TType, TVariable>
 {
-    protected T MinValue { get { return _minClampedValue; } }
-    protected T MaxValue { get { return _maxClampedValue; } }
+    protected TReference MinValue { get { return _minClampedValue; } }
+    protected TReference MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private T _minClampedValue;
+    private TReference _minClampedValue;
     [SerializeField]
-    private T _maxClampedValue;
+    private TReference _maxClampedValue;
 
-    protected abstract T ClampValue(T value);
+    protected abstract TType ClampValue(TType value);
     
-    public override T SetValue(BaseVariable<T> value)
+    public override TType SetValue(BaseVariable<TType> value)
     {
         return ClampValue(value.Value);
     }
-    public override T SetValue(T value)
+    public override TType SetValue(TType value)
     {
         return ClampValue(value);
     }

@@ -20,7 +20,7 @@ public class SO_CodeGenerationWindow : EditorWindow
      * 4
      * 5
      * 6
-     * 7
+     * 7           X     X
      */
 
     private bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
@@ -31,7 +31,7 @@ public class SO_CodeGenerationWindow : EditorWindow
         { false, false, false, false, false, false, false },
         { false, false, false, false, false, false, false },
         { false, false, false, false, false, false, false },
-        { false, false, false, false, false, false, false },
+        { false, false, false, true, false, true, false },
     };
 
     private bool[] _states = new bool[SO_CodeGenerator.TYPE_COUNT];
