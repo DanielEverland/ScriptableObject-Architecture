@@ -29,14 +29,10 @@ public class ClampedVariableEditor : BaseVariableEditor
     }
     private void DrawClampedFields()
     {
-        EditorGUI.indentLevel++;
-
-        using (new EditorGUILayout.HorizontalScope())
+        using (new EditorGUI.IndentLevelScope())
         {
             EditorGUILayout.PropertyField(_minValueProperty);
             EditorGUILayout.PropertyField(_maxValueProperty);
-        }        
-
-        EditorGUI.indentLevel--;
+        }
     }
 }
