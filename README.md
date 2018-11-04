@@ -8,6 +8,7 @@ Now on the [Asset Store!](https://assetstore.unity.com/packages/tools/utilities/
 # Features
 - Automatic Script Generation
 - Variables - All C# primitives
+- Clamped Variables
 - Variable References
 - Typed Events
 - Runtime Sets
