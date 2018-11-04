@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "LongClampedVariable.asset",
     menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "long",
-    order = 120)]
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 4)]
 public class LongClampedVariable : ClampedVariable<long>
 {
     protected override long ClampValue(long value)

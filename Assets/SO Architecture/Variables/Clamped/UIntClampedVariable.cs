@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "UintClampedVariable.asset",
     menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "uint",
-    order = 120)]
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 7)]
 public class UIntClampedVariable : ClampedVariable<uint>
 {
     protected override uint ClampValue(uint value)

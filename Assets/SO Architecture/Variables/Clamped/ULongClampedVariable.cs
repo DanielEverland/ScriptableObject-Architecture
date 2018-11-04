@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "UlongClampedVariable.asset",
     menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "ulong",
-    order = 120)]
+    order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 8)]
 public class ULongClampedVariable : ClampedVariable<ulong>
 {
     protected override ulong ClampValue(ulong value)
