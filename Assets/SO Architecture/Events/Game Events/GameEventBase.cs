@@ -41,16 +41,18 @@ public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, ISta
     public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
     private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
 
-#if UNITY_EDITOR
     public void AddStackTrace()
     {
+#if UNITY_EDITOR
         _stackTraces.Insert(0, StackTraceEntry.Create());
+#endif
     }
     public void AddStackTrace(object value)
     {
+#if UNITY_EDITOR
         _stackTraces.Insert(0, StackTraceEntry.Create(value));
-    }
 #endif
+    }
 
     public void Raise()
     {

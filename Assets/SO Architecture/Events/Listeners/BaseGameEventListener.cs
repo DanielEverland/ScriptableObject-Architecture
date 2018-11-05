@@ -54,7 +54,7 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     }
     private void Register()
     {
-        if(_previouslyRegisteredEvent != null)
+        if (_previouslyRegisteredEvent != null)
         {
             _previouslyRegisteredEvent.RemoveListener(this);
         }
@@ -129,31 +129,10 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
 #endif
 
     public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
-    private List<DebugEvent> _debugEntries = new List<DebugEvent>();
-
-#if UNITY_EDITOR
-
-    private const float DOTTED_LINE_LENGTH = 5;
-    private const float DOT_LENGTH = 0.5f;
-    private const float DOT_WIDTH = 3;
-    private const float EVENT_MOVEMENT_SPEED = 3;
-    private const float EVENT_MIN_DISTANCE = 0.3f;
+    private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
 
     protected abstract ScriptableObject GameEvent { get; }
     protected abstract UnityEventBase Response { get; }
-
-    private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
-
-    private static class Styles
-    {
-        static Styles()
-        {
-            TextStyle = new GUIStyle();
-            TextStyle.alignment = TextAnchor.UpperCenter;
-        }
-
-        public static GUIStyle TextStyle;
-    }
 
     public void AddStackTrace(object obj)
     {
@@ -184,6 +163,26 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
             _debugEntries.Add(new DebugEvent(gameObjectTarget, functionName));
         }
 #endif
+    }
+
+#if UNITY_EDITOR
+    private const float DOTTED_LINE_LENGTH = 5;
+    private const float DOT_LENGTH = 0.5f;
+    private const float DOT_WIDTH = 3;
+    private const float EVENT_MOVEMENT_SPEED = 3;
+    private const float EVENT_MIN_DISTANCE = 0.3f;
+
+    private List<DebugEvent> _debugEntries = new List<DebugEvent>();
+
+    private static class Styles
+    {
+        static Styles()
+        {
+            TextStyle = new GUIStyle();
+            TextStyle.alignment = TextAnchor.UpperCenter;
+        }
+
+        public static GUIStyle TextStyle;
     }
     private void OnDrawGizmos()
     {
@@ -255,7 +254,7 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     }
     private void DrawPoint(Vector3 position, Vector3 direction)
     {
-        if(EnableGizmoDebuggin())
+        if (EnableGizmoDebuggin())
             Handles.DrawAAPolyLine(DOT_WIDTH, position, position + (direction.normalized * DOT_LENGTH));
     }
     private bool EnableGizmoDebuggin()
