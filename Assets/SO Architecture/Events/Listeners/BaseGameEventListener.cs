@@ -153,6 +153,9 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
         {
             GameObject gameObjectTarget = GetGameObject(response.GetPersistentTarget(i));
 
+            if (gameObject == null || gameObjectTarget == null)
+                continue;
+
             if (Vector3.Distance(gameObject.transform.position, gameObjectTarget.transform.position) <= EVENT_MIN_DISTANCE)
                 continue;
 
