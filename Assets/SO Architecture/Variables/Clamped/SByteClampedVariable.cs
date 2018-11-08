@@ -3,11 +3,38 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "SbyteClampedVariable.asset",
     menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "sbyte",
-    order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 6)]
-public class SbyteClampedVariable : ClampedVariable<sbyte, SByteVariable, SByteReference>
+    order = 120)]
+public class SByteClampedVariable : SByteVariable, IClampedVariable<sbyte, SByteVariable, SByteVariable>
 {
-    protected override sbyte ClampValue(sbyte value)
+    public SByteVariable MinValue { get { return _minClampedValue; } }
+    public SByteVariable MaxValue { get { return _maxClampedValue; } }
+
+    [SerializeField]
+    private SByteVariable _minClampedValue;
+    [SerializeField]
+    private SByteVariable _maxClampedValue;
+
+    public virtual sbyte ClampValue(sbyte value)
     {
-        return (sbyte)Mathf.Clamp(value, MinValue.Value, MaxValue.Value);
+        if (value.CompareTo(MinValue.Value) < 0)
+        {
+            return MinValue.Value;
+        }            
+        else if (value.CompareTo(MaxValue.Value) > 0)
+        {
+            return MaxValue.Value;
+        }            
+        else
+        {
+            return value;
+        }            
+    }
+    public override sbyte SetValue(BaseVariable<sbyte> value)
+    {
+        return ClampValue(value.Value);
+    }
+    public override sbyte SetValue(sbyte value)
+    {
+        return ClampValue(value);
     }
 }

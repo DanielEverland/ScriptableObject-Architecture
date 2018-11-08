@@ -124,7 +124,7 @@ public class SO_CodeGenerationWindow : EditorWindow
         {
             if(anim.visible)
                 EditorGUILayout.HelpBox(
-                    "Clamped values are abstract and require implementation.\nAn error will be raised in your console upon creation",
+                    "Clamped variables comes with a generic clamp function, but it might need adjustments based on your type",
                     MessageType.Warning);
         }       
     }

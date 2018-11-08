@@ -3,11 +3,38 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "ShortClampedVariable.asset",
     menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "short",
-    order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 5)]
-public class ShortClampedVariable : ClampedVariable<short, ShortVariable, ShortReference>
+    order = 120)]
+public class ShortClampedVariable : ShortVariable, IClampedVariable<short, ShortVariable, ShortReference>
 {
-    protected override short ClampValue(short value)
+    public ShortReference MinValue { get { return _minClampedValue; } }
+    public ShortReference MaxValue { get { return _maxClampedValue; } }
+
+    [SerializeField]
+    private ShortReference _minClampedValue;
+    [SerializeField]
+    private ShortReference _maxClampedValue;
+
+    public virtual short ClampValue(short value)
     {
-        return (short)Mathf.Clamp(value, MinValue.Value, MaxValue.Value);
+        if (value.CompareTo(MinValue.Value) < 0)
+        {
+            return MinValue.Value;
+        }            
+        else if (value.CompareTo(MaxValue.Value) > 0)
+        {
+            return MaxValue.Value;
+        }            
+        else
+        {
+            return value;
+        }            
+    }
+    public override short SetValue(BaseVariable<short> value)
+    {
+        return ClampValue(value.Value);
+    }
+    public override short SetValue(short value)
+    {
+        return ClampValue(value);
     }
 }

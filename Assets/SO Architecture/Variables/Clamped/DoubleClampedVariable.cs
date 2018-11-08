@@ -3,17 +3,38 @@ using UnityEngine;
 [CreateAssetMenu(
     fileName = "DoubleClampedVariable.asset",
     menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "double",
-    order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 3)]
-public class DoubleClampedVariable : ClampedVariable<double, DoubleVariable, DoubleReference>
+    order = 120)]
+public class DoubleClampedVariable : DoubleVariable, IClampedVariable<double, DoubleVariable, DoubleReference>
 {
-    protected override double ClampValue(double value)
+    public DoubleReference MinValue { get { return _minClampedValue; } }
+    public DoubleReference MaxValue { get { return _maxClampedValue; } }
+
+    [SerializeField]
+    private DoubleReference _minClampedValue;
+    [SerializeField]
+    private DoubleReference _maxClampedValue;
+
+    public virtual double ClampValue(double value)
     {
-        if (value < MinValue.Value)
+        if (value.CompareTo(MinValue.Value) < 0)
+        {
             return MinValue.Value;
-
-        if (value > MaxValue.Value)
+        }            
+        else if (value.CompareTo(MaxValue.Value) > 0)
+        {
             return MaxValue.Value;
-
-        return value;
+        }            
+        else
+        {
+            return value;
+        }            
+    }
+    public override double SetValue(BaseVariable<double> value)
+    {
+        return ClampValue(value.Value);
+    }
+    public override double SetValue(double value)
+    {
+        return ClampValue(value);
     }
 }
