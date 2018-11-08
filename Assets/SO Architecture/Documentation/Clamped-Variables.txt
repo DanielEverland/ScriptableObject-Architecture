@@ -4,9 +4,9 @@ Clamped Variables were created for two very simple reasons. We very often would 
 We obviously don't want the PlayerHealth to exceed the maximum allowed health, nor do we want it to dip below 0. We would have to ensure that every single piece of code that references this variable ensured to clamp it properly, or force them to assign it through a static function that did it for them. That's not very Unity-like. So instead I decided to make a variable that does this dynamically. Code that references such an object doesn't need to know which values to clamp it to, it can simply assign whatever value it pleases without worry.
 
 ## Script Reference
-Since we're clamping an unknown type, it is impossible for me to make an implementation that'll definitely work with everything. I could write a relatively safe implementation of Mathf.Clamp, but if you're using any known numerical value, I've already implemented a Clamped Variable type for you, so it seemed like a bad idea to make such an assumption.
+Clamped Variables inherit IClampedVariable<TType, TVariable, TReference> which contains the following members
 
-abstract TType ClampValue(TType value);
+TType ClampValue(TType value);
 
 TReference MinValue { get; }
 TReference MaxValue { get; }
