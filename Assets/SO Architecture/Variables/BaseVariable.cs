@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IBaseVariable
-{
-    System.Type Type { get; }
-}
-public abstract class BaseVariable : SOArchitectureBaseObject, IBaseVariable
+public abstract class BaseVariable : SOArchitectureBaseObject
 {
     public abstract bool ReadOnly { get; }
     public abstract System.Type Type { get; }
