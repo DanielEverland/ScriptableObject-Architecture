@@ -50,7 +50,7 @@ public abstract class BaseVariable<T> : BaseVariable
     
     public override string ToString()
     {
-        return _value.ToString();
+        return _value == null ? "null" : _value.ToString();
     }
     public static implicit operator T(BaseVariable<T> variable)
     {

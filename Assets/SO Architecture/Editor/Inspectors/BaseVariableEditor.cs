@@ -68,7 +68,7 @@ public class BaseVariableEditor : Editor
         }
         else
         {
-            string labelContent = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.BaseValue.ToString() + "]";
+            string labelContent = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
 
             EditorGUILayout.LabelField(new GUIContent(labelContent, labelContent));
         }
