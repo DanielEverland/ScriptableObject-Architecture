@@ -48,8 +48,17 @@ public class BaseVariableEditor : Editor
     }
     protected void DrawValue()
     {
-        string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
-        GenericPropertyDrawer.DrawPropertyDrawer(Target.Type, _valueProperty, new GUIContent(content, content));
+        using (var scope = new EditorGUI.ChangeCheckScope())
+        {
+            string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
+            GenericPropertyDrawer.DrawPropertyDrawer(Target.Type, _valueProperty, new GUIContent(content, content));
+
+            if (scope.changed)
+            {
+                // Value changed, raise events
+                Target.Raise();
+            }
+        }
     }
     protected void DrawClampedFields()
     {

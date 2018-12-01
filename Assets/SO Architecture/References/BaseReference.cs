@@ -28,6 +28,26 @@ public abstract class BaseReference<TBase, TVariable> : BaseReference where TVar
                 _constantValue = value;
         }
     }
+    public void AddListener(IGameEventListener listener)
+    {
+        if (_variable != null)
+            _variable.AddListener(listener);
+    }
+    public void RemoveListener(IGameEventListener listener)
+    {
+        if (_variable != null)
+            _variable.RemoveListener(listener);
+    }
+    public void AddListener(System.Action action)
+    {
+        if (_variable != null)
+            _variable.AddListener(action);
+    }
+    public void RemoveListener(System.Action action)
+    {
+        if (_variable != null)
+            _variable.AddListener(action);
+    }
     public override string ToString()
     {
         return Value.ToString();

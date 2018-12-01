@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class BaseVariable : SOArchitectureBaseObject
+public abstract class BaseVariable : GameEventBase
 {
     public abstract bool ReadOnly { get; }
     public abstract System.Type Type { get; }
@@ -8,10 +8,32 @@ public abstract class BaseVariable : SOArchitectureBaseObject
 }
 public abstract class BaseVariable<T> : BaseVariable
 {
-    public virtual T Value { get { return _value; } set { _value = SetValue(value); } }
+    public virtual T Value
+    {
+        get
+        {
+            return _value;
+        }
+        set
+        {
+            _value = SetValue(value);
+            Raise();
+        }
+    }
     public override bool ReadOnly { get { return _readOnly; } }    
     public override System.Type Type { get { return typeof(T); } }
-    public override object BaseValue { get { return _value; } set { _value = SetValue((T)value); } }
+    public override object BaseValue
+    {
+        get
+        {
+            return _value;
+        }
+        set
+        {
+            _value = SetValue((T)value);
+            Raise();
+        }
+    }
 
     [SerializeField]
     protected T _value;
