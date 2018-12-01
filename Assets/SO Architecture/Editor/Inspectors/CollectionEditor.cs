@@ -54,27 +54,8 @@ public class CollectionEditor : Editor
         rect.width /= 2;
         rect.x += rect.width;
 
-        if (SOArchitecture_EditorUtility.HasPropertyDrawer(Target.Type))
-        {
-            //Unity doesn't like it when you have scene objects on assets,
-            //so we do some magic to display it anyway
-            if (typeof(Object).IsAssignableFrom(Target.Type) && !EditorUtility.IsPersistent(property.objectReferenceValue) && property.objectReferenceValue != null)
-            {
-                EditorGUI.BeginDisabledGroup(true);
-                    EditorGUI.ObjectField(rect, new GUIContent(""), property.objectReferenceValue, Target.Type, false);
-                EditorGUI.EndDisabledGroup();
-            }
-            else
-            {
-                EditorGUI.PropertyField(rect, property, new GUIContent(""));
-            }            
-        }
-        else
-        {
-            string content = "No PropertyDrawer for " + Target.Type;
-
-            EditorGUI.LabelField(rect, new GUIContent(content, content));
-        }
+        string content = "No PropertyDrawer for " + Target.Type;
+        GenericPropertyDrawer.DrawPropertyDrawer(Target.Type, property, new GUIContent(content, content));
 
             //EditorGUI.ObjectField(rect, "Element " + index, property.objectReferenceValue, Target.Type, false);
         EditorGUI.EndDisabledGroup();
