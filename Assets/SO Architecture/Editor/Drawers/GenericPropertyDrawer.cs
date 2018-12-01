@@ -7,7 +7,7 @@ public static class GenericPropertyDrawer
 {
     public static void DrawPropertyDrawer(System.Type type, SerializedProperty property, GUIContent errorLabel)
     {
-        if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
+        if (SOArchitecture_EditorUtility.HasPropertyDrawer(type) || typeof(Object).IsAssignableFrom(type))
         {
             //Unity doesn't like it when you have scene objects on assets,
             //so we do some magic to display it anyway
