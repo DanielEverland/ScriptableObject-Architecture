@@ -26,4 +26,8 @@ public abstract class BaseCollection : SOArchitectureBaseObject, IEnumerable
     {
         return List.GetEnumerator();
     }
+    bool Contians(object obj)
+    {
+        return List.Contains(obj);
+    }
 }
