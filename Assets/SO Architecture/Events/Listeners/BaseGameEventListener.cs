@@ -118,11 +118,11 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
 #pragma warning disable 0414
     [SerializeField]
     private bool _showDebugFields = false;
-#pragma warning restore
     [SerializeField]
     private bool _enableGizmoDebugging = true;
     [SerializeField]
     private Color _debugColor = Color.cyan;
+#pragma warning restore
 
     public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
     private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
