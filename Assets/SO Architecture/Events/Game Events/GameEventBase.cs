@@ -7,7 +7,7 @@ public abstract class GameEventBase<T> : GameEventBase, IGameEvent<T>, IStackTra
     private readonly List<System.Action<T>> _typedActions = new List<System.Action<T>>();
 
     [SerializeField]
-    protected T _debugValue;
+    protected T _debugValue = default(T);
 
     public void Raise(T value)
     {

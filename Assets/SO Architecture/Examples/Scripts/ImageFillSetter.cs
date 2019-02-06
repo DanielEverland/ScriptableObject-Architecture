@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class ImageFillSetter : MonoBehaviour
 {
     [SerializeField]
-    private FloatReference _variable;
+    private FloatReference _variable = default(FloatReference);
     [SerializeField]
-    private FloatReference _maxValue;
+    private FloatReference _maxValue = default(FloatReference);
     [SerializeField]
-    private Image _imageTarget;
+    private Image _imageTarget = default(Image);
 
     private void Update()
     {

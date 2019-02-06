@@ -10,9 +10,9 @@ public class FloatClampedVariable : FloatVariable, IClampedVariable<float, Float
     public FloatReference MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private FloatReference _minClampedValue;
+    private FloatReference _minClampedValue = default(FloatReference);
     [SerializeField]
-    private FloatReference _maxClampedValue;
+    private FloatReference _maxClampedValue = default(FloatReference);
 
     public virtual float ClampValue(float value)
     {

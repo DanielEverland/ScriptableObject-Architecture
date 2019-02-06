@@ -10,9 +10,9 @@ public class SByteClampedVariable : SByteVariable, IClampedVariable<sbyte, SByte
     public SByteVariable MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private SByteVariable _minClampedValue;
+    private SByteVariable _minClampedValue = default(SByteVariable);
     [SerializeField]
-    private SByteVariable _maxClampedValue;
+    private SByteVariable _maxClampedValue = default(SByteVariable);
 
     public virtual sbyte ClampValue(sbyte value)
     {

@@ -10,9 +10,9 @@ public class UshortClampedVariable : UShortVariable, IClampedVariable<ushort, US
     public UShortVariable MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private UShortVariable _minClampedValue;
+    private UShortVariable _minClampedValue = default(UShortVariable);
     [SerializeField]
-    private UShortVariable _maxClampedValue;
+    private UShortVariable _maxClampedValue = default(UShortVariable);
 
     public virtual ushort ClampValue(ushort value)
     {

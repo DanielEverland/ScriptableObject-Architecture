@@ -10,9 +10,9 @@ public class UlongClampedVariable : ULongVariable, IClampedVariable<ulong, ULong
     public ULongVariable MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private ULongVariable _minClampedValue;
+    private ULongVariable _minClampedValue = default(ULongVariable);
     [SerializeField]
-    private ULongVariable _maxClampedValue;
+    private ULongVariable _maxClampedValue = default(ULongVariable);
 
     public virtual ulong ClampValue(ulong value)
     {

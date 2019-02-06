@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 using Type = System.Type;
+using ReorderableList = UnityEditorInternal.ReorderableList;
 
 [CustomEditor(typeof(BaseCollection), true)]
 public class CollectionEditor : Editor

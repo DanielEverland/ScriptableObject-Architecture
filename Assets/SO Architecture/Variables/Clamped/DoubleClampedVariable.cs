@@ -10,9 +10,9 @@ public class DoubleClampedVariable : DoubleVariable, IClampedVariable<double, Do
     public DoubleReference MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private DoubleReference _minClampedValue;
+    private DoubleReference _minClampedValue = default(DoubleReference);
     [SerializeField]
-    private DoubleReference _maxClampedValue;
+    private DoubleReference _maxClampedValue = default(DoubleReference);
 
     public virtual double ClampValue(double value)
     {

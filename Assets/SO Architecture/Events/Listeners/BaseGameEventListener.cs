@@ -14,14 +14,14 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     protected override UnityEventBase Response { get { return _response; } }
 
     [SerializeField]
-    private TEvent _previouslyRegisteredEvent;
+    private TEvent _previouslyRegisteredEvent = default(TEvent);
     [SerializeField]
-    private TEvent _event;
+    private TEvent _event = default(TEvent);
     [SerializeField]
-    private TResponse _response;
+    private TResponse _response = default(TResponse);
     
     [SerializeField]
-    protected TType _debugValue;
+    protected TType _debugValue = default(TType);
 
     public void OnEventRaised(TType value)
     {
@@ -64,11 +64,11 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
     protected override UnityEventBase Response { get { return _response; } }
 
     [SerializeField]
-    private TEvent _previouslyRegisteredEvent;
+    private TEvent _previouslyRegisteredEvent = default(TEvent);
     [SerializeField]
-    private TEvent _event;
+    private TEvent _event = default(TEvent);
     [SerializeField]
-    private TResponse _response;
+    private TResponse _response = default(TResponse);
 
     public void OnEventRaised()
     {

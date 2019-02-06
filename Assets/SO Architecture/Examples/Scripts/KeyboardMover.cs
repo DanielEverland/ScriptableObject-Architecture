@@ -5,7 +5,7 @@ using UnityEngine;
 public class KeyboardMover : MonoBehaviour
 {
     [SerializeField]
-    private FloatReference _moveSpeed;
+    private FloatReference _moveSpeed = default(FloatReference);
 
     private void Update()
     {

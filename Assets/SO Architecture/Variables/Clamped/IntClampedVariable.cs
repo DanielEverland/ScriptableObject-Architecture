@@ -10,9 +10,9 @@ public class IntClampedVariable : IntVariable, IClampedVariable<int, IntVariable
     public IntReference MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private IntReference _minClampedValue;
+    private IntReference _minClampedValue = default(IntReference);
     [SerializeField]
-    private IntReference _maxClampedValue;
+    private IntReference _maxClampedValue = default(IntReference);
 
     public virtual int ClampValue(int value)
     {

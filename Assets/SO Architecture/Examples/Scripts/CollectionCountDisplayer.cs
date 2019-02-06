@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class CollectionCountDisplayer : MonoBehaviour
 {
     [SerializeField]
-    private Text _textTarget;
+    private Text _textTarget = default(Text);
     [SerializeField]
-    private BaseCollection _setTarget;
+    private BaseCollection _setTarget = default(BaseCollection);
     [SerializeField]
     private string _textFormat = "There are {0} things.";
 

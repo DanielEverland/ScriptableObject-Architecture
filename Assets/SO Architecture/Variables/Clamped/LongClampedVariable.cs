@@ -10,9 +10,9 @@ public class LongClampedVariable : LongVariable, IClampedVariable<long, LongVari
     public LongReference MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private LongReference _minClampedValue;
+    private LongReference _minClampedValue = default(LongReference);
     [SerializeField]
-    private LongReference _maxClampedValue;
+    private LongReference _maxClampedValue = default(LongReference);
 
     public virtual long ClampValue(long value)
     {

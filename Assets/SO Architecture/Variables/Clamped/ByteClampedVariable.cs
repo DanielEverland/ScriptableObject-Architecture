@@ -10,9 +10,9 @@ public class ByteClampedVariable : ByteVariable, IClampedVariable<byte, ByteVari
     public ByteReference MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private ByteReference _minClampedValue;
+    private ByteReference _minClampedValue = default(ByteReference);
     [SerializeField]
-    private ByteReference _maxClampedValue;
+    private ByteReference _maxClampedValue = default(ByteReference);
 
     public virtual byte ClampValue(byte value)
     {

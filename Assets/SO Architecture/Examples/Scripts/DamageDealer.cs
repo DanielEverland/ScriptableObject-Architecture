@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     [SerializeField]
-    private FloatReference _damageAmount;
+    private FloatReference _damageAmount = default(FloatReference);
 
     private void OnTriggerEnter(Collider other)
     {

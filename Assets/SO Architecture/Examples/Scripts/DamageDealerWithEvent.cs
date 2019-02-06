@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageDealerWithEvent : DamageDealer
 {
     [SerializeField]
-    private GameEvent _onDamagedEvent;
+    private GameEvent _onDamagedEvent = default(GameEvent);
 
     protected override void DealDamage(UnitHealth target)
     {

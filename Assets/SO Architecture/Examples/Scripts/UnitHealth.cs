@@ -9,7 +9,7 @@ public class UnitHealth : MonoBehaviour
     [SerializeField]
     private bool _resetOnStartup = true;
     [SerializeField]
-    private FloatReference _startingHealth;
+    private FloatReference _startingHealth = default(FloatReference);
 
     private void Start()
     {

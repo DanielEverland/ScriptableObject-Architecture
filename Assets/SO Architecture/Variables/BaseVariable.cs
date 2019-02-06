@@ -36,7 +36,7 @@ public abstract class BaseVariable<T> : BaseVariable
     }
 
     [SerializeField]
-    protected T _value;
+    protected T _value = default(T);
     [SerializeField]
     private bool _readOnly = false;
     [SerializeField]

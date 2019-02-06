@@ -10,9 +10,9 @@ public class UintClampedVariable : UIntVariable, IClampedVariable<uint, UIntVari
     public UIntVariable MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private UIntVariable _minClampedValue;
+    private UIntVariable _minClampedValue = default(UIntVariable);
     [SerializeField]
-    private UIntVariable _maxClampedValue;
+    private UIntVariable _maxClampedValue = default(UIntVariable);
 
     public virtual uint ClampValue(uint value)
     {

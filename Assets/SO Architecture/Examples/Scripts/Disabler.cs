@@ -5,7 +5,7 @@ using UnityEngine;
 public class Disabler : MonoBehaviour
 {
     [SerializeField]
-    private GameObjectCollection _targetSet;
+    private GameObjectCollection _targetSet = default(GameObjectCollection);
 
     public void DisableRandom()
     {

@@ -10,9 +10,9 @@ public class ShortClampedVariable : ShortVariable, IClampedVariable<short, Short
     public ShortReference MaxValue { get { return _maxClampedValue; } }
 
     [SerializeField]
-    private ShortReference _minClampedValue;
+    private ShortReference _minClampedValue = default(ShortReference);
     [SerializeField]
-    private ShortReference _maxClampedValue;
+    private ShortReference _maxClampedValue = default(ShortReference);
 
     public virtual short ClampValue(short value)
     {
