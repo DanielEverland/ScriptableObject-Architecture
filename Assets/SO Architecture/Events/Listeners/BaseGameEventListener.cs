@@ -19,11 +19,9 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     private TEvent _event;
     [SerializeField]
     private TResponse _response;
-
-#if UNITY_EDITOR
+    
     [SerializeField]
     protected TType _debugValue;
-#endif
 
     public void OnEventRaised(TType value)
     {
@@ -117,7 +115,6 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
 }
 public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehaviour, IStackTraceObject
 {
-#if UNITY_EDITOR
 #pragma warning disable 0414
     [SerializeField]
     private bool _showDebugFields = false;
@@ -126,7 +123,6 @@ public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehavi
     private bool _enableGizmoDebugging = true;
     [SerializeField]
     private Color _debugColor = Color.cyan;
-#endif
 
     public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
     private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
