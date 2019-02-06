@@ -34,7 +34,7 @@ public class DeveloperDescriptionDrawer : PropertyDrawer
         if (!HasContent(property))
             rect.y += EditorGUIUtility.singleLineHeight;
 
-        rect.height = Styles.TextAreaStyle.CalcSize(new GUIContent(stringValue.stringValue)).y;
+        rect.height = GetHeight(property);
 
         EditorGUI.indentLevel++;        
             stringValue.stringValue = EditorGUI.TextArea(rect, stringValue.stringValue, Styles.TextAreaStyle);
@@ -88,7 +88,7 @@ public class DeveloperDescriptionDrawer : PropertyDrawer
         }
         else
         {
-            return Styles.TextAreaStyle.CalcSize(new GUIContent(content)).y;
+            return Styles.TextAreaStyle.CalcHeight(new GUIContent(content), Screen.width);
         }
     }
     private static class Styles
