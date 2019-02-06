@@ -35,11 +35,6 @@ public abstract class BaseGameEventListener<TType, TEvent, TResponse> : Debuggab
     {
         _response.Invoke(value);
     }
-    private void OnValidate()
-    {
-        if (_event != null)
-            Register();
-    }
     private void OnEnable()
     {
         if (_event != null)
@@ -86,11 +81,6 @@ public abstract class BaseGameEventListener<TEvent, TResponse> : DebuggableGameE
     protected void RaiseResponse()
     {
         _response.Invoke();
-    }
-    private void OnValidate()
-    {
-        if (_event != null)
-            Register();
     }
     private void OnEnable()
     {
