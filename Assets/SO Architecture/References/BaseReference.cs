@@ -28,6 +28,13 @@ public abstract class BaseReference<TBase, TVariable> : BaseReference where TVar
                 _constantValue = value;
         }
     }
+	public bool IsValueDefined
+    {
+        get
+        {
+            return _useConstant || _variable != null;
+        }
+    }
     public void AddListener(IGameEventListener listener)
     {
         if (_variable != null)
