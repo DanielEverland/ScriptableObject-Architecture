@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public abstract class BaseReference<TBase, TVariable> : BaseReference where TVariable : BaseVariable<TBase>
+public class BaseReference<TBase, TVariable> : BaseReference where TVariable : BaseVariable<TBase>
 {
     public BaseReference() { }
     public BaseReference(TBase baseValue)
@@ -34,6 +34,16 @@ public abstract class BaseReference<TBase, TVariable> : BaseReference where TVar
         {
             return _useConstant || _variable != null;
         }
+    }
+
+    public BaseReference CreateCopy()
+    {
+        BaseReference<TBase, TVariable> copy = (BaseReference<TBase, TVariable>)System.Activator.CreateInstance(GetType());
+        copy._useConstant = _useConstant;
+        copy._constantValue = _constantValue;
+        copy._variable = _variable;
+
+        return copy;
     }
     public void AddListener(IGameEventListener listener)
     {
