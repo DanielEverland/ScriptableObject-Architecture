@@ -19,7 +19,10 @@ public class BaseReference<TBase, TVariable> : BaseReference where TVariable : B
 
     public TBase Value
     {
-        get { return _useConstant ? _constantValue : _variable.Value; }
+        get
+        {
+            return (_useConstant || _variable == null) ? _constantValue : _variable.Value;
+        }
         set
         {
             if (!_useConstant && _variable != null)
