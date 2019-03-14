@@ -1,4 +1,4 @@
-﻿internal static class SOArchitecture_Utility
+﻿public static class SOArchitecture_Utility
 {
     public const int ASSET_MENU_ORDER_VARIABLES = 121;
     public const int ASSET_MENU_ORDER_EVENTS = 122;
