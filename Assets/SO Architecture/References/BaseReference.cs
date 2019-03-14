@@ -26,12 +26,17 @@ public class BaseReference<TBase, TVariable> : BaseReference where TVariable : B
         set
         {
             if (!_useConstant && _variable != null)
+            {
                 _variable.Value = value;
-            else if (_useConstant)
+            }
+            else
+            {
+                _useConstant = true;
                 _constantValue = value;
+            }
         }
     }
-	public bool IsValueDefined
+    public bool IsValueDefined
     {
         get
         {
