@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "FloatClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "float",
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_CLAMPED_VARIABLES + 0)]
-    public class FloatClampedVariable : FloatVariable, IClampedVariable<float, FloatVariable, FloatReference>
+    public class FloatClampedVariable : FloatVariable, IClampedVariable<float, FloatReference>
     {
         public FloatReference MinValue { get { return _minClampedValue; } }
         public FloatReference MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "ByteClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "byte",
         order = 120)]
-    public class ByteClampedVariable : ByteVariable, IClampedVariable<byte, ByteVariable, ByteReference>
+    public class ByteClampedVariable : ByteVariable, IClampedVariable<byte, ByteReference>
     {
         public ByteReference MinValue { get { return _minClampedValue; } }
         public ByteReference MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

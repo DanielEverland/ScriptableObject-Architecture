@@ -1,7 +1,7 @@
 ﻿namespace ScriptableObjectArchitecture
 {
     public interface IClampedVariable { }
-    public interface IClampedVariable<TType, TVariable, TReference> : IClampedVariable
+    public interface IClampedVariable<TType, TReference> : IClampedVariable
     {
         TReference MinValue { get; }
         TReference MaxValue { get; }

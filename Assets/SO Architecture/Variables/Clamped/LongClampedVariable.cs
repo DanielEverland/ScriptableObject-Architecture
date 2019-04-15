@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "LongClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "long",
         order = 120)]
-    public class LongClampedVariable : LongVariable, IClampedVariable<long, LongVariable, LongReference>
+    public class LongClampedVariable : LongVariable, IClampedVariable<long, LongReference>
     {
         public LongReference MinValue { get { return _minClampedValue; } }
         public LongReference MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "IntClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "int",
         order = 120)]
-    public class IntClampedVariable : IntVariable, IClampedVariable<int, IntVariable, IntReference>
+    public class IntClampedVariable : IntVariable, IClampedVariable<int, IntReference>
     {
         public IntReference MinValue { get { return _minClampedValue; } }
         public IntReference MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }
