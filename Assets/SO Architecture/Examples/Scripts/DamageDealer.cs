@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageDealer : MonoBehaviour
+namespace ScriptableObjectArchitecture.Examples
 {
-    [SerializeField]
-    private FloatReference _damageAmount = default(FloatReference);
-
-    private void OnTriggerEnter(Collider other)
+    public class DamageDealer : MonoBehaviour
     {
-        UnitHealth targetHealth = other.gameObject.GetComponent<UnitHealth>();
+        [SerializeField]
+        private FloatReference _damageAmount = default(FloatReference);
 
-        if (targetHealth != null)
-            DealDamage(targetHealth);        
-    }
-    protected virtual void DealDamage(UnitHealth target)
-    {
-        target.Health.Value -= _damageAmount.Value;
-    }
+        private void OnTriggerEnter(Collider other)
+        {
+            UnitHealth targetHealth = other.gameObject.GetComponent<UnitHealth>();
+
+            if (targetHealth != null)
+                DealDamage(targetHealth);
+        }
+        protected virtual void DealDamage(UnitHealth target)
+        {
+            target.Health.Value -= _damageAmount.Value;
+        }
+    } 
 }

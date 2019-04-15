@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public static class GenericPropertyDrawer
+namespace ScriptableObjectArchitecture.Editor
 {
-    public static void DrawPropertyDrawer(System.Type type, SerializedProperty property, GUIContent errorLabel)
+    public static class GenericPropertyDrawer
     {
-        if (SOArchitecture_EditorUtility.HasPropertyDrawer(type) || typeof(Object).IsAssignableFrom(type) || type.IsEnum)
+        public static void DrawPropertyDrawer(System.Type type, SerializedProperty property, GUIContent errorLabel)
         {
-            //Unity doesn't like it when you have scene objects on assets,
-            //so we do some magic to display it anyway
-            if (typeof(Object).IsAssignableFrom(type)
-                && !EditorUtility.IsPersistent(property.objectReferenceValue)
-                && property.objectReferenceValue != null)
+            if (SOArchitecture_EditorUtility.HasPropertyDrawer(type) || typeof(Object).IsAssignableFrom(type) || type.IsEnum)
             {
-                using (new EditorGUI.DisabledGroupScope(true))
+                //Unity doesn't like it when you have scene objects on assets,
+                //so we do some magic to display it anyway
+                if (typeof(Object).IsAssignableFrom(type)
+                    && !EditorUtility.IsPersistent(property.objectReferenceValue)
+                    && property.objectReferenceValue != null)
                 {
-                    EditorGUILayout.ObjectField(new GUIContent("Value"), property.objectReferenceValue, type, false);
+                    using (new EditorGUI.DisabledGroupScope(true))
+                    {
+                        EditorGUILayout.ObjectField(new GUIContent("Value"), property.objectReferenceValue, type, false);
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(property);
                 }
             }
             else
             {
-                EditorGUILayout.PropertyField(property);
+                EditorGUILayout.LabelField(errorLabel);
             }
         }
-        else
-        {
-            EditorGUILayout.LabelField(errorLabel);
-        }
-    }
+    } 
 }

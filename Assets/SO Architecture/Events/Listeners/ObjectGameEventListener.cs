@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
-public class ObjectGameEventListener : BaseGameEventListener<Object, ObjectGameEvent, ObjectUnityEvent>
+namespace ScriptableObjectArchitecture
 {
+    public class ObjectGameEventListener : BaseGameEventListener<Object, ObjectGameEvent, ObjectUnityEvent>
+    {
+    } 
 }

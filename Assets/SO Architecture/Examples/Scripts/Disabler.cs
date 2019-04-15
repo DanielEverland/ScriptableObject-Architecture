@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Disabler : MonoBehaviour
+namespace ScriptableObjectArchitecture.Examples
 {
-    [SerializeField]
-    private GameObjectCollection _targetSet = default(GameObjectCollection);
-
-    public void DisableRandom()
+    public class Disabler : MonoBehaviour
     {
-        if (_targetSet.Count > 0)
-        {
-            int index = Random.Range(0, _targetSet.Count);
+        [SerializeField]
+        private GameObjectCollection _targetSet = default(GameObjectCollection);
 
-            GameObject objToDisable = _targetSet[index];
-            objToDisable.SetActive(false);
-        }        
-    }
+        public void DisableRandom()
+        {
+            if (_targetSet.Count > 0)
+            {
+                int index = Random.Range(0, _targetSet.Count);
+
+                GameObject objToDisable = _targetSet[index];
+                objToDisable.SetActive(false);
+            }
+        }
+    } 
 }

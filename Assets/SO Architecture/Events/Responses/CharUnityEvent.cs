@@ -1,6 +1,9 @@
 ﻿using UnityEngine.Events;
 
-[System.Serializable]
-public sealed class CharUnityEvent : UnityEvent<char>
+namespace ScriptableObjectArchitecture
 {
+    [System.Serializable]
+    public sealed class CharUnityEvent : UnityEvent<char>
+    {
+    } 
 }

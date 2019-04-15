@@ -3,78 +3,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collection<T> : BaseCollection, IEnumerable<T>
+namespace ScriptableObjectArchitecture
 {
-    public new T this[int index]
+    public class Collection<T> : BaseCollection, IEnumerable<T>
     {
-        get
+        public new T this[int index]
         {
-            return _list[index];
+            get
+            {
+                return _list[index];
+            }
+            set
+            {
+                _list[index] = value;
+            }
         }
-        set
-        {
-            _list[index] = value;
-        }
-    }
 
-    [SerializeField]
-    private List<T> _list = new List<T>();
+        [SerializeField]
+        private List<T> _list = new List<T>();
 
-    public override IList List
-    {
-        get
+        public override IList List
         {
-            return _list;
+            get
+            {
+                return _list;
+            }
         }
-    }
-    public override Type Type
-    {
-        get
+        public override Type Type
         {
-            return typeof(T);
+            get
+            {
+                return typeof(T);
+            }
         }
-    }
 
-    public void Add(T obj)
-    {
-        if (!_list.Contains(obj))
-            _list.Add(obj);
-    }
-    public void Remove(T obj)
-    {
-        if (_list.Contains(obj))
-            _list.Remove(obj);
-    }
-    public void Clear()
-    {
-        _list.Clear();
-    }
-    public bool Contains(T value)
-    {
-        return _list.Contains(value);
-    }
-    public int IndexOf(T value)
-    {
-        return _list.IndexOf(value);
-    }
-    public void RemoveAt(int index)
-    {
-        _list.RemoveAt(index);
-    }
-    public void Insert(int index, T value)
-    {
-        _list.Insert(index, value);
-    }
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    public IEnumerator<T> GetEnumerator()
-    {
-        return _list.GetEnumerator();
-    }
-    public override string ToString()
-    {
-        return "Collection<" + typeof(T) + ">(" + Count + ")";
-    }
+        public void Add(T obj)
+        {
+            if (!_list.Contains(obj))
+                _list.Add(obj);
+        }
+        public void Remove(T obj)
+        {
+            if (_list.Contains(obj))
+                _list.Remove(obj);
+        }
+        public void Clear()
+        {
+            _list.Clear();
+        }
+        public bool Contains(T value)
+        {
+            return _list.Contains(value);
+        }
+        public int IndexOf(T value)
+        {
+            return _list.IndexOf(value);
+        }
+        public void RemoveAt(int index)
+        {
+            _list.RemoveAt(index);
+        }
+        public void Insert(int index, T value)
+        {
+            _list.Insert(index, value);
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+        public override string ToString()
+        {
+            return "Collection<" + typeof(T) + ">(" + Count + ")";
+        }
+    } 
 }

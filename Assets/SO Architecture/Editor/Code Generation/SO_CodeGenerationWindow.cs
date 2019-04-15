@@ -2,29 +2,31 @@
 using UnityEditor.AnimatedValues;
 using UnityEngine;
 
-public class SO_CodeGenerationWindow : EditorWindow
+namespace ScriptableObjectArchitecture.Editor
 {
-    /* --------- DEPENDENCY GRAPH ---------*
-     * [1] Game Event Listener
-     * [2] Game Event
-     * [3] Reference
-     * [4] Collection
-     * [5] Unity Event
-     * [6] Variable
-     * [7] Clamped Variable
-     *
-     * /  1  2  3  4  5  6  7
-     * 1     X        X
-     * 2        X
-     * 3                 X
-     * 4
-     * 5
-     * 6
-     * 7        X        X
-     */
-
-    private bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
+    public class SO_CodeGenerationWindow : EditorWindow
     {
+        /* --------- DEPENDENCY GRAPH ---------*
+         * [1] Game Event Listener
+         * [2] Game Event
+         * [3] Reference
+         * [4] Collection
+         * [5] Unity Event
+         * [6] Variable
+         * [7] Clamped Variable
+         *
+         * /  1  2  3  4  5  6  7
+         * 1     X        X
+         * 2        X
+         * 3                 X
+         * 4
+         * 5
+         * 6
+         * 7        X        X
+         */
+
+        private bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
+        {
         { false, true, false, false, true, false, false },
         { false, false, true, false, false, false, false },
         { false, false, false, false, false, true, false },
@@ -32,11 +34,11 @@ public class SO_CodeGenerationWindow : EditorWindow
         { false, false, false, false, false, false, false },
         { false, false, false, false, false, false, false },
         { false, false, true, false, false, true, false },
-    };
+        };
 
-    private bool[] _states = new bool[SO_CodeGenerator.TYPE_COUNT];
-    private string[] _names = new string[SO_CodeGenerator.TYPE_COUNT]
-    {
+        private bool[] _states = new bool[SO_CodeGenerator.TYPE_COUNT];
+        private string[] _names = new string[SO_CodeGenerator.TYPE_COUNT]
+        {
         "Event Listener",
         "Game Event",
         "Reference",
@@ -44,134 +46,135 @@ public class SO_CodeGenerationWindow : EditorWindow
         "Unity Event",
         "Variable",
         "Clamped Variable",
-    };
+        };
 
-    private bool[] _menuRequirement = new bool[SO_CodeGenerator.TYPE_COUNT]
-    {
+        private bool[] _menuRequirement = new bool[SO_CodeGenerator.TYPE_COUNT]
+        {
         false, true, false, true, false, true, true
-    };
+        };
 
-    private const int INDEX_CLAMPED_VARIABLE = 6;
+        private const int INDEX_CLAMPED_VARIABLE = 6;
 
-    private int _order;
-    private string _typeName;
-    private string _menuName;
-    private AnimBool _menuAnim;
-    private AnimBool _clampedValueHelpBoxAnim;
+        private int _order;
+        private string _typeName;
+        private string _menuName;
+        private AnimBool _menuAnim;
+        private AnimBool _clampedValueHelpBoxAnim;
 
-    [MenuItem("Window/SO Code Generation")]
-    private static void ShowWindow()
-    {
-        EditorWindow.GetWindow(typeof(SO_CodeGenerationWindow), true, "SO Code Generation");
-    }
-    private void OnEnable()
-    {
-        _menuAnim = new AnimBool();
-        _menuAnim.valueChanged.AddListener(Repaint);
-
-        _clampedValueHelpBoxAnim = new AnimBool();
-        _clampedValueHelpBoxAnim.valueChanged.AddListener(Repaint);
-
-        _order = SOArchitecture_Settings.Instance.DefaultCreateAssetMenuOrder;
-    }
-    private void OnGUI()
-    {
-        TypeSelection();
-
-        EditorGUILayout.Space();
-
-        DataFields();
-        ClampedVariableHelpBox();
-
-        if (GUILayout.Button("Generate"))
+        [MenuItem("Window/SO Code Generation")]
+        private static void ShowWindow()
         {
-            SO_CodeGenerator.Data data = new SO_CodeGenerator.Data()
-            {
-                Types = _states,
-                TypeName = _typeName,
-                MenuName = RequiresMenu() ? _menuName : default(string),
-                Order = _order,
-            };
-
-            SO_CodeGenerator.Generate(data);
+            EditorWindow.GetWindow(typeof(SO_CodeGenerationWindow), true, "SO Code Generation");
         }
-    }
-    private void TypeSelection()
-    {
-        EditorGUILayout.LabelField("Select Type(s)", EditorStyles.boldLabel);
-
-        for (int i = 0; i < SO_CodeGenerator.TYPE_COUNT; i++)
+        private void OnEnable()
         {
-            bool isDepending = IsDepending(i);
+            _menuAnim = new AnimBool();
+            _menuAnim.valueChanged.AddListener(Repaint);
 
-            if (isDepending)
+            _clampedValueHelpBoxAnim = new AnimBool();
+            _clampedValueHelpBoxAnim.valueChanged.AddListener(Repaint);
+
+            _order = SOArchitecture_Settings.Instance.DefaultCreateAssetMenuOrder;
+        }
+        private void OnGUI()
+        {
+            TypeSelection();
+
+            EditorGUILayout.Space();
+
+            DataFields();
+            ClampedVariableHelpBox();
+
+            if (GUILayout.Button("Generate"))
             {
-                _states[i] = true;
+                SO_CodeGenerator.Data data = new SO_CodeGenerator.Data()
+                {
+                    Types = _states,
+                    TypeName = _typeName,
+                    MenuName = RequiresMenu() ? _menuName : default(string),
+                    Order = _order,
+                };
+
+                SO_CodeGenerator.Generate(data);
+            }
+        }
+        private void TypeSelection()
+        {
+            EditorGUILayout.LabelField("Select Type(s)", EditorStyles.boldLabel);
+
+            for (int i = 0; i < SO_CodeGenerator.TYPE_COUNT; i++)
+            {
+                bool isDepending = IsDepending(i);
+
+                if (isDepending)
+                {
+                    _states[i] = true;
+                }
+
+                EditorGUI.BeginDisabledGroup(isDepending);
+
+                _states[i] = EditorGUILayout.Toggle(_names[i], _states[i]);
+
+                EditorGUI.EndDisabledGroup();
+            }
+        }
+        private void ClampedVariableHelpBox()
+        {
+            _clampedValueHelpBoxAnim.target = _states[INDEX_CLAMPED_VARIABLE];
+
+            using (var anim = new EditorGUILayout.FadeGroupScope(_clampedValueHelpBoxAnim.faded))
+            {
+                if (anim.visible)
+                    EditorGUILayout.HelpBox(
+                        "Clamped variables comes with a generic clamp function, but it might need adjustments based on your type",
+                        MessageType.Warning);
+            }
+        }
+        private void DataFields()
+        {
+            EditorGUILayout.LabelField("Information", EditorStyles.boldLabel);
+
+            // Type name.
+            _typeName = EditorGUILayout.TextField(new GUIContent("Type Name", "Case sensitive, ensure exact match with actual type name"), _typeName);
+
+            // Menu name.
+            _menuAnim.target = RequiresMenu();
+            EditorGUILayout.BeginFadeGroup(_menuAnim.faded);
+
+            if (_menuAnim.value)
+                _menuName = EditorGUILayout.TextField("Menu Name", _menuName);
+
+            EditorGUILayout.EndFadeGroup();
+
+            // Order.
+            _order = EditorGUILayout.IntField(new GUIContent("Order", "Use default if unsure"), _order);
+        }
+        /// <summary>
+        /// Polls the currently selected state types to determine whether any require menus
+        /// </summary>
+        /// <returns></returns>
+        private bool RequiresMenu()
+        {
+            for (int i = 0; i < SO_CodeGenerator.TYPE_COUNT; i++)
+            {
+                if (_states[i] && _menuRequirement[i])
+                    return true;
             }
 
-            EditorGUI.BeginDisabledGroup(isDepending);
-
-            _states[i] = EditorGUILayout.Toggle(_names[i], _states[i]);
-
-            EditorGUI.EndDisabledGroup();
+            return false;
         }
-    }
-    private void ClampedVariableHelpBox()
-    {
-        _clampedValueHelpBoxAnim.target = _states[INDEX_CLAMPED_VARIABLE];
-
-        using (var anim = new EditorGUILayout.FadeGroupScope(_clampedValueHelpBoxAnim.faded))
+        /// <summary>
+        /// Given an index, polls the dependency graph, and returns whether anyone is depending on it
+        /// </summary>
+        private bool IsDepending(int index)
         {
-            if(anim.visible)
-                EditorGUILayout.HelpBox(
-                    "Clamped variables comes with a generic clamp function, but it might need adjustments based on your type",
-                    MessageType.Warning);
-        }       
-    }
-    private void DataFields()
-    {
-        EditorGUILayout.LabelField("Information", EditorStyles.boldLabel);
+            for (int i = 0; i < SO_CodeGenerator.TYPE_COUNT; i++)
+            {
+                if (_states[i] && _dependencyGraph[i, index])
+                    return true;
+            }
 
-        // Type name.
-        _typeName = EditorGUILayout.TextField(new GUIContent("Type Name", "Case sensitive, ensure exact match with actual type name"), _typeName);
-
-        // Menu name.
-        _menuAnim.target = RequiresMenu();
-        EditorGUILayout.BeginFadeGroup(_menuAnim.faded);
-
-        if (_menuAnim.value)
-            _menuName = EditorGUILayout.TextField("Menu Name", _menuName);
-        
-        EditorGUILayout.EndFadeGroup();
-
-        // Order.
-        _order = EditorGUILayout.IntField(new GUIContent("Order", "Use default if unsure"), _order);
-    }
-    /// <summary>
-    /// Polls the currently selected state types to determine whether any require menus
-    /// </summary>
-    /// <returns></returns>
-    private bool RequiresMenu()
-    {
-        for (int i = 0; i < SO_CodeGenerator.TYPE_COUNT; i++)
-        {
-            if (_states[i] && _menuRequirement[i])
-                return true;
+            return false;
         }
-
-        return false;
-    }
-    /// <summary>
-    /// Given an index, polls the dependency graph, and returns whether anyone is depending on it
-    /// </summary>
-    private bool IsDepending(int index)
-    {
-        for (int i = 0; i < SO_CodeGenerator.TYPE_COUNT; i++)
-        {
-            if (_states[i] && _dependencyGraph[i, index])
-                return true;
-        }
-
-        return false;
-    }
+    } 
 }

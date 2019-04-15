@@ -2,63 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SOArchitecture_Settings : ScriptableObject
+namespace ScriptableObjectArchitecture
 {
-    #region Singleton
-    public static SOArchitecture_Settings Instance
+    public class SOArchitecture_Settings : ScriptableObject
     {
-        get
+        #region Singleton
+        public static SOArchitecture_Settings Instance
         {
-            if (_instance == null)
-                _instance = GetInstance();
+            get
+            {
+                if (_instance == null)
+                    _instance = GetInstance();
 
-            return _instance;
+                return _instance;
+            }
         }
-    }
-    private static SOArchitecture_Settings _instance;
+        private static SOArchitecture_Settings _instance;
 
-    private static SOArchitecture_Settings GetInstance()
-    {
-        SOArchitecture_Settings instance = Resources.Load<SOArchitecture_Settings>("SOArchitecture_Settings");
+        private static SOArchitecture_Settings GetInstance()
+        {
+            SOArchitecture_Settings instance = Resources.Load<SOArchitecture_Settings>("SOArchitecture_Settings");
 
-        if (instance == null)
-            return CreateInstance();
+            if (instance == null)
+                return CreateInstance();
 
-        return instance;
-    }
-    private static SOArchitecture_Settings CreateInstance()
-    {
+            return instance;
+        }
+        private static SOArchitecture_Settings CreateInstance()
+        {
 #if UNITY_EDITOR
-        SOArchitecture_Settings newSettings = SOArchitecture_Settings.CreateInstance<SOArchitecture_Settings>();
+            SOArchitecture_Settings newSettings = SOArchitecture_Settings.CreateInstance<SOArchitecture_Settings>();
 
-        if(!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources"))
-            UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
+            if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources"))
+                UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
 
-        UnityEditor.AssetDatabase.CreateAsset(newSettings, "Assets/Resources/SOArchitecture_Settings.asset");
-        UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.CreateAsset(newSettings, "Assets/Resources/SOArchitecture_Settings.asset");
+            UnityEditor.AssetDatabase.SaveAssets();
 
-        UnityEditor.Selection.activeObject = newSettings;
+            UnityEditor.Selection.activeObject = newSettings;
 
-        Debug.LogWarning("No SOArchitecture_Settings asset found! Creating new one, ensure it's locatable by Resources", newSettings);
+            Debug.LogWarning("No SOArchitecture_Settings asset found! Creating new one, ensure it's locatable by Resources", newSettings);
 
-        return newSettings;
+            return newSettings;
 #else
         throw new System.NullReferenceException();
 #endif
-    }
-    #endregion
+        }
+        #endregion
 
-    public bool DrawEventGizmos { get { return _drawEventGizmos; } }
-    public string CodeGenerationTargetDirectory { get { return _codeGenerationTargetDirectory; } }
-    public bool CodeGenerationAllowOverwrite { get { return _codeGenerationAllowOverwrite; } }
-    public int DefaultCreateAssetMenuOrder { get { return _defualtCreateAssetMenuOrder; } }
+        public bool DrawEventGizmos { get { return _drawEventGizmos; } }
+        public string CodeGenerationTargetDirectory { get { return _codeGenerationTargetDirectory; } }
+        public bool CodeGenerationAllowOverwrite { get { return _codeGenerationAllowOverwrite; } }
+        public int DefaultCreateAssetMenuOrder { get { return _defualtCreateAssetMenuOrder; } }
 
-    [SerializeField]
-    private bool _drawEventGizmos = true;
-    [SerializeField]
-    private string _codeGenerationTargetDirectory = "CODE_GENERATION";
-    [SerializeField, Tooltip("Allow newly generated code files to overwrite existing ones")]
-    private bool _codeGenerationAllowOverwrite = false;
-    [SerializeField]
-    private int _defualtCreateAssetMenuOrder = 120;
+        [SerializeField]
+        private bool _drawEventGizmos = true;
+        [SerializeField]
+        private string _codeGenerationTargetDirectory = "CODE_GENERATION";
+        [SerializeField, Tooltip("Allow newly generated code files to overwrite existing ones")]
+        private bool _codeGenerationAllowOverwrite = false;
+        [SerializeField]
+        private int _defualtCreateAssetMenuOrder = 120;
+    } 
 }

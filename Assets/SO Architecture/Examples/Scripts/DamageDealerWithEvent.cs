@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageDealerWithEvent : DamageDealer
+namespace ScriptableObjectArchitecture.Examples
 {
-    [SerializeField]
-    private GameEvent _onDamagedEvent = default(GameEvent);
-
-    protected override void DealDamage(UnitHealth target)
+    public class DamageDealerWithEvent : DamageDealer
     {
-        base.DealDamage(target);
+        [SerializeField]
+        private GameEvent _onDamagedEvent = default(GameEvent);
 
-        _onDamagedEvent.Raise();
-    }
+        protected override void DealDamage(UnitHealth target)
+        {
+            base.DealDamage(target);
+
+            _onDamagedEvent.Raise();
+        }
+    } 
 }

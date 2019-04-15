@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CollectionCountDisplayer : MonoBehaviour
+namespace ScriptableObjectArchitecture.Examples
 {
-    [SerializeField]
-    private Text _textTarget = default(Text);
-    [SerializeField]
-    private BaseCollection _setTarget = default(BaseCollection);
-    [SerializeField]
-    private string _textFormat = "There are {0} things.";
-
-    private void Update()
+    public class CollectionCountDisplayer : MonoBehaviour
     {
-        _textTarget.text = string.Format(_textFormat, _setTarget.Count);
-    }
+        [SerializeField]
+        private Text _textTarget = default(Text);
+        [SerializeField]
+        private BaseCollection _setTarget = default(BaseCollection);
+        [SerializeField]
+        private string _textFormat = "There are {0} things.";
+
+        private void Update()
+        {
+            _textTarget.text = string.Format(_textFormat, _setTarget.Count);
+        }
+    } 
 }

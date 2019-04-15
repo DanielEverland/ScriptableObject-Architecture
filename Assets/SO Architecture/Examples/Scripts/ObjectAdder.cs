@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectAdder : MonoBehaviour
+namespace ScriptableObjectArchitecture.Examples
 {
-    [SerializeField]
-    private GameObjectCollection _targetCollection = default(GameObjectCollection);
+    public class ObjectAdder : MonoBehaviour
+    {
+        [SerializeField]
+        private GameObjectCollection _targetCollection = default(GameObjectCollection);
 
-    private void OnEnable()
-    {
-        _targetCollection.Add(gameObject);
-    }
-    private void OnDisable()
-    {
-        _targetCollection.Remove(gameObject);
-    }
+        private void OnEnable()
+        {
+            _targetCollection.Add(gameObject);
+        }
+        private void OnDisable()
+        {
+            _targetCollection.Remove(gameObject);
+        }
+    } 
 }

@@ -1,16 +1,19 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(GameEventBase), true)]
-public sealed class GameEventEditor : BaseGameEventEditor
+namespace ScriptableObjectArchitecture.Editor
 {
-    private GameEvent Target { get { return (GameEvent)target; } }
-
-    protected override void DrawRaiseButton()
+    [CustomEditor(typeof(GameEventBase), true)]
+    public sealed class GameEventEditor : BaseGameEventEditor
     {
-        if (GUILayout.Button("Raise"))
+        private GameEvent Target { get { return (GameEvent)target; } }
+
+        protected override void DrawRaiseButton()
         {
-            Target.Raise();
+            if (GUILayout.Button("Raise"))
+            {
+                Target.Raise();
+            }
         }
-    }
+    } 
 }

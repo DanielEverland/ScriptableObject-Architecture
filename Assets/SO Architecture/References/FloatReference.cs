@@ -1,6 +1,9 @@
-﻿[System.Serializable]
-public sealed class FloatReference : BaseReference<float, FloatVariable>
+﻿namespace ScriptableObjectArchitecture
 {
-    public FloatReference() : base() { }
-    public FloatReference(float value) : base(value) { }
+    [System.Serializable]
+    public sealed class FloatReference : BaseReference<float, FloatVariable>
+    {
+        public FloatReference() : base() { }
+        public FloatReference(float value) : base(value) { }
+    } 
 }

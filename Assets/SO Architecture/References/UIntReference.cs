@@ -1,6 +1,9 @@
-﻿[System.Serializable]
-public sealed class UIntReference : BaseReference<uint, UIntVariable>
+﻿namespace ScriptableObjectArchitecture
 {
-    public UIntReference() : base() { }
-    public UIntReference(uint value) : base(value) { }
+    [System.Serializable]
+    public sealed class UIntReference : BaseReference<uint, UIntVariable>
+    {
+        public UIntReference() : base() { }
+        public UIntReference(uint value) : base(value) { }
+    } 
 }

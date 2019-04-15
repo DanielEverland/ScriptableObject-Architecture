@@ -1,3 +1,6 @@
-﻿public sealed class SByteGameEventListener : BaseGameEventListener<sbyte, SByteGameEvent, SByteUnityEvent>
+﻿namespace ScriptableObjectArchitecture
 {
+    public sealed class SByteGameEventListener : BaseGameEventListener<sbyte, SByteGameEvent, SByteUnityEvent>
+    {
+    } 
 }

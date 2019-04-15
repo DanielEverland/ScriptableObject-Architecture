@@ -2,23 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyboardMover : MonoBehaviour
+namespace ScriptableObjectArchitecture.Examples
 {
-    [SerializeField]
-    private FloatReference _moveSpeed = default(FloatReference);
-
-    private void Update()
+    public class KeyboardMover : MonoBehaviour
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-            transform.position += Vector3.up * _moveSpeed.Value;
+        [SerializeField]
+        private FloatReference _moveSpeed = default(FloatReference);
 
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-            transform.position += Vector3.down * _moveSpeed.Value;
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                transform.position += Vector3.up * _moveSpeed.Value;
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            transform.position += Vector3.right * _moveSpeed.Value;
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                transform.position += Vector3.down * _moveSpeed.Value;
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            transform.position += Vector3.left * _moveSpeed.Value;
-    }
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                transform.position += Vector3.right * _moveSpeed.Value;
+
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                transform.position += Vector3.left * _moveSpeed.Value;
+        }
+    } 
 }

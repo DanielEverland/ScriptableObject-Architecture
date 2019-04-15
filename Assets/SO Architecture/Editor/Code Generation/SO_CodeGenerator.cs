@@ -4,17 +4,19 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public static class SO_CodeGenerator
+namespace ScriptableObjectArchitecture.Editor
 {
-    static SO_CodeGenerator()
+    public static class SO_CodeGenerator
     {
-        CreateTargetDirectories();
-        GatherFilePaths();
-    }
-    private static void CreateTargetDirectories()
-    {
-        _targetDirectories = new string[TYPE_COUNT]
+        static SO_CodeGenerator()
         {
+            CreateTargetDirectories();
+            GatherFilePaths();
+        }
+        private static void CreateTargetDirectories()
+        {
+            _targetDirectories = new string[TYPE_COUNT]
+            {
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Listeners",
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Game Events",
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/References",
@@ -22,55 +24,55 @@ public static class SO_CodeGenerator
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Responses",
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables",
             Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables/Clamped",
-        };
-    }
-    private static void GatherFilePaths()
-    {
-        Queue<string> foldersToCheck = new Queue<string>();
-        foldersToCheck.Enqueue(Application.dataPath);
-
-        while (foldersToCheck.Count > 0)
+            };
+        }
+        private static void GatherFilePaths()
         {
-            string currentDirectory = foldersToCheck.Dequeue();
+            Queue<string> foldersToCheck = new Queue<string>();
+            foldersToCheck.Enqueue(Application.dataPath);
 
-            foreach (string filePath in Directory.GetFiles(currentDirectory))
+            while (foldersToCheck.Count > 0)
             {
-                string fileName = Path.GetFileName(filePath);
+                string currentDirectory = foldersToCheck.Dequeue();
 
-                for (int i = 0; i < TYPE_COUNT; i++)
+                foreach (string filePath in Directory.GetFiles(currentDirectory))
                 {
-                    if (_templateNames[i] == fileName)
-                        _templatePaths[i] = filePath;
+                    string fileName = Path.GetFileName(filePath);
+
+                    for (int i = 0; i < TYPE_COUNT; i++)
+                    {
+                        if (_templateNames[i] == fileName)
+                            _templatePaths[i] = filePath;
+                    }
+                }
+                foreach (string subDirectory in Directory.GetDirectories(currentDirectory))
+                {
+                    foldersToCheck.Enqueue(subDirectory);
                 }
             }
-            foreach (string subDirectory in Directory.GetDirectories(currentDirectory))
+
+            //Double check that all filepaths were found
+            for (int i = 0; i < TYPE_COUNT; i++)
             {
-                foldersToCheck.Enqueue(subDirectory);
+                if (_templatePaths[i] == default(string))
+                {
+                    Debug.LogError("Couldn't find path for " + _templatePaths[i]);
+                }
             }
         }
 
-        //Double check that all filepaths were found
-        for (int i = 0; i < TYPE_COUNT; i++)
+        public const int TYPE_COUNT = 7;
+
+        public struct Data
         {
-            if (_templatePaths[i] == default(string))
-            {
-                Debug.LogError("Couldn't find path for " + _templatePaths[i]);
-            }
+            public bool[] Types;
+            public string TypeName;
+            public string MenuName;
+            public int Order;
         }
-    }
 
-    public const int TYPE_COUNT = 7;
-
-    public struct Data
-    {
-        public bool[] Types;
-        public string TypeName;
-        public string MenuName;
-        public int Order;
-    }
-
-    private static string[] _templateNames = new string[TYPE_COUNT]
-    {
+        private static string[] _templateNames = new string[TYPE_COUNT]
+        {
         "GameEventListenerTemplate",
         "GameEventTemplate",
         "ReferenceTemplate",
@@ -78,10 +80,10 @@ public static class SO_CodeGenerator
         "UnityEventTemplate",
         "VariableTemplate",
         "ClampedVariableTemplate",
-    };
+        };
 
-    private static string[] _targetFileNames = new string[TYPE_COUNT]
-    {
+        private static string[] _targetFileNames = new string[TYPE_COUNT]
+        {
         "{0}GameEventListener.cs",
         "{0}GameEvent.cs",
         "{0}Reference.cs",
@@ -89,73 +91,74 @@ public static class SO_CodeGenerator
         "{0}UnityEvent.cs",
         "{0}Variable.cs",
         "{0}ClampedVariable.cs",
-    };
+        };
 
-    private static string[] _targetDirectories = null;
-    private static string[] _templatePaths = new string[TYPE_COUNT];
-    private static string[,] _replacementStrings = null;
+        private static string[] _targetDirectories = null;
+        private static string[] _templatePaths = new string[TYPE_COUNT];
+        private static string[,] _replacementStrings = null;
 
-    private static string Type { get { return _replacementStrings[0, 1]; } }
-    private static string TypeName { get { return _replacementStrings[1, 1]; } }
-    private static string MenuName { get { return _replacementStrings[2, 1]; } }
-    private static string Order { get { return _replacementStrings[3, 1]; } }
+        private static string Type { get { return _replacementStrings[0, 1]; } }
+        private static string TypeName { get { return _replacementStrings[1, 1]; } }
+        private static string MenuName { get { return _replacementStrings[2, 1]; } }
+        private static string Order { get { return _replacementStrings[3, 1]; } }
 
-    public static void Generate(Data data)
-    {
-        _replacementStrings = new string[4, 2]
+        public static void Generate(Data data)
         {
+            _replacementStrings = new string[4, 2]
+            {
             { "$TYPE$", data.TypeName },
             { "$TYPE_NAME$", CapitalizeFirstLetter(data.TypeName) },
             { "$MENU_NAME$", data.MenuName },
             { "$ORDER$", data.Order.ToString() },
-        };
+            };
 
-        for (int i = 0; i < TYPE_COUNT; i++)
-        {
-            if (data.Types[i])
+            for (int i = 0; i < TYPE_COUNT; i++)
             {
-                GenerateScript(i);
+                if (data.Types[i])
+                {
+                    GenerateScript(i);
+                }
             }
+
+            AssetDatabase.Refresh();
         }
-
-        AssetDatabase.Refresh();
-    }
-    private static void GenerateScript(int index)
-    {
-        string targetFilePath = GetTargetFilePath(index);
-        string contents = GetScriptContents(index);
-
-        if (File.Exists(targetFilePath) && !SOArchitecture_Settings.Instance.CodeGenerationAllowOverwrite)
+        private static void GenerateScript(int index)
         {
-            Debug.Log("Cannot create file at " + targetFilePath + " because a file already exists, and overwrites are disabled");
-            return;
-        }            
+            string targetFilePath = GetTargetFilePath(index);
+            string contents = GetScriptContents(index);
 
-        Debug.Log("Creating " + targetFilePath);
+            if (File.Exists(targetFilePath) && !SOArchitecture_Settings.Instance.CodeGenerationAllowOverwrite)
+            {
+                Debug.Log("Cannot create file at " + targetFilePath + " because a file already exists, and overwrites are disabled");
+                return;
+            }
 
-        Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
-        File.WriteAllText(targetFilePath, contents);
-    }
-    private static string GetScriptContents(int index)
-    {
-        string templatePath = _templatePaths[index];
-        string templateContent = File.ReadAllText(templatePath);
+            Debug.Log("Creating " + targetFilePath);
 
-        string output = templateContent;
-
-        for (int i = 0; i < _replacementStrings.GetLength(0); i++)
-        {
-            output = output.Replace(_replacementStrings[i, 0], _replacementStrings[i, 1]);
+            Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
+            File.WriteAllText(targetFilePath, contents);
         }
+        private static string GetScriptContents(int index)
+        {
+            string templatePath = _templatePaths[index];
+            string templateContent = File.ReadAllText(templatePath);
 
-        return output;
-    }
-    private static string GetTargetFilePath(int index)
-    {
-        return _targetDirectories[index] + "/" + string.Format(_targetFileNames[index], TypeName);
-    }
-    private static string CapitalizeFirstLetter(string input)
-    {
-        return input.First().ToString().ToUpper() + input.Substring(1);
-    }
+            string output = templateContent;
+
+            for (int i = 0; i < _replacementStrings.GetLength(0); i++)
+            {
+                output = output.Replace(_replacementStrings[i, 0], _replacementStrings[i, 1]);
+            }
+
+            return output;
+        }
+        private static string GetTargetFilePath(int index)
+        {
+            return _targetDirectories[index] + "/" + string.Format(_targetFileNames[index], TypeName);
+        }
+        private static string CapitalizeFirstLetter(string input)
+        {
+            return input.First().ToString().ToUpper() + input.Substring(1);
+        }
+    } 
 }

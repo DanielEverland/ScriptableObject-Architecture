@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitHealth : MonoBehaviour
+namespace ScriptableObjectArchitecture.Examples
 {
-    public FloatReference Health;
-
-    [SerializeField]
-    private bool _resetOnStartup = true;
-    [SerializeField]
-    private FloatReference _startingHealth = default(FloatReference);
-
-    private void Start()
+    public class UnitHealth : MonoBehaviour
     {
-        if (_resetOnStartup)
-            Health.Value = _startingHealth.Value;
-    }
+        public FloatReference Health;
+
+        [SerializeField]
+        private bool _resetOnStartup = true;
+        [SerializeField]
+        private FloatReference _startingHealth = default(FloatReference);
+
+        private void Start()
+        {
+            if (_resetOnStartup)
+                Health.Value = _startingHealth.Value;
+        }
+    } 
 }

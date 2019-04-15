@@ -1,80 +1,83 @@
 ﻿using System;
 using UnityEngine;
 
-public class StackTraceEntry : IEquatable<StackTraceEntry>
+namespace ScriptableObjectArchitecture
 {
-    private StackTraceEntry() { }
-    private StackTraceEntry(string trace)
+    public class StackTraceEntry : IEquatable<StackTraceEntry>
     {
-        _id = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        _stackTrace = trace;
-
-        if (Application.isPlaying)
+        private StackTraceEntry() { }
+        private StackTraceEntry(string trace)
         {
-            _frameCount = Time.frameCount;
-        }
-    }
-    private StackTraceEntry(string trace, object value)
-    {
-        _value = value;
-        _constructedWithValue = true;
-        _id = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        _stackTrace = trace;
+            _id = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+            _stackTrace = trace;
 
-        if (Application.isPlaying)
+            if (Application.isPlaying)
+            {
+                _frameCount = Time.frameCount;
+            }
+        }
+        private StackTraceEntry(string trace, object value)
         {
-            _frameCount = Time.frameCount;
+            _value = value;
+            _constructedWithValue = true;
+            _id = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+            _stackTrace = trace;
+
+            if (Application.isPlaying)
+            {
+                _frameCount = Time.frameCount;
+            }
         }
-    }
 
-    private readonly int _id;
-    private readonly int _frameCount;
-    private readonly string _stackTrace;
-    private readonly object _value;
-    private readonly bool _constructedWithValue = false;
+        private readonly int _id;
+        private readonly int _frameCount;
+        private readonly string _stackTrace;
+        private readonly object _value;
+        private readonly bool _constructedWithValue = false;
 
-    public static StackTraceEntry Create(object obj)
-    {
-        return new StackTraceEntry(Environment.StackTrace, obj);
-    }
-    public static StackTraceEntry Create()
-    {
-        return new StackTraceEntry(Environment.StackTrace);
-    }
-    public override bool Equals(object obj)
-    {
-        if (obj == null)
+        public static StackTraceEntry Create(object obj)
+        {
+            return new StackTraceEntry(Environment.StackTrace, obj);
+        }
+        public static StackTraceEntry Create()
+        {
+            return new StackTraceEntry(Environment.StackTrace);
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (obj is StackTraceEntry)
+            {
+                return Equals(obj as StackTraceEntry);
+            }
+
             return false;
-
-        if (obj is StackTraceEntry)
+        }
+        public bool Equals(StackTraceEntry other)
         {
-            return Equals(obj as StackTraceEntry);
+            return other._id == this._id;
+        }
+        public override int GetHashCode()
+        {
+            return _id;
+        }
+        public override string ToString()
+        {
+            if (_constructedWithValue)
+            {
+                return string.Format("{1}   [{0}] {2}", _value == null ? "null" : _value.ToString(), _frameCount, _stackTrace);
+            }
+            else
+            {
+                return string.Format("{0} {1}", _frameCount, _stackTrace);
+            }
         }
 
-        return false;
-    }
-    public bool Equals(StackTraceEntry other)
-    {
-        return other._id == this._id;
-    }
-    public override int GetHashCode()
-    {
-        return _id;
-    }
-    public override string ToString()
-    {
-        if (_constructedWithValue)
+        public static implicit operator string(StackTraceEntry trace)
         {
-            return string.Format("{1}   [{0}] {2}", _value == null ? "null" : _value.ToString(), _frameCount, _stackTrace);
+            return trace.ToString();
         }
-        else
-        {
-            return string.Format("{0} {1}", _frameCount, _stackTrace);
-        }
-    }
-
-    public static implicit operator string(StackTraceEntry trace)
-    {
-        return trace.ToString();
-    }
+    } 
 }

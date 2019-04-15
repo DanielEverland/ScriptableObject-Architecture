@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using Type = System.Type;
 
-public abstract class BaseCollection : SOArchitectureBaseObject, IEnumerable
+namespace ScriptableObjectArchitecture
 {
-    public object this[int index]
+    public abstract class BaseCollection : SOArchitectureBaseObject, IEnumerable
     {
-        get
+        public object this[int index]
         {
-            return List[index];
+            get
+            {
+                return List[index];
+            }
+            set
+            {
+                List[index] = value;
+            }
         }
-        set
+
+        public int Count { get { return List.Count; } }
+
+        public abstract IList List { get; }
+        public abstract Type Type { get; }
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            List[index] = value;
+            return List.GetEnumerator();
         }
-    }
-
-    public int Count { get { return List.Count; } }
-
-    public abstract IList List { get; }
-    public abstract Type Type { get; }
-    
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return List.GetEnumerator();
-    }
-    public bool Contains(object obj)
-    {
-        return List.Contains(obj);
-    }
+        public bool Contains(object obj)
+        {
+            return List.Contains(obj);
+        }
+} 
 }

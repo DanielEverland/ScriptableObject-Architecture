@@ -1,6 +1,9 @@
-﻿[System.Serializable]
-public sealed class SByteReference : BaseReference<sbyte, SByteVariable>
+﻿namespace ScriptableObjectArchitecture
 {
-    public SByteReference() : base() { }
-    public SByteReference(sbyte value) : base(value) { }
+    [System.Serializable]
+    public sealed class SByteReference : BaseReference<sbyte, SByteVariable>
+    {
+        public SByteReference() : base() { }
+        public SByteReference(sbyte value) : base(value) { }
+    } 
 }

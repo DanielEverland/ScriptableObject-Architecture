@@ -1,6 +1,9 @@
 ﻿using UnityEngine.Events;
 
-[System.Serializable]
-public sealed class ShortUnityEvent : UnityEvent<short>
+namespace ScriptableObjectArchitecture
 {
+    [System.Serializable]
+    public sealed class ShortUnityEvent : UnityEvent<short>
+    {
+    } 
 }

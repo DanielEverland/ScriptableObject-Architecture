@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public sealed class QuaternionUnityEvent : UnityEvent<Quaternion>
+namespace ScriptableObjectArchitecture
 {
+    [System.Serializable]
+    public sealed class QuaternionUnityEvent : UnityEvent<Quaternion>
+    {
+    } 
 }

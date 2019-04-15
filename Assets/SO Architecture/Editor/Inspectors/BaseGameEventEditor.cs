@@ -1,26 +1,29 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public abstract class BaseGameEventEditor : Editor
+namespace ScriptableObjectArchitecture.Editor
 {
-    private IStackTraceObject Target { get { return (IStackTraceObject)target; } }
-    private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
-
-    private StackTrace _stackTrace;
-
-    protected abstract void DrawRaiseButton();
-
-    protected virtual void OnEnable()
+    public abstract class BaseGameEventEditor : UnityEditor.Editor
     {
-        _stackTrace = new StackTrace(Target);
-        _stackTrace.OnRepaint.AddListener(Repaint);
-    }
-    public override void OnInspectorGUI()
-    {
-        DrawRaiseButton();
+        private IStackTraceObject Target { get { return (IStackTraceObject)target; } }
+        private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
-        _stackTrace.Draw();
+        private StackTrace _stackTrace;
 
-        EditorGUILayout.PropertyField(DeveloperDescription);
-    }
+        protected abstract void DrawRaiseButton();
+
+        protected virtual void OnEnable()
+        {
+            _stackTrace = new StackTrace(Target);
+            _stackTrace.OnRepaint.AddListener(Repaint);
+        }
+        public override void OnInspectorGUI()
+        {
+            DrawRaiseButton();
+
+            _stackTrace.Draw();
+
+            EditorGUILayout.PropertyField(DeveloperDescription);
+        }
+    } 
 }

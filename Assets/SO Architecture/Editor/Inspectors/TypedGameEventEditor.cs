@@ -3,41 +3,44 @@ using UnityEditor;
 using UnityEngine;
 using Type = System.Type;
 
-[CustomEditor(typeof(GameEventBase<>), true)]
-public class TypedGameEventEditor : BaseGameEventEditor
+namespace ScriptableObjectArchitecture.Editor
 {
-    private Type GenericType { get { return target.GetType().BaseType.GetGenericArguments()[0]; } }
-
-    private MethodInfo _raiseMethod;
-
-    protected override void OnEnable()
+    [CustomEditor(typeof(GameEventBase<>), true)]
+    public class TypedGameEventEditor : BaseGameEventEditor
     {
-        base.OnEnable();
-        
-        _raiseMethod = target.GetType().BaseType.GetMethod("Raise", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-    }
-    protected override void DrawRaiseButton()
-    {
-        SerializedProperty property = serializedObject.FindProperty("_debugValue");
+        private Type GenericType { get { return target.GetType().BaseType.GetGenericArguments()[0]; } }
 
-        EditorGUILayout.PropertyField(property);
-        
-        if(GUILayout.Button("Raise"))
+        private MethodInfo _raiseMethod;
+
+        protected override void OnEnable()
         {
-            CallMethod(GetDebugValue(property));
+            base.OnEnable();
+
+            _raiseMethod = target.GetType().BaseType.GetMethod("Raise", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
         }
-    }
-    private object GetDebugValue(SerializedProperty property)
-    {
-        object parent = SerializedPropertyHelper.GetParent(property);
-        Type parentType = parent.GetType();
+        protected override void DrawRaiseButton()
+        {
+            SerializedProperty property = serializedObject.FindProperty("_debugValue");
 
-        FieldInfo targetField = parentType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
+            EditorGUILayout.PropertyField(property);
 
-        return targetField.GetValue(parent);
-    }
-    private void CallMethod(object value)
-    {
-        _raiseMethod.Invoke(target, new object[1] { value });
-    }
+            if (GUILayout.Button("Raise"))
+            {
+                CallMethod(GetDebugValue(property));
+            }
+        }
+        private object GetDebugValue(SerializedProperty property)
+        {
+            object parent = SerializedPropertyHelper.GetParent(property);
+            Type parentType = parent.GetType();
+
+            FieldInfo targetField = parentType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            return targetField.GetValue(parent);
+        }
+        private void CallMethod(object value)
+        {
+            _raiseMethod.Invoke(target, new object[1] { value });
+        }
+    } 
 }
