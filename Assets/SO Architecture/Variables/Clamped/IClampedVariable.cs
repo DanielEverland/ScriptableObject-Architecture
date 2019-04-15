@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ScriptableObjectArchitecture
+﻿namespace ScriptableObjectArchitecture
 {
     public interface IClampedVariable { }
     public interface IClampedVariable<TType, TVariable, TReference> : IClampedVariable
@@ -11,5 +7,5 @@ namespace ScriptableObjectArchitecture
         TReference MaxValue { get; }
 
         TType ClampValue(TType value);
-    } 
+    }
 }

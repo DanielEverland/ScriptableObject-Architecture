@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ScriptableObjectArchitecture
 {
@@ -63,5 +61,5 @@ namespace ScriptableObjectArchitecture
         private bool _codeGenerationAllowOverwrite = false;
         [SerializeField]
         private int _defualtCreateAssetMenuOrder = 120;
-    } 
+    }
 }

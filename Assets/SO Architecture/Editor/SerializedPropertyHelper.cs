@@ -1,5 +1,4 @@
-﻿using UnityEngine;
- using System.Collections;
+﻿using System.Collections;
  using UnityEditor;
  using System.Linq;
  using System;
@@ -54,5 +53,5 @@ namespace ScriptableObjectArchitecture.Editor
                 enm.MoveNext();
             return enm.Current;
         }
-    }  
+    }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
@@ -259,5 +258,5 @@ namespace ScriptableObjectArchitecture.Editor
             public static GUIStyle OddBackground;
             public static GUIStyle MessageStyle;
         }
-    } 
+    }
 }

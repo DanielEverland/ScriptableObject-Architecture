@@ -1,8 +1,5 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Collections;
+﻿using System.Reflection;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -113,5 +110,5 @@ namespace ScriptableObjectArchitecture.Editor
                 }
             }
         }
-    } 
+    }
 }

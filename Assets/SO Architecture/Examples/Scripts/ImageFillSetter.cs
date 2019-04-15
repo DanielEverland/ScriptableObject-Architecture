@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ScriptableObjectArchitecture.Examples
@@ -19,5 +17,5 @@ namespace ScriptableObjectArchitecture.Examples
             _imageTarget.fillAmount = Mathf.Clamp01(_variable.Value / _maxValue.Value);
         }
 
-    } 
+    }
 }
