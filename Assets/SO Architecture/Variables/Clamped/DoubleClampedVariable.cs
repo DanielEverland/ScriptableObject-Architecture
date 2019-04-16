@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "DoubleClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "double",
         order = 120)]
-    public class DoubleClampedVariable : DoubleVariable, IClampedVariable<double, DoubleVariable, DoubleReference>
+    public class DoubleClampedVariable : DoubleVariable, IClampedVariable<double, DoubleReference>
     {
         public DoubleReference MinValue { get { return _minClampedValue; } }
         public DoubleReference MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

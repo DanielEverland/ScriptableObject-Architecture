@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
@@ -33,7 +32,6 @@ namespace ScriptableObjectArchitecture.Editor
         private const float CLEAR_LEFT_PADDING = 6;
         private const float CLEAR_WIDTH = 45;
         private const float COLLAPSE_WIDTH = 55;
-        private const float PADDING = 30;
         private const float LINE_HEIGHT = 18;
 
         private StackTraceEntry _selectedTrace;
@@ -259,5 +257,5 @@ namespace ScriptableObjectArchitecture.Editor
             public static GUIStyle OddBackground;
             public static GUIStyle MessageStyle;
         }
-    } 
+    }
 }

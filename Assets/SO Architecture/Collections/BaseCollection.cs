@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Type = System.Type;
 
 namespace ScriptableObjectArchitecture
@@ -32,5 +30,5 @@ namespace ScriptableObjectArchitecture
         {
             return List.Contains(obj);
         }
-} 
+	}
 }

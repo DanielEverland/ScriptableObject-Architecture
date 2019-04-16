@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "ShortClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "short",
         order = 120)]
-    public class ShortClampedVariable : ShortVariable, IClampedVariable<short, ShortVariable, ShortReference>
+    public class ShortClampedVariable : ShortVariable, IClampedVariable<short, ShortReference>
     {
         public ShortReference MinValue { get { return _minClampedValue; } }
         public ShortReference MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

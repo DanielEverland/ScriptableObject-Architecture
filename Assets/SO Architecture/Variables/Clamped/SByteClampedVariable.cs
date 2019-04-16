@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "SbyteClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "sbyte",
         order = 120)]
-    public class SByteClampedVariable : SByteVariable, IClampedVariable<sbyte, SByteVariable, SByteVariable>
+    public class SByteClampedVariable : SByteVariable, IClampedVariable<sbyte, SByteVariable>
     {
         public SByteVariable MinValue { get { return _minClampedValue; } }
         public SByteVariable MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

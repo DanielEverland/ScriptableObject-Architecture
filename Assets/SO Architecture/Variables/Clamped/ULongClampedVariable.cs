@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "UlongClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "ulong",
         order = 120)]
-    public class UlongClampedVariable : ULongVariable, IClampedVariable<ulong, ULongVariable, ULongVariable>
+    public class UlongClampedVariable : ULongVariable, IClampedVariable<ulong, ULongVariable>
     {
         public ULongVariable MinValue { get { return _minClampedValue; } }
         public ULongVariable MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

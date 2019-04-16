@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "UshortClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "ushort",
         order = 120)]
-    public class UshortClampedVariable : UShortVariable, IClampedVariable<ushort, UShortVariable, UShortVariable>
+    public class UshortClampedVariable : UShortVariable, IClampedVariable<ushort, UShortVariable>
     {
         public UShortVariable MinValue { get { return _minClampedValue; } }
         public UShortVariable MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }
