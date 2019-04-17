@@ -25,7 +25,7 @@ namespace ScriptableObjectArchitecture.Editor
          * 7        X        X
          */
 
-        private bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
+        private readonly bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
         {
         { false, true, false, false, true, false, false },
         { false, false, true, false, false, false, false },
@@ -36,8 +36,8 @@ namespace ScriptableObjectArchitecture.Editor
         { false, false, true, false, false, true, false },
         };
 
-        private bool[] _states = new bool[SO_CodeGenerator.TYPE_COUNT];
-        private string[] _names = new string[SO_CodeGenerator.TYPE_COUNT]
+        private readonly bool[] _states = new bool[SO_CodeGenerator.TYPE_COUNT];
+        private readonly string[] _names = new string[SO_CodeGenerator.TYPE_COUNT]
         {
         "Event Listener",
         "Game Event",
@@ -48,7 +48,7 @@ namespace ScriptableObjectArchitecture.Editor
         "Clamped Variable",
         };
 
-        private bool[] _menuRequirement = new bool[SO_CodeGenerator.TYPE_COUNT]
+        private readonly bool[] _menuRequirement = new bool[SO_CodeGenerator.TYPE_COUNT]
         {
         false, true, false, true, false, true, true
         };
@@ -64,7 +64,7 @@ namespace ScriptableObjectArchitecture.Editor
         [MenuItem("Window/SO Code Generation")]
         private static void ShowWindow()
         {
-            EditorWindow.GetWindow(typeof(SO_CodeGenerationWindow), true, "SO Code Generation");
+            GetWindow(typeof(SO_CodeGenerationWindow), true, "SO Code Generation");
         }
         private void OnEnable()
         {
@@ -176,5 +176,5 @@ namespace ScriptableObjectArchitecture.Editor
 
             return false;
         }
-    } 
+    }
 }
