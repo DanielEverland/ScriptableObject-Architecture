@@ -24,7 +24,7 @@ namespace ScriptableObjectArchitecture
             for (int i = _typedActions.Count - 1; i >= 0; i--)
                 _typedActions[i](value);
 
-            for (int i = _typedActions.Count - 1; i >= 0; i--)
+            for (int i = _actions.Count - 1; i >= 0; i--)
                 _actions[i]();
         }
         public void AddListener(IGameEventListener<T> listener)
