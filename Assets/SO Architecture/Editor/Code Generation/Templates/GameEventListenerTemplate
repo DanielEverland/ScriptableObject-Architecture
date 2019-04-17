@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
-public sealed class $TYPE_NAME$GameEventListener : BaseGameEventListener<$TYPE$, $TYPE_NAME$GameEvent, $TYPE_NAME$UnityEvent>
+namespace ScriptableObjectArchitecture
 {
+	public sealed class $TYPE_NAME$GameEventListener : BaseGameEventListener<$TYPE$, $TYPE_NAME$GameEvent, $TYPE_NAME$UnityEvent>
+	{
+	}
 }
