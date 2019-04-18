@@ -17,7 +17,7 @@
         public const string ADVANCED_VARIABLE_COLLECTION = COLLECTION_SUBMENU + "Advanced/";
 
         // Add Component Menus
-        public const string ADD_COMPONENT_ROOT_MENU = "SOArchitecture/";
+        public const string ADD_COMPONENT_ROOT_MENU = "SO Architecture/";
         public const string EVENT_LISTENER_SUBMENU = ADD_COMPONENT_ROOT_MENU + "Event Listeners/";
     }
 }
