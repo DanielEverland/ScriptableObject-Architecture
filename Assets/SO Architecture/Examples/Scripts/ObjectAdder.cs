@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ScriptableObjectArchitecture.Examples
 {
@@ -17,5 +15,5 @@ namespace ScriptableObjectArchitecture.Examples
         {
             _targetCollection.Remove(gameObject);
         }
-    } 
+    }
 }

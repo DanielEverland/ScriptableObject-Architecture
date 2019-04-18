@@ -1,7 +1,5 @@
-﻿using System.Reflection;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using Type = System.Type;
 using ReorderableList = UnityEditorInternal.ReorderableList;
 
 namespace ScriptableObjectArchitecture.Editor
@@ -66,5 +64,5 @@ namespace ScriptableObjectArchitecture.Editor
         {
             Target.List.RemoveAt(list.index);
         }
-    } 
+    }
 }

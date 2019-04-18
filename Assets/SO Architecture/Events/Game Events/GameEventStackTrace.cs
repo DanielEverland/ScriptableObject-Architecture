@@ -5,7 +5,6 @@ namespace ScriptableObjectArchitecture
 {
     public class StackTraceEntry : IEquatable<StackTraceEntry>
     {
-        private StackTraceEntry() { }
         private StackTraceEntry(string trace)
         {
             _id = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
@@ -79,5 +78,5 @@ namespace ScriptableObjectArchitecture
         {
             return trace.ToString();
         }
-    } 
+    }
 }

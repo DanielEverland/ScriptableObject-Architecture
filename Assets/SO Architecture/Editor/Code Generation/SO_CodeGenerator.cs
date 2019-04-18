@@ -97,10 +97,7 @@ namespace ScriptableObjectArchitecture.Editor
         private static string[] _templatePaths = new string[TYPE_COUNT];
         private static string[,] _replacementStrings = null;
 
-        private static string Type { get { return _replacementStrings[0, 1]; } }
         private static string TypeName { get { return _replacementStrings[1, 1]; } }
-        private static string MenuName { get { return _replacementStrings[2, 1]; } }
-        private static string Order { get { return _replacementStrings[3, 1]; } }
 
         public static void Generate(Data data)
         {
@@ -160,5 +157,5 @@ namespace ScriptableObjectArchitecture.Editor
         {
             return input.First().ToString().ToUpper() + input.Substring(1);
         }
-    } 
+    }
 }
