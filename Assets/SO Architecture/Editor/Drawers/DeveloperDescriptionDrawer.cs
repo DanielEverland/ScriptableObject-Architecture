@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using UnityEditor.AnimatedValues;
 
 namespace ScriptableObjectArchitecture.Editor
 {
@@ -103,5 +100,5 @@ namespace ScriptableObjectArchitecture.Editor
                 TextAreaStyle.normal = EditorStyles.label.normal;
             }
         }
-    } 
+    }
 }

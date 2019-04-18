@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ScriptableObjectArchitecture.Examples
 {
@@ -23,5 +21,5 @@ namespace ScriptableObjectArchitecture.Examples
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
                 transform.position += Vector3.left * _moveSpeed.Value;
         }
-    } 
+    }
 }

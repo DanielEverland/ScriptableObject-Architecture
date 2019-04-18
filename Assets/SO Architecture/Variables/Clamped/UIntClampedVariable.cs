@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
         fileName = "UintClampedVariable.asset",
         menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "uint",
         order = 120)]
-    public class UintClampedVariable : UIntVariable, IClampedVariable<uint, UIntVariable, UIntVariable>
+    public class UintClampedVariable : UIntVariable, IClampedVariable<uint, UIntVariable>
     {
         public UIntVariable MinValue { get { return _minClampedValue; } }
         public UIntVariable MaxValue { get { return _maxClampedValue; } }
@@ -39,5 +39,5 @@ namespace ScriptableObjectArchitecture
         {
             return ClampValue(value);
         }
-    } 
+    }
 }

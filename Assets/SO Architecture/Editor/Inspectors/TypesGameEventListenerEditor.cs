@@ -8,8 +8,6 @@ namespace ScriptableObjectArchitecture.Editor
     [CustomEditor(typeof(BaseGameEventListener<,,>), true)]
     public class TypesGameEventListenerEditor : BaseGameEventListenerEditor
     {
-        private System.Type GenericType { get { return target.GetType().BaseType.GetGenericArguments()[0]; } }
-
         private MethodInfo _raiseMethod;
 
         protected override void OnEnable()
@@ -42,5 +40,5 @@ namespace ScriptableObjectArchitecture.Editor
         {
             _raiseMethod.Invoke(target, new object[1] { value });
         }
-    } 
+    }
 }

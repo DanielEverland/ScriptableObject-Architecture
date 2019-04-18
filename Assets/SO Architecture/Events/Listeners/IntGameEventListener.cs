@@ -1,6 +1,9 @@
-﻿namespace ScriptableObjectArchitecture
+﻿using UnityEngine;
+
+namespace ScriptableObjectArchitecture
 {
+    [AddComponentMenu(SOArchitecture_Utility.EVENT_LISTENER_SUBMENU + "int")]
     public sealed class IntGameEventListener : BaseGameEventListener<int, IntGameEvent, IntUnityEvent>
     {
-    } 
+    }
 }
