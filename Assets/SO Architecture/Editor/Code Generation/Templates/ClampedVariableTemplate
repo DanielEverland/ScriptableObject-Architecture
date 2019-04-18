@@ -1,40 +1,43 @@
 using UnityEngine;
 
-[CreateAssetMenu(
-    fileName = "$TYPE_NAME$ClampedVariable.asset",
-    menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "$MENU_NAME$",
-    order = $ORDER$)]
-public class $TYPE_NAME$ClampedVariable : $TYPE_NAME$Variable, IClampedVariable<$TYPE$, $TYPE_NAME$Variable, $TYPE_NAME$Reference>
+namespace ScriptableObjectArchitecture
 {
-    public $TYPE_NAME$Reference MinValue { get { return _minClampedValue; } }
-    public $TYPE_NAME$Reference MaxValue { get { return _maxClampedValue; } }
+    [CreateAssetMenu(
+        fileName = "$TYPE_NAME$ClampedVariable.asset",
+        menuName = SOArchitecture_Utility.VARIABLE_CLAMPED_SUBMENU + "$MENU_NAME$",
+        order = $ORDER$)]
+    public class $TYPE_NAME$ClampedVariable : $TYPE_NAME$Variable, IClampedVariable<$TYPE$, $TYPE_NAME$Reference>
+    {
+        public $TYPE_NAME$Reference MinValue { get { return _minClampedValue; } }
+        public $TYPE_NAME$Reference MaxValue { get { return _maxClampedValue; } }
 
-    [SerializeField]
-    private $TYPE_NAME$Reference _minClampedValue;
-    [SerializeField]
-    private $TYPE_NAME$Reference _maxClampedValue;
+        [SerializeField]
+        private $TYPE_NAME$Reference _minClampedValue;
+        [SerializeField]
+        private $TYPE_NAME$Reference _maxClampedValue;
 
-    public virtual $TYPE$ ClampValue($TYPE$ value)
-    {
-        if (value.CompareTo(MinValue.Value) < 0)
+        public virtual $TYPE$ ClampValue($TYPE$ value)
         {
-            return MinValue.Value;
-        }            
-        else if (value.CompareTo(MaxValue.Value) > 0)
+            if (value.CompareTo(MinValue.Value) < 0)
+            {
+                return MinValue.Value;
+            }            
+            else if (value.CompareTo(MaxValue.Value) > 0)
+            {
+                return MaxValue.Value;
+            }            
+            else
+            {
+                return value;
+            }            
+        }
+        public override $TYPE$ SetValue(BaseVariable<$TYPE$> value)
         {
-            return MaxValue.Value;
-        }            
-        else
+            return ClampValue(value.Value);
+        }
+        public override $TYPE$ SetValue($TYPE$ value)
         {
-            return value;
-        }            
-    }
-    public override $TYPE$ SetValue(BaseVariable<$TYPE$> value)
-    {
-        return ClampValue(value.Value);
-    }
-    public override $TYPE$ SetValue($TYPE$ value)
-    {
-        return ClampValue(value);
+            return ClampValue(value);
+        }
     }
 }
