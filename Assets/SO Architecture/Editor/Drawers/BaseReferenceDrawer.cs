@@ -50,11 +50,15 @@ namespace ScriptableObjectArchitecture.Editor
             SerializedProperty variable = property.FindPropertyRelative("_variable");
 
             // Calculate rect for configuration button
-            Rect buttonRect = new Rect(refValuePosition);
+            Rect buttonRect = new Rect
+            {
+                position = refValuePosition.position,
+                size = new Vector2(30f, refValuePosition.height)
+            };
             buttonRect.yMin += PopupStyle.margin.top;
             buttonRect.yMax = buttonRect.yMin + EditorGUIUtility.singleLineHeight;
-            buttonRect.width = PopupStyle.fixedWidth + PopupStyle.margin.right;
-            refValuePosition.xMin = buttonRect.xMax;
+            refValuePosition.position = new Vector2(refValuePosition.x + buttonRect.width, refValuePosition.y);
+            refValuePosition.size = new Vector2(refValuePosition.width - buttonRect.width, refValuePosition.height);
 
             int result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, PopupStyle);
 
@@ -84,10 +88,10 @@ namespace ScriptableObjectArchitecture.Editor
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             SerializedProperty useConstant = property.FindPropertyRelative("_useConstant");
-            return !useConstant.boolValue
+            var constantPropertyHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative("_constantValue"));
+            return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
                 ? EditorGUIUtility.singleLineHeight
-                : EditorGUIUtility.singleLineHeight * 2f +
-                  EditorGUI.GetPropertyHeight(property.FindPropertyRelative("_constantValue"));
+                : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
         }
     }
 }
