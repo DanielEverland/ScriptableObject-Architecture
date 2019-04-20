@@ -88,7 +88,9 @@ namespace ScriptableObjectArchitecture.Editor
         private float GetElementHeight(int index)
         {
             var indexedItemProperty = CollectionItemsProperty.GetArrayElementAtIndex(index);
-            return EditorGUI.GetPropertyHeight(indexedItemProperty) + ELEMENT_BOTTOM_PADDING;
+            return GenericPropertyDrawer.IsSingleLineGUIType(Target.Type)
+                ? EditorGUIUtility.singleLineHeight + ELEMENT_BOTTOM_PADDING
+                : EditorGUI.GetPropertyHeight(indexedItemProperty) + ELEMENT_BOTTOM_PADDING;
         }
         private void Remove(ReorderableList list)
         {

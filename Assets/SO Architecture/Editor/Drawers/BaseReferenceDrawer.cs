@@ -1,10 +1,11 @@
-﻿using UnityEditor;
+﻿using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 namespace ScriptableObjectArchitecture.Editor
 {
     [CustomPropertyDrawer(typeof(BaseReference), true)]
-    public class BaseReferenceDrawer : PropertyDrawer
+    public sealed class BaseReferenceDrawer : PropertyDrawer
     {
         /// <summary>
         /// Options to display in the popup to select constant or variable.
@@ -14,6 +15,15 @@ namespace ScriptableObjectArchitecture.Editor
         "Use Constant",
         "Use Variable"
         };
+
+        // Property Names
+        private const string VARIABLE_PROPERTY_NAME = "_variable";
+        private const string CONSTANT_VALUE_PROPERTY_NAME = "_constantValue";
+        private const string USE_CONSTANT_VALUE_PROPERTY_NAME = "_useConstant";
+
+        // Warnings
+        private const string COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT =
+            "Could not find FieldInfo for [{0}] specific property drawer on type [{1}].";
 
         /// <summary>
         /// Cached style to use to draw the popup button. Lazy loaded as GUIStyles cannot be initialized as
@@ -45,9 +55,9 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUI.BeginChangeCheck();
 
             // Get properties
-            SerializedProperty useConstant = property.FindPropertyRelative("_useConstant");
-            SerializedProperty constantValue = property.FindPropertyRelative("_constantValue");
-            SerializedProperty variable = property.FindPropertyRelative("_variable");
+            SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
+            SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
+            SerializedProperty variable = property.FindPropertyRelative(VARIABLE_PROPERTY_NAME);
 
             // Calculate rect for configuration button
             Rect buttonRect = new Rect
@@ -75,9 +85,31 @@ namespace ScriptableObjectArchitecture.Editor
                 GUI.Box(refValuePosition, string.Empty);
             }
 
-            EditorGUI.PropertyField(refValuePosition,
-                useConstant.boolValue ? constantValue : variable,
-                GUIContent.none);
+            if (useConstant.boolValue)
+            {
+                var drawSerializedProperty = useConstant.boolValue ? constantValue : variable;
+                var referenceObject = SerializedPropertyHelper.GetParent(drawSerializedProperty);
+                var valueFieldInfo = referenceObject.GetType().GetField(
+                    CONSTANT_VALUE_PROPERTY_NAME,
+                    BindingFlags.Instance | BindingFlags.NonPublic);
+                if (valueFieldInfo != null)
+                {
+                    var targetType = valueFieldInfo.FieldType;
+                    GenericPropertyDrawer.DrawPropertyDrawer(refValuePosition, targetType, constantValue, GUIContent.none);
+                }
+                else
+                {
+                    Debug.LogWarningFormat(
+                        property.objectReferenceValue,
+                        COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT,
+                        CONSTANT_VALUE_PROPERTY_NAME,
+                        referenceObject.GetType());
+                }
+            }
+            else
+            {
+                EditorGUI.PropertyField(refValuePosition, variable, GUIContent.none);
+            }
 
             if (EditorGUI.EndChangeCheck())
                 property.serializedObject.ApplyModifiedProperties();
@@ -87,8 +119,8 @@ namespace ScriptableObjectArchitecture.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            SerializedProperty useConstant = property.FindPropertyRelative("_useConstant");
-            var constantPropertyHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative("_constantValue"));
+            SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
+            var constantPropertyHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME));
             return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
                 ? EditorGUIUtility.singleLineHeight
                 : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
