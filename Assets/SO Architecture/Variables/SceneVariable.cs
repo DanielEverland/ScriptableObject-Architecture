@@ -9,7 +9,7 @@ namespace ScriptableObjectArchitecture
     /// </summary>
     [CreateAssetMenu(
         fileName = "SceneVariable.asset",
-        menuName = SOArchitecture_Utility.VARIABLE_SUBMENU + "Scene",
+        menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "Scene",
         order = 120)]
     public sealed class SceneVariable : BaseVariable<SceneInfo>
     {
