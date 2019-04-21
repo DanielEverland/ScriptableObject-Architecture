@@ -54,14 +54,6 @@ namespace ScriptableObjectArchitecture.Editor
                 {
                     property.vector4Value = EditorGUI.Vector4Field(rect, string.Empty, property.vector4Value);
                 }
-                else if (type.IsAssignableFrom(typeof(Vector3)))
-                {
-                    property.vector3Value = EditorGUI.Vector3Field(rect, string.Empty, property.vector3Value);
-                }
-                else if (type.IsAssignableFrom(typeof(Vector2)))
-                {
-                    property.vector2Value = EditorGUI.Vector2Field(rect, string.Empty, property.vector2Value);
-                }
                 else
                 {
                     EditorGUI.PropertyField(rect, property, GUIContent.none);
@@ -100,14 +92,6 @@ namespace ScriptableObjectArchitecture.Editor
                 else if (type.IsAssignableFrom(typeof(Vector4)))
                 {
                     property.vector4Value = EditorGUILayout.Vector4Field(string.Empty, property.vector4Value);
-                }
-                else if (type.IsAssignableFrom(typeof(Vector3)))
-                {
-                    property.vector3Value = EditorGUILayout.Vector3Field(string.Empty, property.vector3Value);
-                }
-                else if (type.IsAssignableFrom(typeof(Vector2)))
-                {
-                    property.vector2Value = EditorGUILayout.Vector2Field(string.Empty, property.vector2Value);
                 }
                 else
                 {
