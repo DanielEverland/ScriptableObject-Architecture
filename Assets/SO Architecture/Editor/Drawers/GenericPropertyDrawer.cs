@@ -28,8 +28,10 @@ namespace ScriptableObjectArchitecture.Editor
         /// Draws a property drawer using the <see cref="EditorGUI"/> methods and the area the drawer is drawn
         /// in is determined by the passed <see cref="Rect"/> <paramref name="rect"/>.
         /// </summary>
-        public static void DrawPropertyDrawer(Rect rect, Type type, SerializedProperty property, GUIContent errorLabel)
+        public static void DrawPropertyDrawer(Rect rect, Type type, SerializedProperty property, GUIContent errorLabel, bool drawValueLabel = false)
         {
+            GUIContent label = drawValueLabel ? ValueGUIContent : GUIContent.none;
+
             if (SOArchitecture_EditorUtility.HasPropertyDrawer(type) || typeof(Object).IsAssignableFrom(type) || type.IsEnum)
             {
                 //Unity doesn't like it when you have scene objects on assets,
@@ -40,23 +42,23 @@ namespace ScriptableObjectArchitecture.Editor
                 {
                     using (new EditorGUI.DisabledGroupScope(true))
                     {
-                        EditorGUI.ObjectField(rect, ValueGUIContent, property.objectReferenceValue, type, false);
+                        EditorGUI.ObjectField(rect, label, property.objectReferenceValue, type, false);
                     }
                 }
                 else if (type.IsAssignableFrom(typeof(Quaternion)))
                 {
                     property.quaternionValue = EditorGUI.Vector4Field(
                         rect,
-                        string.Empty,
+                        label,
                         property.quaternionValue.ToVector4()).ToQuaternion();
                 }
                 else if (type.IsAssignableFrom(typeof(Vector4)))
                 {
-                    property.vector4Value = EditorGUI.Vector4Field(rect, string.Empty, property.vector4Value);
+                    property.vector4Value = EditorGUI.Vector4Field(rect, label, property.vector4Value);
                 }
                 else
                 {
-                    EditorGUI.PropertyField(rect, property, GUIContent.none);
+                    EditorGUI.PropertyField(rect, property, label);
                 }
             }
             else
@@ -68,8 +70,10 @@ namespace ScriptableObjectArchitecture.Editor
         /// <summary>
         /// Draws a property drawer using the <see cref="EditorGUILayout"/> methods.
         /// </summary>
-        public static void DrawPropertyDrawerLayout(Type type, SerializedProperty property, GUIContent errorLabel)
+        public static void DrawPropertyDrawerLayout(Type type, SerializedProperty property, GUIContent errorLabel, bool drawValueLabel = false)
         {
+            GUIContent label = drawValueLabel ? ValueGUIContent : GUIContent.none;
+
             if (SOArchitecture_EditorUtility.HasPropertyDrawer(type) || typeof(Object).IsAssignableFrom(type) || type.IsEnum)
             {
                 //Unity doesn't like it when you have scene objects on assets,
@@ -80,22 +84,22 @@ namespace ScriptableObjectArchitecture.Editor
                 {
                     using (new EditorGUI.DisabledGroupScope(true))
                     {
-                        EditorGUILayout.ObjectField(ValueGUIContent, property.objectReferenceValue, type, false);
+                        EditorGUILayout.ObjectField(label, property.objectReferenceValue, type, false);
                     }
                 }
                 else if (type.IsAssignableFrom(typeof(Quaternion)))
                 {
                     property.quaternionValue = EditorGUILayout.Vector4Field(
-                        string.Empty,
+                        label,
                         property.quaternionValue.ToVector4()).ToQuaternion();
                 }
                 else if (type.IsAssignableFrom(typeof(Vector4)))
                 {
-                    property.vector4Value = EditorGUILayout.Vector4Field(string.Empty, property.vector4Value);
+                    property.vector4Value = EditorGUILayout.Vector4Field(label, property.vector4Value);
                 }
                 else
                 {
-                    EditorGUILayout.PropertyField(property);
+                    EditorGUILayout.PropertyField(property, label);
                 }
             }
             else
