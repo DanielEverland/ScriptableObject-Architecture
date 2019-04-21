@@ -80,6 +80,7 @@ namespace ScriptableObjectArchitecture.Editor
 
             EditorGUI.BeginDisabledGroup(DISABLE_ELEMENTS);
 
+            rect.height = EditorGUIUtility.singleLineHeight;
             GenericPropertyDrawer.DrawPropertyDrawer(rect, Target.Type, property, _noPropertyDrawerWarningGUIContent);
 
             EditorGUI.EndDisabledGroup();
