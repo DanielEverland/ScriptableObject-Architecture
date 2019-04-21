@@ -45,7 +45,7 @@ namespace ScriptableObjectArchitecture.Editor
             DrawReadonlyField();
             DrawDeveloperDescription();
         }
-        protected void DrawValue()
+        protected virtual void DrawValue()
         {
             using (var scope = new EditorGUI.ChangeCheckScope())
             {
