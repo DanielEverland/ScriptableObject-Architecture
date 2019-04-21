@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using ReorderableList = UnityEditorInternal.ReorderableList;
+using UnityEditorInternal;
 
 namespace ScriptableObjectArchitecture.Editor
 {
@@ -25,8 +25,6 @@ namespace ScriptableObjectArchitecture.Editor
         private const bool LIST_DISPLAY_HEADER = true;
         private const bool LIST_DISPLAY_ADD_BUTTON = true;
         private const bool LIST_DISPLAY_REMOVE_BUTTON = true;
-
-        private const float ELEMENT_BOTTOM_PADDING = 2.5f;
 
         private GUIContent _titleGUIContent;
         private GUIContent _noPropertyDrawerWarningGUIContent;
@@ -80,17 +78,22 @@ namespace ScriptableObjectArchitecture.Editor
 
             EditorGUI.BeginDisabledGroup(DISABLE_ELEMENTS);
 
-            rect.height = EditorGUIUtility.singleLineHeight;
             GenericPropertyDrawer.DrawPropertyDrawer(rect, Target.Type, property, _noPropertyDrawerWarningGUIContent);
 
             EditorGUI.EndDisabledGroup();
         }
+
+        /// <summary>
+        /// Return the height of the item in the <see cref="ReorderableList"/> that is being drawn.
+        /// </summary>
+        /// <param name="index">The index of the item in the list being drawn.</param>
+        /// <returns></returns>
         private float GetElementHeight(int index)
         {
             var indexedItemProperty = CollectionItemsProperty.GetArrayElementAtIndex(index);
             return GenericPropertyDrawer.IsSingleLineGUIType(Target.Type)
-                ? EditorGUIUtility.singleLineHeight + ELEMENT_BOTTOM_PADDING
-                : EditorGUI.GetPropertyHeight(indexedItemProperty) + ELEMENT_BOTTOM_PADDING;
+                ? EditorGUIUtility.singleLineHeight
+                : EditorGUI.GetPropertyHeight(indexedItemProperty);
         }
         private void Remove(ReorderableList list)
         {
