@@ -109,8 +109,6 @@ namespace ScriptableObjectArchitecture.Editor
         /// single line regardless of whether <see cref="EditorGUI.GetPropertyHeight(SerializedProperty)"/>
         /// says otherwise.
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public static bool IsSingleLineGUIType(Type type)
         {
             return type.IsAssignableFrom(typeof(Vector4)) ||
