@@ -64,7 +64,7 @@ namespace ScriptableObjectArchitecture.Editor
                 }
                 else
                 {
-                    EditorGUI.PropertyField(rect, property);
+                    EditorGUI.PropertyField(rect, property, GUIContent.none);
                 }
             }
             else
