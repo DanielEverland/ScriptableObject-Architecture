@@ -15,6 +15,28 @@ namespace ScriptableObjectArchitecture.Editor
             _defaultTargetType = typeof(SOArchitecture_EditorUtility).Assembly;
         }
 
+        /// <summary>
+        /// A debug <see cref="GUIStyle"/> that allows for identification of EditorGUI Rect issues.
+        /// </summary>
+        public static GUIStyle DebugStyle
+        {
+            get
+            {
+                if (_debugStyle == null)
+                {
+                    var debugColor = Color.magenta;
+                    debugColor.a = 0.33f;
+
+                    _debugStyle = new GUIStyle(GUI.skin.box);
+                    _debugStyle.normal.background = MakeTex(2, 2, debugColor);
+                }
+
+                return _debugStyle;
+            }
+        }
+
+        private static GUIStyle _debugStyle;
+
         private static PropertyDrawerGraph _propertyDrawerGraph;
         private static Assembly _defaultTargetType;
         private static BindingFlags _fieldBindingsFlag = BindingFlags.Instance | BindingFlags.NonPublic;
@@ -50,6 +72,18 @@ namespace ScriptableObjectArchitecture.Editor
         private static void OnProjectReloaded()
         {
             _propertyDrawerGraph = null;
+        }
+        private static Texture2D MakeTex(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; ++i)
+            {
+                pix[i] = col;
+            }
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
         }
 
         /// <summary>
