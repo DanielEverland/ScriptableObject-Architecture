@@ -65,9 +65,9 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private void DrawValue(Rect position, Rect valueRect)
         {
-            if (ShouldDrawMultiLineField(useConstant, constantValue))
+            if (ShouldDrawMultiLineField())
             {
-                valueRect = GetMultiLineFieldRect(position, constantValue);
+                valueRect = GetMultiLineFieldRect(position);
                 GUI.Box(valueRect, string.Empty);
             }
 
@@ -96,7 +96,7 @@ namespace ScriptableObjectArchitecture.Editor
                     GetReferenceType(constantValue));
             }
         }
-        private Rect GetMultiLineFieldRect(Rect position, SerializedProperty constantValue)
+        private Rect GetMultiLineFieldRect(Rect position)
         {
             return EditorGUI.IndentedRect(new Rect
             {
@@ -104,9 +104,9 @@ namespace ScriptableObjectArchitecture.Editor
                 size = new Vector2(position.width, EditorGUI.GetPropertyHeight(constantValue) + EditorGUIUtility.singleLineHeight)
             });
         }
-        private bool ShouldDrawMultiLineField(SerializedProperty useConstant, SerializedProperty constantValue)
+        private bool ShouldDrawMultiLineField()
         {
-            return useConstant.boolValue && EditorGUI.GetPropertyHeight(constantValue) > EditorGUIUtility.singleLineHeight;
+            return useConstant.boolValue && SupportsMultiLine(constantValue) && EditorGUI.GetPropertyHeight(constantValue) > EditorGUIUtility.singleLineHeight;
         }
         private int ResetIndent()
         {
@@ -144,11 +144,27 @@ namespace ScriptableObjectArchitecture.Editor
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
-            var constantPropertyHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME));
-            return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
-                ? EditorGUIUtility.singleLineHeight
-                : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
+            if (SupportsMultiLine(property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME)))
+            {
+                SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
+                var constantPropertyHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME));
+                return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
+                    ? EditorGUIUtility.singleLineHeight
+                    : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
+            }
+            else
+            {
+                return base.GetPropertyHeight(property, label);
+            }
+        }
+
+        public bool SupportsMultiLine(SerializedProperty property)
+        {
+            return SupportsMultiLine(GetReferenceGenericType(property));
+        }
+        public bool SupportsMultiLine(Type type)
+        {
+            return type.GetCustomAttributes(typeof(MultiLine), true).Length > 0;
         }
 
         public Type GetReferenceType(SerializedProperty property)

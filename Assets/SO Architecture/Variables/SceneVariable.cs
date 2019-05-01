@@ -33,6 +33,7 @@ namespace ScriptableObjectArchitecture
     }
 
     [Serializable]
+    [MultiLine]
     public sealed class SceneInfo : ISerializationCallbackReceiver
     {
         /// <summary>
