@@ -16,6 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private UIntVariable _maxClampedValue = default(UIntVariable);
 
+#pragma warning disable 0114
         public virtual uint ClampValue(uint value)
         {
             if (value.CompareTo(MinValue.Value) < 0)
@@ -31,6 +32,7 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+#pragma warning restore
         public override uint SetValue(BaseVariable<uint> value)
         {
             return ClampValue(value.Value);

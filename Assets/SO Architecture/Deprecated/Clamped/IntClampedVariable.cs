@@ -16,6 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private IntReference _maxClampedValue = default(IntReference);
 
+#pragma warning disable 0114
         public virtual int ClampValue(int value)
         {
             if (value.CompareTo(MinValue.Value) < 0)
@@ -31,6 +32,7 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+#pragma warning restore
         public override int SetValue(BaseVariable<int> value)
         {
             return ClampValue(value.Value);

@@ -16,6 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private ShortReference _maxClampedValue = default(ShortReference);
 
+#pragma warning disable 0114
         public virtual short ClampValue(short value)
         {
             if (value.CompareTo(MinValue.Value) < 0)
@@ -31,6 +32,7 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+#pragma warning restore
         public override short SetValue(BaseVariable<short> value)
         {
             return ClampValue(value.Value);

@@ -16,6 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private ByteReference _maxClampedValue = default(ByteReference);
 
+#pragma warning disable 0114
         public virtual byte ClampValue(byte value)
         {
             if (value.CompareTo(MinValue.Value) < 0)
@@ -31,6 +32,7 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+#pragma warning restore
         public override byte SetValue(BaseVariable<byte> value)
         {
             return ClampValue(value.Value);

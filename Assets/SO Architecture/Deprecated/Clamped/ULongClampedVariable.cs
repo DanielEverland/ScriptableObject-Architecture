@@ -16,6 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private ULongVariable _maxClampedValue = default(ULongVariable);
 
+#pragma warning disable 0114
         public virtual ulong ClampValue(ulong value)
         {
             if (value.CompareTo(MinValue.Value) < 0)
@@ -31,6 +32,7 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+#pragma warning restore
         public override ulong SetValue(BaseVariable<ulong> value)
         {
             return ClampValue(value.Value);

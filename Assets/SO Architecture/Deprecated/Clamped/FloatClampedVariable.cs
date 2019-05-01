@@ -16,6 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private FloatReference _maxClampedValue = default(FloatReference);
 
+#pragma warning disable 0114
         public virtual float ClampValue(float value)
         {
             if (value.CompareTo(MinValue.Value) < 0)
@@ -31,6 +32,7 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+#pragma warning restore
         public override float SetValue(BaseVariable<float> value)
         {
             return ClampValue(value.Value);

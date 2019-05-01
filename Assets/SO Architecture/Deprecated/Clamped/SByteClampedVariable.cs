@@ -16,6 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private SByteVariable _maxClampedValue = default(SByteVariable);
 
+#pragma warning disable 0114
         public virtual sbyte ClampValue(sbyte value)
         {
             if (value.CompareTo(MinValue.Value) < 0)
@@ -31,6 +32,7 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+#pragma warning restore
         public override sbyte SetValue(BaseVariable<sbyte> value)
         {
             return ClampValue(value.Value);
