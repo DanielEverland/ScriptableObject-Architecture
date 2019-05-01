@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.jeffcampbellmakesgames.packagetools": "https://github.com/jeffcampbellmakesgames/unity-package-tools.git#release/stable",
     "com.unity.ads": "2.3.1",
     "com.unity.analytics": "3.3.2",
     "com.unity.collab-proxy": "1.2.16",
@@ -38,5 +39,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.jeffcampbellmakesgames.packagetools": {
+      "hash": "2c2578f315df7c37dfd9158389f2b40424b63873",
+      "revision": "release/stable"
+    }
   }
 }
