@@ -13,34 +13,29 @@ namespace ScriptableObjectArchitecture.Editor
         {
             //We use this as a default since it'll be Assembly-CSharp-Editor
             _defaultTargetType = typeof(SOArchitecture_EditorUtility).Assembly;
-        }
 
+            CreateDebugStyle();
+        }
+        
         /// <summary>
         /// A debug <see cref="GUIStyle"/> that allows for identification of EditorGUI Rect issues.
         /// </summary>
-        public static GUIStyle DebugStyle
-        {
-            get
-            {
-                if (_debugStyle == null)
-                {
-                    var debugColor = Color.magenta;
-                    debugColor.a = 0.33f;
-
-                    _debugStyle = new GUIStyle(GUI.skin.box);
-                    _debugStyle.normal.background = MakeTex(2, 2, debugColor);
-                }
-
-                return _debugStyle;
-            }
-        }
-
-        private static GUIStyle _debugStyle;
-
+        public static GUIStyle DebugStyle { get; private set; }
+        private const float DebugStyleBackgroundAlpha = 0.33f;
+        
         private static PropertyDrawerGraph _propertyDrawerGraph;
         private static Assembly _defaultTargetType;
         private static BindingFlags _fieldBindingsFlag = BindingFlags.Instance | BindingFlags.NonPublic;
 
+        private static void CreateDebugStyle()
+        {
+            DebugStyle = new GUIStyle();
+
+            Color debugColor = Color.magenta;
+            debugColor.a = DebugStyleBackgroundAlpha;
+
+            DebugStyle.normal.background = CreateTexture(2, 2, debugColor);
+        }
         public static bool HasPropertyDrawer(Type type)
         {
             return HasPropertyDrawer(type, _defaultTargetType);
@@ -73,7 +68,7 @@ namespace ScriptableObjectArchitecture.Editor
         {
             _propertyDrawerGraph = null;
         }
-        private static Texture2D MakeTex(int width, int height, Color col)
+        private static Texture2D CreateTexture(int width, int height, Color col)
         {
             Color[] pix = new Color[width * height];
             for (int i = 0; i < pix.Length; ++i)
