@@ -17,13 +17,12 @@ namespace ScriptableObjectArchitecture.Editor
         {
             _targetDirectories = new string[TYPE_COUNT]
             {
-            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Listeners",
-            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Game Events",
-            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/References",
-            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Collections",
-            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Responses",
-            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables",
-            Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables/Clamped",
+                Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Listeners",
+                Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Game Events",
+                Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/References",
+                Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Collections",
+                Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Events/Responses",
+                Application.dataPath + "/" + SOArchitecture_Settings.Instance.CodeGenerationTargetDirectory + "/Variables",
             };
         }
         private static void GatherFilePaths()
@@ -61,7 +60,7 @@ namespace ScriptableObjectArchitecture.Editor
             }
         }
 
-        public const int TYPE_COUNT = 7;
+        public const int TYPE_COUNT = 6;
 
         public struct Data
         {
@@ -73,24 +72,22 @@ namespace ScriptableObjectArchitecture.Editor
 
         private static string[] _templateNames = new string[TYPE_COUNT]
         {
-        "GameEventListenerTemplate",
-        "GameEventTemplate",
-        "ReferenceTemplate",
-        "CollectionTemplate",
-        "UnityEventTemplate",
-        "VariableTemplate",
-        "ClampedVariableTemplate",
+            "GameEventListenerTemplate",
+            "GameEventTemplate",
+            "ReferenceTemplate",
+            "CollectionTemplate",
+            "UnityEventTemplate",
+            "VariableTemplate",
         };
 
         private static string[] _targetFileNames = new string[TYPE_COUNT]
         {
-        "{0}GameEventListener.cs",
-        "{0}GameEvent.cs",
-        "{0}Reference.cs",
-        "{0}Collection.cs",
-        "{0}UnityEvent.cs",
-        "{0}Variable.cs",
-        "{0}ClampedVariable.cs",
+            "{0}GameEventListener.cs",
+            "{0}GameEvent.cs",
+            "{0}Reference.cs",
+            "{0}Collection.cs",
+            "{0}UnityEvent.cs",
+            "{0}Variable.cs",
         };
 
         private static string[] _targetDirectories = null;
