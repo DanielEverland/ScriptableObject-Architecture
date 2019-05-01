@@ -4,6 +4,8 @@ namespace ScriptableObjectArchitecture
 {
     public abstract class BaseVariable : GameEventBase
     {
+        public abstract bool IsClamped { get; }
+        public abstract bool Clampable { get; }
         public abstract bool ReadOnly { get; }
         public abstract System.Type Type { get; }
         public abstract object BaseValue { get; set; }
@@ -28,7 +30,7 @@ namespace ScriptableObjectArchitecture
             {
                 if(Clampable)
                 {
-                    return _minValue;
+                    return _minClampedValue;
                 }
                 else
                 {
@@ -42,7 +44,7 @@ namespace ScriptableObjectArchitecture
             {
                 if(Clampable)
                 {
-                    return _maxValue;
+                    return _maxClampedValue;
                 }
                 else
                 {
@@ -51,8 +53,9 @@ namespace ScriptableObjectArchitecture
             }
         }
 
-        public virtual bool Clampable { get { return false; } }
+        public override bool Clampable { get { return false; } }
         public override bool ReadOnly { get { return _readOnly; } }
+        public override bool IsClamped { get { return _isClamped; } }
         public override System.Type Type { get { return typeof(T); } }
         public override object BaseValue
         {
@@ -74,9 +77,11 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private bool _raiseWarning = true;
         [SerializeField]
-        protected T _minValue = default(T);
+        protected bool _isClamped = false;
         [SerializeField]
-        protected T _maxValue = default(T);
+        protected T _minClampedValue = default(T);
+        [SerializeField]
+        protected T _maxClampedValue = default(T);
         
         public virtual T SetValue(T value)
         {
@@ -85,7 +90,7 @@ namespace ScriptableObjectArchitecture
                 RaiseReadonlyWarning();
                 return _value;
             }
-            else if(Clampable)
+            else if(Clampable && IsClamped)
             {
                 return ClampValue(value);
             }
@@ -99,7 +104,7 @@ namespace ScriptableObjectArchitecture
                 RaiseReadonlyWarning();
                 return _value;
             }
-            else if (Clampable)
+            else if (Clampable && IsClamped)
             {
                 return ClampValue(value.Value);
             }
