@@ -103,5 +103,10 @@ namespace ScriptableObjectArchitecture
             if (_actions.Contains(action))
                 _actions.Remove(action);
         }
+        public void RemoveAll()
+        {
+            _listeners.RemoveRange(0, _listeners.Count);
+            _actions.RemoveRange(0, _listeners.Count);
+        }
     } 
 }
