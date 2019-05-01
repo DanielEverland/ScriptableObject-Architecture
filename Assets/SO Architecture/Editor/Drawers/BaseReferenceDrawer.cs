@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -87,15 +88,10 @@ namespace ScriptableObjectArchitecture.Editor
 
             if (useConstant.boolValue)
             {
-                var drawSerializedProperty = useConstant.boolValue ? constantValue : variable;
-                var referenceObject = SerializedPropertyHelper.GetParent(drawSerializedProperty);
-                var valueFieldInfo = referenceObject.GetType().GetField(
-                    CONSTANT_VALUE_PROPERTY_NAME,
-                    BindingFlags.Instance | BindingFlags.NonPublic);
-                if (valueFieldInfo != null)
+                var genericReferenceType = GetReferenceGenericType(constantValue);
+                if (genericReferenceType != null)
                 {
-                    var targetType = valueFieldInfo.FieldType;
-                    GenericPropertyDrawer.DrawPropertyDrawer(refValuePosition, targetType, constantValue, GUIContent.none);
+                    GenericPropertyDrawer.DrawPropertyDrawer(refValuePosition, genericReferenceType, constantValue, GUIContent.none);
                 }
                 else
                 {
@@ -103,7 +99,7 @@ namespace ScriptableObjectArchitecture.Editor
                         property.objectReferenceValue,
                         COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT,
                         CONSTANT_VALUE_PROPERTY_NAME,
-                        referenceObject.GetType());
+                        GetReferenceType(constantValue));
                 }
             }
             else
@@ -124,6 +120,21 @@ namespace ScriptableObjectArchitecture.Editor
             return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
                 ? EditorGUIUtility.singleLineHeight
                 : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
+        }
+
+        public Type GetReferenceType(SerializedProperty property)
+        {
+            return SerializedPropertyHelper.GetParent(property).GetType();
+        }
+
+        public Type GetReferenceGenericType(SerializedProperty property)
+        {
+            var referenceObject = SerializedPropertyHelper.GetParent(property);
+            var valueFieldInfo = referenceObject.GetType().GetField(
+                CONSTANT_VALUE_PROPERTY_NAME,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            return valueFieldInfo == null ? null : valueFieldInfo.FieldType;
         }
     }
 }
