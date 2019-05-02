@@ -52,6 +52,7 @@ namespace ScriptableObjectArchitecture
         public string CodeGenerationTargetDirectory { get { return _codeGenerationTargetDirectory; } }
         public bool CodeGenerationAllowOverwrite { get { return _codeGenerationAllowOverwrite; } }
         public int DefaultCreateAssetMenuOrder { get { return _defualtCreateAssetMenuOrder; } }
+        public bool EnableDebug { get { return _enableDebug; } }
 
         [SerializeField]
         private bool _drawEventGizmos = true;
@@ -61,5 +62,7 @@ namespace ScriptableObjectArchitecture
         private bool _codeGenerationAllowOverwrite = false;
         [SerializeField]
         private int _defualtCreateAssetMenuOrder = 120;
+        [SerializeField, Tooltip("Will enable features such as game events collecting stack traces.\nWill decrease performance in-editor.")]
+        private bool _enableDebug = true;
     }
 }
