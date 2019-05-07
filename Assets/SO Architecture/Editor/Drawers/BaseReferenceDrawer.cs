@@ -39,7 +39,7 @@ namespace ScriptableObjectArchitecture.Editor
             useConstant = property.FindPropertyRelative("_useConstant");
             constantValue = property.FindPropertyRelative("_constantValue");
             variable = property.FindPropertyRelative("_variable");
-            
+                        
             int oldIndent = ResetIndent();
 
             Rect fieldRect = DrawLabel(position, property, label);
@@ -144,10 +144,11 @@ namespace ScriptableObjectArchitecture.Editor
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            if (SupportsMultiLine(property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME)))
+            SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
+            if (SupportsMultiLine(constantValue))
             {
                 SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
-                var constantPropertyHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME));
+                var constantPropertyHeight = EditorGUI.GetPropertyHeight(constantValue);
                 return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
                     ? EditorGUIUtility.singleLineHeight
                     : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
@@ -160,7 +161,10 @@ namespace ScriptableObjectArchitecture.Editor
 
         public bool SupportsMultiLine(SerializedProperty property)
         {
-            return SupportsMultiLine(GetReferenceGenericType(property));
+            Type baseReferenceType = GetReferenceType(property);
+            FieldInfo constantValueField = baseReferenceType.GetField(CONSTANT_VALUE_PROPERTY_NAME, BindingFlags.Instance | BindingFlags.NonPublic);
+
+            return SupportsMultiLine(constantValueField.FieldType);
         }
         public bool SupportsMultiLine(Type type)
         {
