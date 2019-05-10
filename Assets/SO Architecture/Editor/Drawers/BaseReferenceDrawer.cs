@@ -1,6 +1,8 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Type = System.Type;
 
 namespace ScriptableObjectArchitecture.Editor
 {
@@ -12,8 +14,8 @@ namespace ScriptableObjectArchitecture.Editor
         /// </summary>
         private static readonly string[] popupOptions =
         {
-        "Use Constant",
-        "Use Variable"
+            "Use Constant",
+            "Use Variable"
         };
 
         // Property Names
@@ -25,105 +27,176 @@ namespace ScriptableObjectArchitecture.Editor
         private const string COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT =
             "Could not find FieldInfo for [{0}] specific property drawer on type [{1}].";
 
-        /// <summary>
-        /// Cached style to use to draw the popup button. Lazy loaded as GUIStyles cannot be initialized as
-        /// an inline static field.
-        /// </summary>
-        private static GUIStyle PopupStyle
-        {
-            get
-            {
-                if (_popupStyle == null)
-                {
-                    _popupStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions"))
-                    {
-                        imagePosition = ImagePosition.ImageOnly
-                    };
-                }
-
-                return _popupStyle;
-            }
-        }
-
-        private static GUIStyle _popupStyle;
+        private SerializedProperty property;
+        private SerializedProperty useConstant;
+        private SerializedProperty constantValue;
+        private SerializedProperty variable;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            label = EditorGUI.BeginProperty(position, label, property);
-            var refValuePosition = EditorGUI.PrefixLabel(position, label);
-
-            EditorGUI.BeginChangeCheck();
-
             // Get properties
-            SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
-            SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
-            SerializedProperty variable = property.FindPropertyRelative(VARIABLE_PROPERTY_NAME);
+            this.property = property;
+            useConstant = property.FindPropertyRelative("_useConstant");
+            constantValue = property.FindPropertyRelative("_constantValue");
+            variable = property.FindPropertyRelative("_variable");
+                        
+            int oldIndent = ResetIndent();
 
-            // Calculate rect for configuration button
-            Rect buttonRect = new Rect
-            {
-                position = refValuePosition.position,
-                size = new Vector2(30f, refValuePosition.height)
-            };
-            buttonRect.yMin += PopupStyle.margin.top;
-            buttonRect.yMax = buttonRect.yMin + EditorGUIUtility.singleLineHeight;
-            refValuePosition.position = new Vector2(refValuePosition.x + buttonRect.width, refValuePosition.y);
-            refValuePosition.size = new Vector2(refValuePosition.width - buttonRect.width, refValuePosition.height);
+            Rect fieldRect = DrawLabel(position, property, label);
+            DrawField(position, fieldRect);
 
-            int result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, PopupStyle);
+            EndIndent(oldIndent);
+            
+            property.serializedObject.ApplyModifiedProperties();
+        }
+        private Rect DrawLabel(Rect position, SerializedProperty property, GUIContent label)
+        {
+            return EditorGUI.PrefixLabel(position, label);
+        }
+        private void DrawField(Rect position, Rect fieldRect)
+        {
+            Rect buttonRect = GetPopupButtonRect(fieldRect);
+            Rect valueRect = GetValueRect(fieldRect, buttonRect);
 
+            int result = DrawPopupButton(buttonRect, useConstant.boolValue ? 0 : 1);
             useConstant.boolValue = result == 0;
 
-            if (useConstant.boolValue && EditorGUI.GetPropertyHeight(constantValue) > EditorGUIUtility.singleLineHeight)
+            DrawValue(position, valueRect);
+        }
+        private void DrawValue(Rect position, Rect valueRect)
+        {
+            if (ShouldDrawMultiLineField())
             {
-                refValuePosition = EditorGUI.IndentedRect(new Rect
-                {
-                    position = new Vector2(position.x, position.y + EditorGUIUtility.singleLineHeight),
-                    size = new Vector2(position.width, EditorGUI.GetPropertyHeight(constantValue) +
-                                                       EditorGUIUtility.singleLineHeight)
-                });
-                GUI.Box(refValuePosition, string.Empty);
+                valueRect = GetMultiLineFieldRect(position);
+                GUI.Box(valueRect, string.Empty);
             }
 
             if (useConstant.boolValue)
             {
-                var drawSerializedProperty = useConstant.boolValue ? constantValue : variable;
-                var referenceObject = SerializedPropertyHelper.GetParent(drawSerializedProperty);
-                var valueFieldInfo = referenceObject.GetType().GetField(
-                    CONSTANT_VALUE_PROPERTY_NAME,
-                    BindingFlags.Instance | BindingFlags.NonPublic);
-                if (valueFieldInfo != null)
-                {
-                    var targetType = valueFieldInfo.FieldType;
-                    GenericPropertyDrawer.DrawPropertyDrawer(refValuePosition, targetType, constantValue, GUIContent.none);
-                }
-                else
-                {
-                    Debug.LogWarningFormat(
-                        property.objectReferenceValue,
-                        COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT,
-                        CONSTANT_VALUE_PROPERTY_NAME,
-                        referenceObject.GetType());
-                }
+                DrawGenericPropertyField(valueRect);
             }
             else
             {
-                EditorGUI.PropertyField(refValuePosition, variable, GUIContent.none);
+                EditorGUI.PropertyField(valueRect, variable, GUIContent.none);
             }
-
-            if (EditorGUI.EndChangeCheck())
-                property.serializedObject.ApplyModifiedProperties();
-
-            EditorGUI.EndProperty();
         }
+        private void DrawGenericPropertyField(Rect valueRect)
+        {
+            Type genericReferenceType = GetReferenceGenericType(constantValue);
+            if (genericReferenceType != null)
+            {
+                GenericPropertyDrawer.DrawPropertyDrawer(valueRect, genericReferenceType, constantValue, GUIContent.none);
+            }
+            else
+            {
+                Debug.LogWarningFormat(
+                    property.objectReferenceValue,
+                    COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT,
+                    CONSTANT_VALUE_PROPERTY_NAME,
+                    GetReferenceType(constantValue));
+            }
+        }
+        private Rect GetMultiLineFieldRect(Rect position)
+        {
+            return EditorGUI.IndentedRect(new Rect
+            {
+                position = new Vector2(position.x, position.y + EditorGUIUtility.singleLineHeight),
+                size = new Vector2(position.width, EditorGUI.GetPropertyHeight(constantValue) + EditorGUIUtility.singleLineHeight)
+            });
+        }
+        private bool ShouldDrawMultiLineField()
+        {
+            return useConstant.boolValue && SupportsMultiLine(constantValue) && EditorGUI.GetPropertyHeight(constantValue) > EditorGUIUtility.singleLineHeight;
+        }
+        private int ResetIndent()
+        {
+            // Store old indent level and set it to 0, the PrefixLabel takes care of it
+            int indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
 
+            return indent;
+        }
+        private void EndIndent(int indent)
+        {
+            EditorGUI.indentLevel = indent;
+        }
+        private int DrawPopupButton(Rect rect, int value)
+        {
+            return EditorGUI.Popup(rect, value, popupOptions, Styles.PopupStyle);
+        }
+        private Rect GetValueRect(Rect fieldRect, Rect buttonRect)
+        {
+            Rect valueRect = new Rect(fieldRect);
+            valueRect.x += buttonRect.width;
+            valueRect.width -= buttonRect.width;
+
+            return valueRect;
+        }
+        private Rect GetPopupButtonRect(Rect fieldrect)
+        {
+            Rect buttonRect = new Rect(fieldrect);
+            buttonRect.yMin += Styles.PopupStyle.margin.top;
+            buttonRect.width = Styles.PopupStyle.fixedWidth + Styles.PopupStyle.margin.right;
+            buttonRect.height = Styles.PopupStyle.fixedHeight + Styles.PopupStyle.margin.top;
+
+            return buttonRect;
+        }
+        
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
-            var constantPropertyHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME));
-            return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
-                ? EditorGUIUtility.singleLineHeight
-                : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
+            SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
+            if (SupportsMultiLine(constantValue))
+            {
+                SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
+                var constantPropertyHeight = EditorGUI.GetPropertyHeight(constantValue);
+                return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
+                    ? EditorGUIUtility.singleLineHeight
+                    : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
+            }
+            else
+            {
+                return base.GetPropertyHeight(property, label);
+            }
+        }
+
+        public bool SupportsMultiLine(SerializedProperty property)
+        {
+            Type baseReferenceType = GetReferenceType(property);
+            FieldInfo constantValueField = baseReferenceType.GetField(CONSTANT_VALUE_PROPERTY_NAME, BindingFlags.Instance | BindingFlags.NonPublic);
+
+            return SupportsMultiLine(constantValueField.FieldType);
+        }
+        public bool SupportsMultiLine(Type type)
+        {
+            return type.GetCustomAttributes(typeof(MultiLine), true).Length > 0;
+        }
+
+        public Type GetReferenceType(SerializedProperty property)
+        {
+            return SerializedPropertyHelper.GetParent(property).GetType();
+        }
+
+        public Type GetReferenceGenericType(SerializedProperty property)
+        {
+            var referenceObject = SerializedPropertyHelper.GetParent(property);
+            var valueFieldInfo = referenceObject.GetType().GetField(
+                CONSTANT_VALUE_PROPERTY_NAME,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            return valueFieldInfo == null ? null : valueFieldInfo.FieldType;
+        }
+
+        static class Styles
+        {
+            static Styles()
+            {
+                PopupStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions"))
+                {
+                    imagePosition = ImagePosition.ImageOnly,
+                };
+            }
+
+            public static GUIStyle PopupStyle { get; set; }
         }
     }
 }

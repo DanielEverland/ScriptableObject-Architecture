@@ -51,8 +51,7 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 drawHeaderCallback = DrawHeader,
                 drawElementCallback = DrawElement,
-                elementHeightCallback = GetElementHeight,
-                onRemoveCallback = Remove
+                elementHeightCallback = GetElementHeight
             };
         }
         public override void OnInspectorGUI()
@@ -94,10 +93,6 @@ namespace ScriptableObjectArchitecture.Editor
             return GenericPropertyDrawer.IsSingleLineGUIType(Target.Type)
                 ? EditorGUIUtility.singleLineHeight
                 : EditorGUI.GetPropertyHeight(indexedItemProperty);
-        }
-        private void Remove(ReorderableList list)
-        {
-            Target.List.RemoveAt(list.index);
         }
     }
 }

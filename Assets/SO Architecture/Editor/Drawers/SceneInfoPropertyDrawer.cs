@@ -10,6 +10,7 @@ namespace ScriptableObjectArchitecture.Editor
         private const string SCENE_NAME_PROPERTY = "_sceneName";
         private const string SCENE_INDEX_PROPERTY = "_sceneIndex";
         private const string SCENE_ENABLED_PROPERTY = "_isSceneEnabled";
+        private const int FIELD_COUNT = 4;
 
         public override void OnGUI(Rect propertyRect, SerializedProperty property, GUIContent label)
         {
@@ -69,7 +70,7 @@ namespace ScriptableObjectArchitecture.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 4;
+            return EditorGUIUtility.singleLineHeight * FIELD_COUNT;
         }
     }
 }
