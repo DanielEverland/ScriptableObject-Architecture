@@ -27,8 +27,11 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private static void GatherFilePaths()
         {
+            string assetPath = Application.dataPath;
+            string folderToStartSearch = Directory.GetParent(assetPath).FullName;
+
             Queue<string> foldersToCheck = new Queue<string>();
-            foldersToCheck.Enqueue(Application.dataPath);
+            foldersToCheck.Enqueue(folderToStartSearch);
 
             while (foldersToCheck.Count > 0)
             {
@@ -113,8 +116,6 @@ namespace ScriptableObjectArchitecture.Editor
                     GenerateScript(i);
                 }
             }
-
-            AssetDatabase.Refresh();
         }
         private static void GenerateScript(int index)
         {
