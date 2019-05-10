@@ -116,8 +116,6 @@ namespace ScriptableObjectArchitecture.Editor
                     GenerateScript(i);
                 }
             }
-
-            AssetDatabase.Refresh();
         }
         private static void GenerateScript(int index)
         {
