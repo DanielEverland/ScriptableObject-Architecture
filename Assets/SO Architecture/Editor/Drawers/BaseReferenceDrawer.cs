@@ -87,7 +87,7 @@ namespace ScriptableObjectArchitecture.Editor
         {
             if (ValueType != null)
             {
-                GenericPropertyDrawer.DrawPropertyDrawer(valueRect, ValueType, constantValue, GUIContent.none);
+                GenericPropertyDrawer.DrawPropertyDrawer(valueRect, GUIContent.none, ValueType, constantValue, GUIContent.none);
             }
             else
             {

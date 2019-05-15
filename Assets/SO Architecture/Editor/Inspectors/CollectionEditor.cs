@@ -51,7 +51,6 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 drawHeaderCallback = DrawHeader,
                 drawElementCallback = DrawElement,
-                elementHeightCallback = GetElementHeight
             };
         }
         public override void OnInspectorGUI()
@@ -73,26 +72,14 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
         {
+            rect = SOArchitecture_EditorUtility.GetReorderableListElementFieldRect(rect);
             SerializedProperty property = CollectionItemsProperty.GetArrayElementAtIndex(index);
 
             EditorGUI.BeginDisabledGroup(DISABLE_ELEMENTS);
 
-            GenericPropertyDrawer.DrawPropertyDrawer(rect, Target.Type, property, _noPropertyDrawerWarningGUIContent);
+            GenericPropertyDrawer.DrawPropertyDrawer(rect, new GUIContent("Element " + index), Target.Type, property, _noPropertyDrawerWarningGUIContent);
 
             EditorGUI.EndDisabledGroup();
-        }
-
-        /// <summary>
-        /// Return the height of the item in the <see cref="ReorderableList"/> that is being drawn.
-        /// </summary>
-        /// <param name="index">The index of the item in the list being drawn.</param>
-        /// <returns></returns>
-        private float GetElementHeight(int index)
-        {
-            var indexedItemProperty = CollectionItemsProperty.GetArrayElementAtIndex(index);
-            return GenericPropertyDrawer.IsSingleLineGUIType(Target.Type)
-                ? EditorGUIUtility.singleLineHeight
-                : EditorGUI.GetPropertyHeight(indexedItemProperty);
         }
     }
 }

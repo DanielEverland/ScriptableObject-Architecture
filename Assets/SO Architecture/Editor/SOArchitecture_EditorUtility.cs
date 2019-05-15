@@ -36,6 +36,17 @@ namespace ScriptableObjectArchitecture.Editor
 
             DebugStyle.normal.background = CreateTexture(2, 2, debugColor);
         }
+
+        /// <summary>
+        /// Converts the entire rect of a <see cref="UnityEditorInternal.ReorderableList"/> element into a rect used for displaying a field
+        /// </summary>
+        public static Rect GetReorderableListElementFieldRect(Rect elementRect)
+        {
+            elementRect.height = EditorGUIUtility.singleLineHeight;
+            elementRect.y++;
+
+            return elementRect;
+        }
         public static bool SupportsMultiLine(Type type)
         {
             return type.GetCustomAttributes(typeof(MultiLine), true).Length > 0;
