@@ -36,6 +36,10 @@ namespace ScriptableObjectArchitecture.Editor
 
             DebugStyle.normal.background = CreateTexture(2, 2, debugColor);
         }
+        public static bool SupportsMultiLine(Type type)
+        {
+            return type.GetCustomAttributes(typeof(MultiLine), true).Length > 0;
+        }
         public static bool HasPropertyDrawer(Type type)
         {
             return HasPropertyDrawer(type, _defaultTargetType);

@@ -27,6 +27,9 @@ namespace ScriptableObjectArchitecture.Editor
         private const string COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT =
             "Could not find FieldInfo for [{0}] specific property drawer on type [{1}].";
 
+        private Type ValueType { get { return BaseReferenceHelper.GetValueType(fieldInfo); } }
+        private bool SupportsMultiLine { get { return SOArchitecture_EditorUtility.SupportsMultiLine(ValueType); } }
+
         private SerializedProperty property;
         private SerializedProperty useConstant;
         private SerializedProperty constantValue;
@@ -82,10 +85,9 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private void DrawGenericPropertyField(Rect valueRect)
         {
-            Type genericReferenceType = GetReferenceGenericType(constantValue);
-            if (genericReferenceType != null)
+            if (ValueType != null)
             {
-                GenericPropertyDrawer.DrawPropertyDrawer(valueRect, genericReferenceType, constantValue, GUIContent.none);
+                GenericPropertyDrawer.DrawPropertyDrawer(valueRect, ValueType, constantValue, GUIContent.none);
             }
             else
             {
@@ -93,7 +95,7 @@ namespace ScriptableObjectArchitecture.Editor
                     property.objectReferenceValue,
                     COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT,
                     CONSTANT_VALUE_PROPERTY_NAME,
-                    GetReferenceType(constantValue));
+                    ValueType);
             }
         }
         private Rect GetMultiLineFieldRect(Rect position)
@@ -106,7 +108,7 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private bool ShouldDrawMultiLineField()
         {
-            return useConstant.boolValue && SupportsMultiLine(constantValue) && EditorGUI.GetPropertyHeight(constantValue) > EditorGUIUtility.singleLineHeight;
+            return useConstant.boolValue && SupportsMultiLine && EditorGUI.GetPropertyHeight(constantValue) > EditorGUIUtility.singleLineHeight;
         }
         private int ResetIndent()
         {
@@ -144,11 +146,12 @@ namespace ScriptableObjectArchitecture.Editor
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
-            if (SupportsMultiLine(constantValue))
+            if (SupportsMultiLine)
             {
+                SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
                 SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
-                var constantPropertyHeight = EditorGUI.GetPropertyHeight(constantValue);
+
+                float constantPropertyHeight = EditorGUI.GetPropertyHeight(constantValue);
                 return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
                     ? EditorGUIUtility.singleLineHeight
                     : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
@@ -158,34 +161,7 @@ namespace ScriptableObjectArchitecture.Editor
                 return base.GetPropertyHeight(property, label);
             }
         }
-
-        public bool SupportsMultiLine(SerializedProperty property)
-        {
-            Type baseReferenceType = GetReferenceType(property);
-            FieldInfo constantValueField = baseReferenceType.GetField(CONSTANT_VALUE_PROPERTY_NAME, BindingFlags.Instance | BindingFlags.NonPublic);
-
-            return SupportsMultiLine(constantValueField.FieldType);
-        }
-        public bool SupportsMultiLine(Type type)
-        {
-            return type.GetCustomAttributes(typeof(MultiLine), true).Length > 0;
-        }
-
-        public Type GetReferenceType(SerializedProperty property)
-        {
-            return SerializedPropertyHelper.GetParent(property).GetType();
-        }
-
-        public Type GetReferenceGenericType(SerializedProperty property)
-        {
-            var referenceObject = SerializedPropertyHelper.GetParent(property);
-            var valueFieldInfo = referenceObject.GetType().GetField(
-                CONSTANT_VALUE_PROPERTY_NAME,
-                BindingFlags.Instance | BindingFlags.NonPublic);
-
-            return valueFieldInfo == null ? null : valueFieldInfo.FieldType;
-        }
-
+        
         static class Styles
         {
             static Styles()
