@@ -89,6 +89,7 @@ namespace ScriptableObjectArchitecture.Editor
                 };
 
                 SO_CodeGenerator.Generate(data);
+                AssetDatabase.Refresh();
             }
         }
         private void TypeSelection()

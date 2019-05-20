@@ -29,3 +29,24 @@ Custom icons
 Easy and automatic script generation
 
 ![](https://i.imgur.com/xm2gNmo.png)
+
+# Installation
+
+There are three ways you can install this package
+- [Unity Asset Store](https://assetstore.unity.com/packages/tools/utilities/scriptableobject-architecture-131520)
+- .unitypackage from [Releases](https://github.com/DanielEverland/ScriptableObject-Architecture/releases)
+- Unity package manager introduced in 2017.2
+
+## Package Manager Installation
+
+Simply modify your `manifest.json` file found at `/PROJECTNAME/Packages/manifest.json` by including the following line
+
+```
+{
+	"dependencies": {
+		...
+		"com.danieleverland.scriptableobjectarchitecture": "https://github.com/DanielEverland/ScriptableObject-Architecture.git#release/stable",
+		...
+	}
+}
+```

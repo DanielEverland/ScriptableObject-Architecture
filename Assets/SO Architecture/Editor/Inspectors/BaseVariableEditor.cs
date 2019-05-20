@@ -53,7 +53,7 @@ namespace ScriptableObjectArchitecture.Editor
             using (var scope = new EditorGUI.ChangeCheckScope())
             {
                 string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
-                GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, _valueProperty, new GUIContent(content, content));
+                GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
 
                 if (scope.changed)
                 {

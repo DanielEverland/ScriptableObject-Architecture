@@ -73,7 +73,7 @@ namespace ScriptableObjectArchitecture
         public void RemoveListener(System.Action action)
         {
             if (_variable != null)
-                _variable.AddListener(action);
+                _variable.RemoveListener(action);
         }
         public override string ToString()
         {

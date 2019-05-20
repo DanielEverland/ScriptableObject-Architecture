@@ -20,6 +20,9 @@ namespace ScriptableObjectArchitecture.Editor
         {
             DrawRaiseButton();
 
+            if (!SOArchitecture_Settings.Instance.EnableDebug)
+                EditorGUILayout.HelpBox("Debug mode disabled\nStack traces will not be filed on raise!", MessageType.Warning);
+
             _stackTrace.Draw();
 
             EditorGUILayout.PropertyField(DeveloperDescription);

@@ -29,12 +29,10 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private object GetDebugValue(SerializedProperty property)
         {
-            object parent = SerializedPropertyHelper.GetParent(property);
-            Type parentType = parent.GetType();
+            Type targetType = property.serializedObject.targetObject.GetType();
+            FieldInfo targetField = targetType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            FieldInfo targetField = parentType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            return targetField.GetValue(parent);
+            return targetField.GetValue(property.serializedObject.targetObject);
         }
         private void CallMethod(object value)
         {
