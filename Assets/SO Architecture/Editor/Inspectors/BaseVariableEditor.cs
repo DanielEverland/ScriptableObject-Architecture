@@ -21,6 +21,8 @@ namespace ScriptableObjectArchitecture.Editor
         private AnimBool _raiseWarningAnimation;
         private AnimBool _isClampedVariableAnimation;
 
+        private StackTrace _stackTrace;
+
         private const string READONLY_TOOLTIP = "Should this value be changable during runtime? Will still be editable in the inspector regardless";
 
         protected virtual void OnEnable()
@@ -38,6 +40,9 @@ namespace ScriptableObjectArchitecture.Editor
 
             _isClampedVariableAnimation = new AnimBool(_isClamped.boolValue);
             _isClampedVariableAnimation.valueChanged.AddListener(Repaint);
+
+            _stackTrace = new StackTrace(Target as IStackTraceObject);
+            _stackTrace.OnRepaint.AddListener(Repaint);
         }
         public override void OnInspectorGUI()
         {
@@ -47,7 +52,10 @@ namespace ScriptableObjectArchitecture.Editor
             DrawClampedFields();
             DrawReadonlyField();
             DrawDeveloperDescription();
+
+            _stackTrace.Draw();
         }
+
         protected virtual void DrawValue()
         {
             using (var scope = new EditorGUI.ChangeCheckScope())
@@ -58,6 +66,7 @@ namespace ScriptableObjectArchitecture.Editor
                 if (scope.changed)
                 {
                     // Value changed, raise events
+                    serializedObject.ApplyModifiedProperties();
                     Target.Raise();
                 }
             }

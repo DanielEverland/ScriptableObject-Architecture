@@ -14,7 +14,7 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private SerializedProperty CollectionItemsProperty
         {
-            get { return serializedObject.FindProperty(LIST_PROPERTY_NAME);}
+            get { return serializedObject.FindProperty(LIST_PROPERTY_NAME); }
         }
 
         private ReorderableList _reorderableList;

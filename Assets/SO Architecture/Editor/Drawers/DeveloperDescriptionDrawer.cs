@@ -15,6 +15,7 @@ namespace ScriptableObjectArchitecture.Editor
             DrawTitle(ref position, property);
             DrawTextArea(ref position, property);
 
+            EditorGUILayout.Space();
             property.serializedObject.ApplyModifiedProperties();
         }
         private void DrawTitle(ref Rect rect, SerializedProperty property)

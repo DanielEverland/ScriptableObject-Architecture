@@ -266,9 +266,10 @@ where TResponse : UnityEvent<TType>
         }
         private GameObject GetGameObject(Object obj)
         {
-            if (obj is Component)
+            if (obj is Component component)
             {
-                Component component = obj as Component;
+                if (component == null)
+                    return null;
 
                 return component.gameObject;
             }
@@ -295,5 +296,5 @@ where TResponse : UnityEvent<TType>
             public string FunctionName;
         }
 #endif
-    } 
+    }
 }

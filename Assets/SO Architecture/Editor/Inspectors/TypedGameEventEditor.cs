@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Type = System.Type;
 
 namespace ScriptableObjectArchitecture.Editor
@@ -16,25 +17,31 @@ namespace ScriptableObjectArchitecture.Editor
 
             _raiseMethod = target.GetType().BaseType.GetMethod("Raise", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
         }
+
+        protected virtual void DrawDebugValue(SerializedProperty property)
+        {
+            EditorGUILayout.PropertyField(property);
+        }
+
         protected override void DrawRaiseButton()
         {
             SerializedProperty property = serializedObject.FindProperty("_debugValue");
+            DrawDebugValue(property);
 
-            EditorGUILayout.PropertyField(property);
 
             if (GUILayout.Button("Raise"))
             {
                 CallMethod(GetDebugValue(property));
             }
         }
-        private object GetDebugValue(SerializedProperty property)
+        protected object GetDebugValue(SerializedProperty property)
         {
             Type targetType = property.serializedObject.targetObject.GetType();
             FieldInfo targetField = targetType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
-
+            Assert.IsNotNull(targetField, "É nulo");
             return targetField.GetValue(property.serializedObject.targetObject);
         }
-        private void CallMethod(object value)
+        protected virtual void CallMethod(object value)
         {
             _raiseMethod.Invoke(target, new object[1] { value });
         }

@@ -13,6 +13,9 @@ namespace ScriptableObjectArchitecture
 
         public void Raise(T value)
         {
+            if (!Enabled)
+                return;
+
             AddStackTrace(value);
 
             for (int i = _typedListeners.Count - 1; i >= 0; i--)
@@ -27,6 +30,12 @@ namespace ScriptableObjectArchitecture
             for (int i = _actions.Count - 1; i >= 0; i--)
                 _actions[i]();
         }
+
+        public override void Raise(object value)
+        {
+            Raise((T) value);
+        }
+
         public void AddListener(IGameEventListener<T> listener)
         {
             if (!_typedListeners.Contains(listener))
@@ -51,12 +60,22 @@ namespace ScriptableObjectArchitecture
         {
             return "GameEventBase<" + typeof(T) + ">";
         }
+
+
+        public override System.Type GetEventType()
+        {
+            return typeof(T);
+        }
     }
     public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, IStackTraceObject
     {
         protected readonly List<IGameEventListener> _listeners = new List<IGameEventListener>();
         protected readonly List<System.Action> _actions = new List<System.Action>();
 
+        [SerializeField]
+        protected bool _enabled = true;
+
+        public bool Enabled => _enabled;
         public List<StackTraceEntry> StackTraces { get { return _stackTraces; } }
         private List<StackTraceEntry> _stackTraces = new List<StackTraceEntry>();
 
@@ -77,6 +96,10 @@ namespace ScriptableObjectArchitecture
 
         public void Raise()
         {
+            //Debug.Log(name);
+            if (!Enabled)
+                return;
+
             AddStackTrace();
 
             for (int i = _listeners.Count - 1; i >= 0; i--)
@@ -85,11 +108,18 @@ namespace ScriptableObjectArchitecture
             for (int i = _actions.Count - 1; i >= 0; i--)
                 _actions[i]();
         }
+
+        public virtual void Raise(object value)
+        {
+            Raise();
+        }
+
         public void AddListener(IGameEventListener listener)
         {
             if (!_listeners.Contains(listener))
                 _listeners.Add(listener);
         }
+
         public void RemoveListener(IGameEventListener listener)
         {
             if (_listeners.Contains(listener))
@@ -109,6 +139,11 @@ namespace ScriptableObjectArchitecture
         {
             _listeners.RemoveRange(0, _listeners.Count);
             _actions.RemoveRange(0, _listeners.Count);
+        }
+
+        public virtual System.Type GetEventType()
+        {
+            return null;
         }
     } 
 }

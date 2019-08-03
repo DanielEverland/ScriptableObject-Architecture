@@ -9,7 +9,7 @@ namespace ScriptableObjectArchitecture.Editor
         private SerializedProperty DeveloperDescription { get { return serializedObject.FindProperty("DeveloperDescription"); } }
 
         private StackTrace _stackTrace;
-        private SerializedProperty _event;
+        protected SerializedProperty _event;
         private SerializedProperty _debugColor;
         private SerializedProperty _response;
         private SerializedProperty _enableDebug;
@@ -28,23 +28,44 @@ namespace ScriptableObjectArchitecture.Editor
             _enableDebug = serializedObject.FindProperty("_enableGizmoDebugging");
             _showDebugFields = serializedObject.FindProperty("_showDebugFields");
         }
-        public override void OnInspectorGUI()
+
+        protected virtual void DrawGameEventField()
         {
             EditorGUILayout.ObjectField(_event, new GUIContent("Event", "Event which will trigger the response"));
+
+        }
+
+        protected virtual void DrawResponseField()
+        {
             EditorGUILayout.PropertyField(_response, new GUIContent("Response"));
+        }
 
-            _showDebugFields.boolValue = EditorGUILayout.Foldout(_showDebugFields.boolValue, new GUIContent("Show Debug Fields"));
-            if (_showDebugFields.boolValue)
-            {
-                DrawDebugging();
-            }
+        public override void OnInspectorGUI()
+        {
+            DrawGameEventField();
+            DrawResponseField();
 
-            EditorGUILayout.PropertyField(DeveloperDescription);
+            DrawDebugging();
+
+            DrawDeveloperDescription();
 
             serializedObject.ApplyModifiedProperties();
         }
+
+        protected virtual void DrawDeveloperDescription()
+        {
+            EditorGUILayout.PropertyField(DeveloperDescription);
+        }
+
         private void DrawDebugging()
         {
+
+            _showDebugFields.boolValue = EditorGUILayout.Foldout(_showDebugFields.boolValue, new GUIContent("Show Debug Fields"));
+            if (!_showDebugFields.boolValue)
+            {
+                return;
+            }
+
             EditorGUILayout.LabelField("Callback Debugging", EditorStyles.boldLabel);
             using (new EditorGUI.IndentLevelScope())
             {
@@ -63,7 +84,7 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 EditorGUILayout.PropertyField(_enableDebug, new GUIContent("Enable Gizmo Debugging"));
 
-                using (new EditorGUI.DisabledGroupScope(_enableDebug.boolValue))
+                using (new EditorGUI.DisabledGroupScope(!_enableDebug.boolValue))
                 {
                     EditorGUILayout.PropertyField(_debugColor, new GUIContent("Debug Color", "Color used to draw debug gizmos in the scene"));
                 }

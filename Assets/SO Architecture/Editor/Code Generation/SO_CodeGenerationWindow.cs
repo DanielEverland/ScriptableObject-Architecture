@@ -25,12 +25,13 @@ namespace ScriptableObjectArchitecture.Editor
 
         private readonly bool[,] _dependencyGraph = new bool[SO_CodeGenerator.TYPE_COUNT, SO_CodeGenerator.TYPE_COUNT]
         {
-            { false, true, false, false, true, false, },
-            { false, false, true, false, false, false, },
-            { false, false, false, false, false, true, },
-            { false, false, false, false, false, false, },
-            { false, false, false, false, false, false, },
-            { false, false, false, false, false, false, },
+            { false, true, false, false, true, false, false},
+            { false, false, true, false, false, false,false },
+            { false, false, false, false, false, true, false},
+            { false, false, false, false, false, false,false },
+            { false, false, false, false, false, false, false},
+            { false, false, false, false, false, false, false},
+            { false, false, false, false, true, true, false},
         };
 
         private readonly bool[] _states = new bool[SO_CodeGenerator.TYPE_COUNT];
@@ -42,11 +43,12 @@ namespace ScriptableObjectArchitecture.Editor
             "Collection",
             "Unity Event",
             "Variable",
+            "Observer"
         };
 
         private readonly bool[] _menuRequirement = new bool[SO_CodeGenerator.TYPE_COUNT]
         {
-            false, true, false, true, false, true
+            false, true, false, true, false, true, true
         };
 
         private int _order;
