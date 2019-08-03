@@ -1,0 +1,9 @@
+using UnityEngine;
+
+namespace ScriptableObjectArchitecture
+{
+	[AddComponentMenu(SOArchitecture_Utility.OBSERVER_SUBMENU + "$MENU_NAME$")]
+	public sealed class $TYPE_NAME$Observer : BaseObserver<$TYPE$, $TYPE_NAME$Variable, $TYPE_NAME$UnityEvent>
+	{
+	}
+}
