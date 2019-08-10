@@ -2,7 +2,7 @@
     "name": "com.paulomattos.scriptableobjectarchitecture",
     "displayName": "ScriptableObject Architecture",
     "description": "Makes using Scriptable Objects as a fundamental part of your architecture in Unity super easy",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "unity": "2019.2",
     "license": "MIT",
     "dependencies": 

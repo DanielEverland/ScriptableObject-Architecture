@@ -75,7 +75,7 @@ namespace ScriptableObjectArchitecture
         {
             get { return UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.SceneAsset>(_sceneName); }
         }
-        #endif
+#endif
 
         [SerializeField]
         private string _sceneName;
@@ -108,6 +108,7 @@ namespace ScriptableObjectArchitecture
                     if (scenes[i].guid.ToString() == sceneAssetGUID)
                     {
                         SceneIndex = i;
+                        _sceneName = sceneAssetPath;
                         IsSceneEnabled = scenes[i].enabled;
                         break;
                     }
