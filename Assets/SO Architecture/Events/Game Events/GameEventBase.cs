@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace ScriptableObjectArchitecture
@@ -31,9 +32,9 @@ namespace ScriptableObjectArchitecture
                 _actions[i]();
         }
 
-        public override void Raise(object value)
+        public override void RaiseAsObject(object value)
         {
-            Raise((T) value);
+            Raise((T)value);
         }
 
         public void AddListener(IGameEventListener<T> listener)
@@ -96,7 +97,6 @@ namespace ScriptableObjectArchitecture
 
         public void Raise()
         {
-            //Debug.Log(name);
             if (!Enabled)
                 return;
 
@@ -109,7 +109,7 @@ namespace ScriptableObjectArchitecture
                 _actions[i]();
         }
 
-        public virtual void Raise(object value)
+        public virtual void RaiseAsObject(object value)
         {
             Raise();
         }

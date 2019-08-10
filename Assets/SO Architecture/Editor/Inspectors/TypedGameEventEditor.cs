@@ -15,7 +15,7 @@ namespace ScriptableObjectArchitecture.Editor
         {
             base.OnEnable();
 
-            _raiseMethod = target.GetType().BaseType.GetMethod("Raise", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
+            _raiseMethod = target.GetType().BaseType.GetMethod(nameof(GameEventBase.Raise), BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
         }
 
         protected virtual void DrawDebugValue(SerializedProperty property)
@@ -38,7 +38,6 @@ namespace ScriptableObjectArchitecture.Editor
         {
             Type targetType = property.serializedObject.targetObject.GetType();
             FieldInfo targetField = targetType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
-            Assert.IsNotNull(targetField, "É nulo");
             return targetField.GetValue(property.serializedObject.targetObject);
         }
         protected virtual void CallMethod(object value)
