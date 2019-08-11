@@ -71,17 +71,14 @@ namespace ScriptableObjectArchitecture
 
         public virtual void Awake()
         {
-            Debug.Log("Awake");
         }
 
         public virtual void OnEnable()
         {
-            Debug.Log("OnEnable");
         }
 
         public virtual void OnDisable()
         {
-            Debug.Log("OnDisable");
         }
     }
     public abstract class BaseVariable<T> : Subject<T>
