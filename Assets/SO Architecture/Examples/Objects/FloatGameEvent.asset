@@ -4,12 +4,15 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9377ffeb64ba30478a995a8ffc78ae8, type: 3}
-  m_Name: Player Starting Health
+  m_Script: {fileID: 11500000, guid: 001ce7190bfda8a4d9ca56a17f8fdd0b, type: 3}
+  m_Name: FloatGameEvent
   m_EditorClassIdentifier: 
-  DeveloperDescription: 
-  _value: 100
+  DeveloperDescription:
+    _value: 
+  _enabled: 1
+  _debugValue: 0

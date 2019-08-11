@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScriptableObjectArchitecture
@@ -59,6 +60,21 @@ namespace ScriptableObjectArchitecture
         public abstract void Raise();
 
         protected abstract void ClampValue();
+
+        public virtual void Awake()
+        {
+            Debug.Log("Awake");
+        }
+
+        public virtual void OnEnable()
+        {
+            Debug.Log("OnEnable");
+        }
+
+        public virtual void OnDisable()
+        {
+            Debug.Log("OnDisable");
+        }
     }
     public abstract class BaseVariable<T> : Subject<T>
     {
@@ -121,6 +137,10 @@ namespace ScriptableObjectArchitecture
         }
 
         [SerializeField]
+        private bool _resetWhenStart = true;
+        [SerializeField]
+        protected T _defaultValue;
+        [SerializeField]
         protected T _value = default(T);
         [SerializeField]
         private bool _readOnly = false;
@@ -132,7 +152,16 @@ namespace ScriptableObjectArchitecture
         protected T _minClampedValue = default(T);
         [SerializeField]
         protected T _maxClampedValue = default(T);
-        
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            if (_resetWhenStart/* && Application.isPlaying*/)
+            {
+                _value = _defaultValue;
+            }
+        }
+
         public virtual T SetValue(T value)
         {
             if (_readOnly)

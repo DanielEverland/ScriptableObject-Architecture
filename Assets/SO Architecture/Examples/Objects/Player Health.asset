@@ -4,18 +4,21 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9377ffeb64ba30478a995a8ffc78ae8, type: 3}
   m_Name: Player Health
   m_EditorClassIdentifier: 
-  DeveloperDescription: 'It''s important to remember that Scriptable Objects will
-    not reset when you exit playmode. This means that player health is not automatically
-    reset
-
-
-    Simply have a separate object that contains the starting health of your player,
-    and make sure the health component resets on awake'
-  _value: -60
+  DeveloperDescription:
+    _value: 
+  _resetWhenStart: 1
+  _defaultValue: 100
+  _value: 62.1
+  _readOnly: 0
+  _raiseWarning: 1
+  _isClamped: 0
+  _minClampedValue: 0
+  _maxClampedValue: 0

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeveloperDescription:
     _value: 
+  _resetWhenStart: 0
+  _defaultValue: 0
   _value: 10
   _readOnly: 0
   _raiseWarning: 1

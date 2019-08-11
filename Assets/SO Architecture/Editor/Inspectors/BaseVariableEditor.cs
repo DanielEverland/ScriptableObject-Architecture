@@ -11,6 +11,8 @@ namespace ScriptableObjectArchitecture.Editor
         protected bool IsClampable { get { return Target.Clampable; } }
         protected bool IsClamped { get { return Target.IsClamped; } }
 
+        private SerializedProperty _defaultValueProperty;
+        private SerializedProperty _resetProperty;
         private SerializedProperty _valueProperty;
         private SerializedProperty _developerDescription;
         private SerializedProperty _readOnly;
@@ -19,6 +21,7 @@ namespace ScriptableObjectArchitecture.Editor
         private SerializedProperty _minValueProperty;
         private SerializedProperty _maxValueProperty;
         private AnimBool _raiseWarningAnimation;
+        private AnimBool _resetOnStartAnimation;
         private AnimBool _isClampedVariableAnimation;
 
         private StackTrace _stackTrace;
@@ -27,6 +30,8 @@ namespace ScriptableObjectArchitecture.Editor
 
         protected virtual void OnEnable()
         {
+            _defaultValueProperty = serializedObject.FindProperty("_defaultValue");
+            _resetProperty = serializedObject.FindProperty("_resetWhenStart");
             _valueProperty = serializedObject.FindProperty("_value");
             _developerDescription = serializedObject.FindProperty("DeveloperDescription");
             _readOnly = serializedObject.FindProperty("_readOnly");
@@ -34,6 +39,9 @@ namespace ScriptableObjectArchitecture.Editor
             _isClamped = serializedObject.FindProperty("_isClamped");
             _minValueProperty = serializedObject.FindProperty("_minClampedValue");
             _maxValueProperty = serializedObject.FindProperty("_maxClampedValue");
+
+            _resetOnStartAnimation = new AnimBool(_resetProperty.boolValue);
+            _resetOnStartAnimation.valueChanged.AddListener(Repaint);
 
             _raiseWarningAnimation = new AnimBool(_readOnly.boolValue);
             _raiseWarningAnimation.valueChanged.AddListener(Repaint);
@@ -49,8 +57,8 @@ namespace ScriptableObjectArchitecture.Editor
             serializedObject.Update();
 
             DrawValue();
-            DrawClampedFields();
             DrawReadonlyField();
+            DrawClampedFields();
             DrawDeveloperDescription();
 
             _stackTrace.Draw();
@@ -58,9 +66,25 @@ namespace ScriptableObjectArchitecture.Editor
 
         protected virtual void DrawValue()
         {
+            string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
+
+            EditorGUILayout.PropertyField(_resetProperty);
+            _resetOnStartAnimation.target = _resetProperty.boolValue;
+
+            using (var anim = new EditorGUILayout.FadeGroupScope(_resetOnStartAnimation.faded))
+            {
+                if (anim.visible)
+                {
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Default Value"),
+                            _defaultValueProperty, new GUIContent(content, content));
+                    }
+                }
+            }
+
             using (var scope = new EditorGUI.ChangeCheckScope())
             {
-                string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
                 GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
 
                 if (scope.changed)
@@ -94,7 +118,7 @@ namespace ScriptableObjectArchitecture.Editor
         }
         protected void DrawReadonlyField()
         {
-            if (IsClampable)
+            if (_isClamped.boolValue)
                 return;
 
             EditorGUILayout.PropertyField(_readOnly, new GUIContent("Read Only", READONLY_TOOLTIP));
