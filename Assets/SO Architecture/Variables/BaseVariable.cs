@@ -16,7 +16,11 @@ namespace ScriptableObjectArchitecture
         {
 #if UNITY_EDITOR
             if (SOArchitecture_Settings.Instance.EnableDebug)
-                _stackTraces.Insert(0, StackTraceEntry.Create());
+            {
+                var stackTrace = StackTraceEntry.Create();
+                _stackTraces.Insert(0, stackTrace);
+                Debug.Log(stackTrace);
+            }
 #endif
         }
 
@@ -24,7 +28,11 @@ namespace ScriptableObjectArchitecture
         {
 #if UNITY_EDITOR
             if (SOArchitecture_Settings.Instance.EnableDebug)
-                _stackTraces.Insert(0, StackTraceEntry.Create(value));
+            {
+                var stackTrace = StackTraceEntry.Create(value);
+                _stackTraces.Insert(0, stackTrace);
+                Debug.Log(stackTrace);
+            }
 #endif
         }
 
