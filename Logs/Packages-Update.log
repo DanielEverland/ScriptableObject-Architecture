@@ -45,3 +45,11 @@ The following packages were added:
 The following packages were updated:
   com.unity.package-manager-ui from version 2.1.2 to 2.2.0
   com.unity.timeline from version 1.0.0 to 1.1.0
+
+=== Sat Aug 17 17:04:34 2019
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were added:
+  com.unity.textmeshpro@2.0.1
