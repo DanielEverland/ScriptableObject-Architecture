@@ -79,5 +79,8 @@ namespace ScriptableObjectArchitecture
         {
             return "Collection<" + typeof(T) + ">(" + Count + ")";
         }
+        public T[] ToArray() {
+            return _list.ToArray();
+        }
     } 
 }
