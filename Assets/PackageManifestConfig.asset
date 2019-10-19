@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packageSourcePaths:
   - Assets/SO Architecture
-  packageDestinationPath: ../../../Desktop
+  packageIgnorePaths: []
+  packageDestinationPath: ../../../Desktop/test
+  legacyPackageDestinationPath: 
   packageName: com.danieleverland.scriptableobjectarchitecture
   displayName: ScriptableObject-Architecture
-  packageVersion: 1.6.0
-  unityVersion: 2018.1
+  packageVersion: 1.6.2
+  unityVersion: 2019.2
   description: Makes using Scriptable Objects as a fundamental part of your architecture
     in Unity super easy
   category: Tools
