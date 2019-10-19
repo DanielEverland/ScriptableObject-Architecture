@@ -1,11 +1,8 @@
 {
   "dependencies": {
-<<<<<<< HEAD
     "com.jeffcampbellmakesgames.packagetools": "https://github.com/jeffcampbellmakesgames/unity-package-tools.git#release/stable",
-=======
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
->>>>>>> master
     "com.unity.ads": "2.3.1",
     "com.unity.analytics": "3.3.2",
     "com.unity.collab-proxy": "1.2.16",
