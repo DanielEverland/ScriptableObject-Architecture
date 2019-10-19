@@ -19,3 +19,5 @@ void Clear()
 bool Contains(T)
 int IndexOf(T)
 Insert(int, T)
+
+T[] ToArray()
