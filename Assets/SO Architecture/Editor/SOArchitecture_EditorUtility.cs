@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -11,9 +12,6 @@ namespace ScriptableObjectArchitecture.Editor
     {
         static SOArchitecture_EditorUtility()
         {
-            //We use this as a default since it'll be Assembly-CSharp-Editor
-            _defaultTargetType = typeof(SOArchitecture_EditorUtility).Assembly;
-
             CreateDebugStyle();
         }
         
@@ -22,11 +20,60 @@ namespace ScriptableObjectArchitecture.Editor
         /// </summary>
         public static GUIStyle DebugStyle { get; private set; }
         private const float DebugStyleBackgroundAlpha = 0.33f;
-        
-        private static PropertyDrawerGraph _propertyDrawerGraph;
-        private static Assembly _defaultTargetType;
-        private static BindingFlags _fieldBindingsFlag = BindingFlags.Instance | BindingFlags.NonPublic;
 
+        private static PropertyDrawerGraph _propertyDrawerGraph;
+        private static BindingFlags _fieldBindingsFlag = BindingFlags.Instance | BindingFlags.NonPublic;
+        
+        private class AssemblyDefinitionSurrogate
+        {
+            public string name = "";
+        }
+
+        private static void CreatePropertyDrawerGraph()
+        {
+            _propertyDrawerGraph = new PropertyDrawerGraph();
+            HashSet<string> assemblyNamesToCheck = new HashSet<string>()
+            {
+                "Assembly-CSharp-Editor",
+            };
+
+            GetAllAssetDefintionNames(assemblyNamesToCheck);
+
+            string dataPath = Application.dataPath;
+            string libraryPath = dataPath.Substring(0, dataPath.LastIndexOf('/')) + "/Library/ScriptAssemblies";
+
+            foreach (string file in Directory.GetFiles(libraryPath))
+            {
+                if(assemblyNamesToCheck.Contains(Path.GetFileNameWithoutExtension(file)) && Path.GetExtension(file) == ".dll")
+                {
+                    Assembly assembly = Assembly.LoadFrom(file);
+                    _propertyDrawerGraph.CreateGraph(assembly);
+                }
+            }
+        }
+        private static void GetAllAssetDefintionNames(HashSet<string> targetList)
+        {
+            string[] assemblyDefinitionGUIDs = AssetDatabase.FindAssets("t:asmdef");
+
+            foreach (string guid in assemblyDefinitionGUIDs)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+
+                if (path.StartsWith("Assets/"))
+                {
+                    string fullPath = Application.dataPath + path.Remove(0, path.IndexOf('/'));
+                    
+                    targetList.Add(GetNameValueFromAssemblyDefinition(fullPath));
+                }
+            }
+        }
+        private static string GetNameValueFromAssemblyDefinition(string fullpath)
+        {
+            string allText = File.ReadAllText(fullpath);
+            AssemblyDefinitionSurrogate surrogate = JsonUtility.FromJson<AssemblyDefinitionSurrogate>(allText);
+
+            return surrogate.name;
+        }
         private static void CreateDebugStyle()
         {
             DebugStyle = new GUIStyle();
@@ -53,17 +100,8 @@ namespace ScriptableObjectArchitecture.Editor
         }
         public static bool HasPropertyDrawer(Type type)
         {
-            return HasPropertyDrawer(type, _defaultTargetType);
-        }
-        public static bool HasPropertyDrawer(Type type, Assembly assembly)
-        {
-            if (HasBuiltinPropertyDrawer(type))
-                return true;
-
             if (_propertyDrawerGraph == null)
-                _propertyDrawerGraph = new PropertyDrawerGraph();
-
-            _propertyDrawerGraph.CreateGraph(assembly);
+                CreatePropertyDrawerGraph();
 
             return _propertyDrawerGraph.HasPropertyDrawer(type);
         }
