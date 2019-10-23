@@ -54,6 +54,7 @@ Update Mode: updateDependencies
 The following packages were added:
   com.unity.textmeshpro@2.0.1
 
+<<<<<<< HEAD
 === Sun Oct 20 01:15:16 2019
 
 Packages were changed.
@@ -68,3 +69,13 @@ The following packages were removed:
   com.unity.multiplayer-hlapi@1.0.2
   com.unity.purchasing@2.0.6
   com.unity.xr.legacyinputhelpers@2.0.2
+=======
+=== Wed Oct 23 19:59:04 2019
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ide.rider from version 1.0.8 to 1.1.0
+  com.unity.ide.vscode from version 1.0.7 to 1.1.2
+>>>>>>> master
