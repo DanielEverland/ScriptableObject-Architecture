@@ -100,6 +100,9 @@ namespace ScriptableObjectArchitecture.Editor
         }
         public static bool HasPropertyDrawer(Type type)
         {
+            if (HasBuiltinPropertyDrawer(type))
+                return true;
+
             if (_propertyDrawerGraph == null)
                 CreatePropertyDrawerGraph();
 
