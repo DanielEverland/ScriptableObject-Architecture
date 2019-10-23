@@ -53,3 +53,12 @@ Update Mode: updateDependencies
 
 The following packages were added:
   com.unity.textmeshpro@2.0.1
+
+=== Wed Oct 23 19:59:04 2019
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ide.rider from version 1.0.8 to 1.1.0
+  com.unity.ide.vscode from version 1.0.7 to 1.1.2
