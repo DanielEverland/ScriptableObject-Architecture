@@ -174,7 +174,7 @@ namespace ScriptableObjectArchitecture
         /// <returns></returns>
         private static bool GetBoolPref(string key, bool defaultValue)
         {
-            if (EditorPrefs.HasKey(key))
+            if (!EditorPrefs.HasKey(key))
             {
                 EditorPrefs.SetBool(key, defaultValue);
             }
