@@ -250,7 +250,7 @@ where TResponse : UnityEvent<TType>
         }
         private bool EnableGizmoDebuggin()
         {
-            if (!SOArchitecture_Settings.Instance.DrawEventGizmos)
+            if (!SOArchitecturePreferences.AreGizmosEnabled)
                 return false;
 
             return _enableGizmoDebugging;

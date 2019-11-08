@@ -48,21 +48,31 @@ namespace ScriptableObjectArchitecture
         }
         #endregion
 
-        public bool DrawEventGizmos { get { return _drawEventGizmos; } }
-        public string CodeGenerationTargetDirectory { get { return _codeGenerationTargetDirectory; } }
-        public bool CodeGenerationAllowOverwrite { get { return _codeGenerationAllowOverwrite; } }
-        public int DefaultCreateAssetMenuOrder { get { return _defualtCreateAssetMenuOrder; } }
-        public bool EnableDebug { get { return _enableDebug; } }
+        public string CodeGenerationTargetDirectory
+        {
+            get { return _codeGenerationTargetDirectory; }
+            set { _codeGenerationTargetDirectory = value; }
+        }
+
+        public bool CodeGenerationAllowOverwrite
+        {
+            get { return _codeGenerationAllowOverwrite; }
+            set { _codeGenerationAllowOverwrite = value; }
+        }
+
+        public int DefaultCreateAssetMenuOrder
+        {
+            get { return _defualtCreateAssetMenuOrder; }
+            set { _defualtCreateAssetMenuOrder = value; }
+        }
 
         [SerializeField]
-        private bool _drawEventGizmos = true;
-        [SerializeField]
         private string _codeGenerationTargetDirectory = "CODE_GENERATION";
+
         [SerializeField, Tooltip("Allow newly generated code files to overwrite existing ones")]
         private bool _codeGenerationAllowOverwrite = false;
+
         [SerializeField]
         private int _defualtCreateAssetMenuOrder = 120;
-        [SerializeField, Tooltip("Will enable features such as game events collecting stack traces.\nWill decrease performance in-editor.")]
-        private bool _enableDebug = true;
     }
 }
