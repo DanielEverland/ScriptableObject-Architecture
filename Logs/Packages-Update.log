@@ -79,3 +79,25 @@ The following packages were updated:
   com.unity.ide.rider from version 1.0.8 to 1.1.0
   com.unity.ide.vscode from version 1.0.7 to 1.1.2
 >>>>>>> master
+
+=== Sat Nov  9 22:12:22 2019
+
+Packages were changed.
+Update Mode: resetToDefaultDependencies
+
+The following packages were added:
+  com.unity.analytics@3.3.2
+  com.unity.purchasing@2.0.6
+  com.unity.ads@2.0.8
+The following packages were updated:
+  com.unity.package-manager-ui from version 2.2.0 to 2.1.2
+  com.unity.timeline from version 1.1.0 to 1.0.0
+The following packages were removed:
+  com.jeffcampbellmakesgames.packagetools@https://github.com/jeffcampbellmakesgames/unity-package-tools.git#release/stable
+  com.unity.ext.nunit@1.0.0
+  com.unity.ide.rider@1.1.0
+  com.unity.ide.vscode@1.1.2
+  com.unity.multiplayer-hlapi@1.0.2
+  com.unity.test-framework@1.0.13
+  com.unity.ugui@1.0.0
+  com.unity.modules.androidjni@1.0.0
