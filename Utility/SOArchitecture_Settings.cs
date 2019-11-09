@@ -65,7 +65,7 @@ namespace ScriptableObjectArchitecture
 
             Selection.activeObject = newSettings;
 
-            Debug.LogWarning("No SOArchitecture_Settings asset found!" +
+            Debug.LogWarning("No SOArchitecture_Settings asset found! " +
                 "Created new one at asset root, feel free to move it wherever you please in your project.", newSettings);
 
             return newSettings;
