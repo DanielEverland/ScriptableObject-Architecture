@@ -29,6 +29,8 @@ namespace ScriptableObjectArchitecture
                 return CreateInstance();
 
             return instance;
+#else
+            return null;
 #endif
         }
         private static SOArchitecture_Settings FindInstanceInProject()
