@@ -16,9 +16,9 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-public void HealthChanged()
-{
-    if (currentHealth.Value < 0)
-        Destroy(gameObject);
-}
+    public void HealthChanged()
+    {
+        if (currentHealth.Value < 0)
+            Destroy(gameObject);
+    }
 }
