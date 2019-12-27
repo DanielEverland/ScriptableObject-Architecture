@@ -101,3 +101,24 @@ The following packages were removed:
   com.unity.test-framework@1.0.13
   com.unity.ugui@1.0.0
   com.unity.modules.androidjni@1.0.0
+
+=== Fri Dec 27 16:13:41 2019
+
+Packages were changed.
+Update Mode: resetToDefaultDependencies
+
+The following packages were added:
+  com.unity.ext.nunit@1.0.0
+  com.unity.test-framework@1.0.13
+  com.unity.ide.vscode@1.1.2
+  com.unity.ide.rider@1.1.0
+  com.unity.ugui@1.0.0
+  com.unity.modules.androidjni@1.0.0
+The following packages were updated:
+  com.unity.package-manager-ui from version 2.1.2 to 2.2.0
+  com.unity.timeline from version 1.0.0 to 1.1.0
+The following packages were removed:
+  com.jeffcampbellmakesgames.packagetools@https://github.com/jeffcampbellmakesgames/unity-package-tools.git#release/stable
+  com.unity.ads@2.0.8
+  com.unity.analytics@3.3.2
+  com.unity.purchasing@2.0.6
