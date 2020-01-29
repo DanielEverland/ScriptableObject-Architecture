@@ -22,7 +22,6 @@ namespace ScriptableObjectArchitecture.Editor
             serializedObject.Update();
 
             DrawValue();
-            DrawDeveloperDescription();
         }
         protected override void DrawValue()
         {

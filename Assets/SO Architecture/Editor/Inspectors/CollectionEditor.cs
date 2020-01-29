@@ -8,10 +8,6 @@ namespace ScriptableObjectArchitecture.Editor
     public class CollectionEditor : UnityEditor.Editor
     {
         private BaseCollection Target { get { return (BaseCollection)target; } }
-        private SerializedProperty DeveloperDescriptionProperty
-        {
-            get { return serializedObject.FindProperty(DESCRIPTION_PROPERTY_NAME); }
-        }
         private SerializedProperty CollectionItemsProperty
         {
             get { return serializedObject.FindProperty(LIST_PROPERTY_NAME);}
@@ -34,7 +30,6 @@ namespace ScriptableObjectArchitecture.Editor
 
         // Property Names
         private const string LIST_PROPERTY_NAME = "_list";
-        private const string DESCRIPTION_PROPERTY_NAME = "DeveloperDescription";
 
         private void OnEnable()
         {
@@ -58,8 +53,6 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUI.BeginChangeCheck();
 
             _reorderableList.DoLayoutList();
-
-            EditorGUILayout.PropertyField(DeveloperDescriptionProperty);
 
             if (EditorGUI.EndChangeCheck())
             {

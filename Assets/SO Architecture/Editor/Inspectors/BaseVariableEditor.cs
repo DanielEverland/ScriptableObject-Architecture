@@ -12,7 +12,6 @@ namespace ScriptableObjectArchitecture.Editor
         protected bool IsClamped { get { return Target.IsClamped; } }
 
         private SerializedProperty _valueProperty;
-        private SerializedProperty _developerDescription;
         private SerializedProperty _readOnly;
         private SerializedProperty _raiseWarning;
         private SerializedProperty _isClamped;
@@ -26,7 +25,6 @@ namespace ScriptableObjectArchitecture.Editor
         protected virtual void OnEnable()
         {
             _valueProperty = serializedObject.FindProperty("_value");
-            _developerDescription = serializedObject.FindProperty("DeveloperDescription");
             _readOnly = serializedObject.FindProperty("_readOnly");
             _raiseWarning = serializedObject.FindProperty("_raiseWarning");
             _isClamped = serializedObject.FindProperty("_isClamped");
@@ -46,7 +44,6 @@ namespace ScriptableObjectArchitecture.Editor
             DrawValue();
             DrawClampedFields();
             DrawReadonlyField();
-            DrawDeveloperDescription();
         }
         protected virtual void DrawValue()
         {
@@ -102,10 +99,6 @@ namespace ScriptableObjectArchitecture.Editor
                     EditorGUI.indentLevel--;
                 }
             }
-        }
-        protected void DrawDeveloperDescription()
-        {
-            EditorGUILayout.PropertyField(_developerDescription);
         }
     }
     [CustomEditor(typeof(BaseVariable<,>), true)]
