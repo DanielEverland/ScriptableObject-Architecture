@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace ScriptableObjectArchitecture
 {
+	[System.Serializable]
+	public class $TYPE_NAME$Event : UnityEvent<$TYPE_NAME$> { }
+
 	[CreateAssetMenu(
 	    fileName = "$TYPE_NAME$Variable.asset",
 	    menuName = SOArchitecture_Utility.VARIABLE_SUBMENU + "$MENU_NAME$",
 	    order = $ORDER$)]
-	public class $TYPE_NAME$Variable : BaseVariable<$TYPE$>
+	public class $TYPE_NAME$Variable : BaseVariable<$TYPE$, $TYPE_NAME$Event>
 	{
 	}
 }
