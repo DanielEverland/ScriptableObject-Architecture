@@ -108,4 +108,18 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUILayout.PropertyField(_developerDescription);
         }
     }
+    [CustomEditor(typeof(BaseVariable<,>), true)]
+    public class BaseVariableWithEventEditor : BaseVariableEditor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("_event"));
+
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
 }
