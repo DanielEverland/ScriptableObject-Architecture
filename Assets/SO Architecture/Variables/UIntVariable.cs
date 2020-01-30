@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace ScriptableObjectArchitecture
 {
+    [System.Serializable]
+    public class UIntEvent : UnityEvent<uint> { }
+
     [CreateAssetMenu(
         fileName = "UnsignedIntVariable.asset",
         menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "uint",
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 16)]
-    public class UIntVariable : BaseVariable<uint>
+    public class UIntVariable : BaseVariable<uint, UIntEvent>
     {
         public override bool Clampable { get { return true; } }
         protected override uint ClampValue(uint value)
