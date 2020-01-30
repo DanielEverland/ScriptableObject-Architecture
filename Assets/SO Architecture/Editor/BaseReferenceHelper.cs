@@ -18,10 +18,20 @@ public static class BaseReferenceHelper
         Type referenceType = GetReferenceType(fieldInfo);
         
         if(referenceType.IsArray)
+        {
             referenceType = referenceType.GetElementType();
-
+        }
+        else if(IsList(referenceType))
+        {
+            referenceType = referenceType.GetGenericArguments()[0];
+        }
+        
         FieldInfo constantValueField = referenceType.GetField(ConstantValueName, NonPublicBindingsFlag);
 
         return constantValueField.FieldType;
+    }
+    private static bool IsList(Type referenceType)
+    {
+        return referenceType.IsGenericType;
     }
 }
