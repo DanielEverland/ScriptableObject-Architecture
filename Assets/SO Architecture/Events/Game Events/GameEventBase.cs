@@ -108,7 +108,7 @@ namespace ScriptableObjectArchitecture
         public virtual void RemoveAll()
         {
             _listeners.RemoveRange(0, _listeners.Count);
-            _actions.RemoveRange(0, _listeners.Count);
+            _actions.RemoveRange(0, _actions.Count);
         }
     } 
 }
