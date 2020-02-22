@@ -20,7 +20,15 @@ namespace ScriptableObjectArchitecture.Editor
         {
             SerializedProperty property = serializedObject.FindProperty("_debugValue");
 
-            EditorGUILayout.PropertyField(property);
+            using (var scope = new EditorGUI.ChangeCheckScope())
+            {
+                EditorGUILayout.PropertyField(property);
+
+                if (scope.changed)
+                {
+                    serializedObject.ApplyModifiedProperties();
+                }
+            }
 
             if (GUILayout.Button("Raise"))
             {
