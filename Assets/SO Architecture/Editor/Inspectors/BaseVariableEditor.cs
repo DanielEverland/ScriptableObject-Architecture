@@ -19,7 +19,7 @@ namespace ScriptableObjectArchitecture.Editor
         private SerializedProperty _maxValueProperty;
         private AnimBool _raiseWarningAnimation;
         private AnimBool _isClampedVariableAnimation;
-
+        
         private const string READONLY_TOOLTIP = "Should this value be changable during runtime? Will still be editable in the inspector regardless";
 
         protected virtual void OnEnable()
@@ -47,19 +47,26 @@ namespace ScriptableObjectArchitecture.Editor
         }
         protected virtual void DrawValue()
         {
-            using (var scope = new EditorGUI.ChangeCheckScope())
-            {
-                string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
-                GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
+            Rect rect = EditorGUILayout.GetControlRect();
+            rect.height = GenericPropertyDrawer.GetHeight(_valueProperty, Target.Type);
 
-                if (scope.changed)
-                {
-                    serializedObject.ApplyModifiedProperties();
+            GenericPropertyDrawer.DrawPropertyDrawerNew(rect, _valueProperty, Target.Type);
+            GUILayout.Space(rect.height);
 
-                    // Value changed, raise events
-                    Target.Raise();
-                }
-            }
+            //rect.height = GenericPropertyDrawer.GetHeight(_valueProperty, )
+            //using (var scope = new EditorGUI.ChangeCheckScope())
+            //{
+            //    string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
+            //    GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
+
+            //    if (scope.changed)
+            //    {
+            //        serializedObject.ApplyModifiedProperties();
+
+            //        // Value changed, raise events
+            //        Target.Raise();
+            //    }
+            //}
         }
         protected void DrawClampedFields()
         {
