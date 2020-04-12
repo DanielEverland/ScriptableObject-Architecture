@@ -46,6 +46,7 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 drawHeaderCallback = DrawHeader,
                 drawElementCallback = DrawElement,
+                elementHeightCallback = GetHeight,
             };
         }
         public override void OnInspectorGUI()
@@ -70,9 +71,15 @@ namespace ScriptableObjectArchitecture.Editor
 
             EditorGUI.BeginDisabledGroup(DISABLE_ELEMENTS);
 
-            GenericPropertyDrawer.DrawPropertyDrawer(rect, new GUIContent("Element " + index), Target.Type, property, _noPropertyDrawerWarningGUIContent);
+            GenericPropertyDrawer.DrawPropertyDrawerNew(rect, property, Target.Type);
 
             EditorGUI.EndDisabledGroup();
+        }
+        private float GetHeight(int index)
+        {
+            SerializedProperty property = CollectionItemsProperty.GetArrayElementAtIndex(index);
+
+            return GenericPropertyDrawer.GetHeight(property, Target.Type) + EditorGUIUtility.standardVerticalSpacing;
         }
     }
 }
