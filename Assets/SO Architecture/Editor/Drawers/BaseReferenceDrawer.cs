@@ -55,7 +55,7 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private bool IsConstantValueMultiline(SerializedProperty property)
         {
-            return GenericPropertyDrawer.GetHeight(property) > EditorGUIUtility.singleLineHeight;
+            return GenericPropertyDrawer.GetHeight(property, ValueType) > EditorGUIUtility.singleLineHeight;
         }
         private Rect DrawLabel(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -89,18 +89,19 @@ namespace ScriptableObjectArchitecture.Editor
                 using (new EditorGUI.IndentLevelScope())
                 {
                     position.y += EditorGUIUtility.singleLineHeight;
+                    position.height = GenericPropertyDrawer.GetHeight(constantValue, ValueType);
 
-                    GenericPropertyDrawer.DrawPropertyDrawerNew(position, constantValue);
+                    GenericPropertyDrawer.DrawPropertyDrawerNew(position, constantValue, ValueType);
                 }                
             }
             else
             {
-                GenericPropertyDrawer.DrawPropertyDrawerNew(valueRect, constantValue, false);
+                GenericPropertyDrawer.DrawPropertyDrawerNew(valueRect, constantValue, ValueType, false);
             }
         }
         private Rect GetConstantMultilineRect(Rect position, Rect valueRect)
         {
-            return new Rect(position.x, valueRect.y + EditorGUIUtility.singleLineHeight, position.width, GenericPropertyDrawer.GetHeight(constantValue));
+            return new Rect(position.x, valueRect.y + EditorGUIUtility.singleLineHeight, position.width, GenericPropertyDrawer.GetHeight(constantValue, ValueType));
         }
         private Rect GetMultiLineFieldRect(Rect position)
         {
@@ -157,7 +158,7 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 if (IsConstantValueMultiline(constantValue))
                 {
-                    return GenericPropertyDrawer.GetHeight(constantValue) + EditorGUIUtility.singleLineHeight;
+                    return GenericPropertyDrawer.GetHeight(constantValue, ValueType) + EditorGUIUtility.singleLineHeight;
                 }
                 else
                 {

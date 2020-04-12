@@ -9,42 +9,56 @@ namespace ScriptableObjectArchitecture.Editor
     {
         private const string DefaultErrorLabelText = "Type is not drawable! Please implement property drawer";
 
-        public static void DrawPropertyDrawerNew(Rect rect, SerializedProperty property, bool drawLabel = true)
+        public static void DrawPropertyDrawerNew(Rect rect, SerializedProperty property, Type type, bool drawLabel = true)
         {
-            property = property.Copy();
-
-            DrawIterator iter = new DrawIterator(rect, property, drawLabel);
-            if (property.Next(true))
+            if(SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
-                while (iter.Next())
-                {
-                    iter.Draw();
-                }
-
-                iter.End();
+                EditorGUI.PropertyField(rect, property);
             }
+            else
+            {
+                property = property.Copy();
+
+                DrawIterator iter = new DrawIterator(rect, property, drawLabel);
+                if (property.Next(true))
+                {
+                    while (iter.Next())
+                    {
+                        iter.Draw();
+                    }
+
+                    iter.End();
+                }
+            }            
         }
-        public static float GetHeight(SerializedProperty property)
+        public static float GetHeight(SerializedProperty property, Type type)
         {
-            property = property.Copy();
-
-            int elements = 0;
-            
-            Iterator iter = new Iterator(property);
-            if (property.Next(true))
+            if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
-                while (iter.Next())
+                return EditorGUI.GetPropertyHeight(property);
+            }
+            else
+            {
+                property = property.Copy();
+
+                int elements = 0;
+
+                Iterator iter = new Iterator(property);
+                if (property.Next(true))
                 {
-                    ++elements;
+                    while (iter.Next())
+                    {
+                        ++elements;
+                    }
+
+                    iter.End();
                 }
 
-                iter.End();
+                float spacing = (elements - 1) * EditorGUIUtility.standardVerticalSpacing;
+                float elementHeights = elements * EditorGUIUtility.singleLineHeight;
+
+                return spacing + elementHeights;
             }
-
-            float spacing = (elements - 1) * EditorGUIUtility.standardVerticalSpacing;
-            float elementHeights = elements * EditorGUIUtility.singleLineHeight;
-
-            return spacing + elementHeights;
         }
 
         private class Iterator
