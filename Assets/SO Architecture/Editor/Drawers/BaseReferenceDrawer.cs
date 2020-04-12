@@ -46,17 +46,22 @@ namespace ScriptableObjectArchitecture.Editor
             int oldIndent = ResetIndent();
 
             Rect fieldRect = DrawLabel(position, property, label);
-            DrawField(position, fieldRect);
-
+            Rect valueRect = DrawField(position, fieldRect);
+            DrawValue(position, valueRect);
+            
             EndIndent(oldIndent);
             
             property.serializedObject.ApplyModifiedProperties();
+        }
+        private bool IsConstantValueMultiline(SerializedProperty property)
+        {
+            return GenericPropertyDrawer.GetHeight(property) > EditorGUIUtility.singleLineHeight;
         }
         private Rect DrawLabel(Rect position, SerializedProperty property, GUIContent label)
         {
             return EditorGUI.PrefixLabel(position, label);
         }
-        private void DrawField(Rect position, Rect fieldRect)
+        private Rect DrawField(Rect position, Rect fieldRect)
         {
             Rect buttonRect = GetPopupButtonRect(fieldRect);
             Rect valueRect = GetValueRect(fieldRect, buttonRect);
@@ -64,39 +69,38 @@ namespace ScriptableObjectArchitecture.Editor
             int result = DrawPopupButton(buttonRect, useConstant.boolValue ? 0 : 1);
             useConstant.boolValue = result == 0;
 
-            DrawValue(position, valueRect);
+            return valueRect;
         }
         private void DrawValue(Rect position, Rect valueRect)
         {
-            if (ShouldDrawMultiLineField())
-            {
-                valueRect = GetMultiLineFieldRect(position);
-                GUI.Box(valueRect, string.Empty);
-            }
-
             if (useConstant.boolValue)
             {
-                DrawGenericPropertyField(valueRect);
+                DrawGenericPropertyField(position, valueRect);
             }
             else
             {
                 EditorGUI.PropertyField(valueRect, variable, GUIContent.none);
             }
         }
-        private void DrawGenericPropertyField(Rect valueRect)
+        private void DrawGenericPropertyField(Rect position, Rect valueRect)
         {
-            if (ValueType != null)
+            if (IsConstantValueMultiline(constantValue))
             {
-                GenericPropertyDrawer.DrawPropertyDrawer(valueRect, GUIContent.none, ValueType, constantValue, GUIContent.none);
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    position.y += EditorGUIUtility.singleLineHeight;
+
+                    GenericPropertyDrawer.DrawPropertyDrawerNew(position, constantValue);
+                }                
             }
             else
             {
-                Debug.LogWarningFormat(
-                    property.objectReferenceValue,
-                    COULD_NOT_FIND_VALUE_FIELD_WARNING_FORMAT,
-                    CONSTANT_VALUE_PROPERTY_NAME,
-                    ValueType);
+                GenericPropertyDrawer.DrawPropertyDrawerNew(valueRect, constantValue, false);
             }
+        }
+        private Rect GetConstantMultilineRect(Rect position, Rect valueRect)
+        {
+            return new Rect(position.x, valueRect.y + EditorGUIUtility.singleLineHeight, position.width, GenericPropertyDrawer.GetHeight(constantValue));
         }
         private Rect GetMultiLineFieldRect(Rect position)
         {
@@ -146,20 +150,22 @@ namespace ScriptableObjectArchitecture.Editor
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            if (SupportsMultiLine)
+            SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
+            SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
+            
+            if (useConstant.boolValue)
             {
-                SerializedProperty constantValue = property.FindPropertyRelative(CONSTANT_VALUE_PROPERTY_NAME);
-                SerializedProperty useConstant = property.FindPropertyRelative(USE_CONSTANT_VALUE_PROPERTY_NAME);
+                if (IsConstantValueMultiline(constantValue))
+                {
+                    return GenericPropertyDrawer.GetHeight(constantValue) + EditorGUIUtility.singleLineHeight;
+                }
+                else
+                {
+                    return EditorGUIUtility.singleLineHeight;
+                }
+            }
 
-                float constantPropertyHeight = EditorGUI.GetPropertyHeight(constantValue);
-                return !useConstant.boolValue || constantPropertyHeight <= EditorGUIUtility.singleLineHeight
-                    ? EditorGUIUtility.singleLineHeight
-                    : EditorGUIUtility.singleLineHeight * 2 + constantPropertyHeight;
-            }
-            else
-            {
-                return base.GetPropertyHeight(property, label);
-            }
+            return EditorGUIUtility.singleLineHeight;
         }
         
         static class Styles
