@@ -52,21 +52,6 @@ namespace ScriptableObjectArchitecture.Editor
 
             GenericPropertyDrawer.DrawPropertyDrawerNew(rect, _valueProperty, Target.Type);
             GUILayout.Space(rect.height);
-
-            //rect.height = GenericPropertyDrawer.GetHeight(_valueProperty, )
-            //using (var scope = new EditorGUI.ChangeCheckScope())
-            //{
-            //    string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
-            //    GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
-
-            //    if (scope.changed)
-            //    {
-            //        serializedObject.ApplyModifiedProperties();
-
-            //        // Value changed, raise events
-            //        Target.Raise();
-            //    }
-            //}
         }
         protected void DrawClampedFields()
         {
