@@ -47,11 +47,16 @@ namespace ScriptableObjectArchitecture.Editor
         }
         protected virtual void DrawValue()
         {
-            Rect rect = EditorGUILayout.GetControlRect();
-            rect.height = GenericPropertyDrawer.GetHeight(_valueProperty, Target.Type);
+            //GenericPropertyDrawer.DrawPropertyDrawerLayoutNew(_valueProperty, Target.Type);
+            GenericPropertyDrawer.DrawPropertyDrawerLayoutNew(serializedObject.GetIterator(), Target.Type);
 
-            GenericPropertyDrawer.DrawPropertyDrawerNew(rect, _valueProperty, Target.Type);
-            GUILayout.Space(rect.height);
+            EditorGUILayout.Space();
+
+            //Rect rect = new Rect()
+            //rect.height = GenericPropertyDrawer.GetHeight(_valueProperty, Target.Type);
+
+            //GenericPropertyDrawer.DrawPropertyDrawerNew(rect, _valueProperty, Target.Type);
+            //GUILayout.Space(rect.height);
         }
         protected void DrawClampedFields()
         {

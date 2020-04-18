@@ -11,25 +11,48 @@ namespace ScriptableObjectArchitecture.Editor
 
         public static void DrawPropertyDrawerNew(Rect rect, SerializedProperty property, Type type, bool drawLabel = true)
         {
-            if(SOArchitecture_EditorUtility.HasPropertyDrawer(type))
+            if(false/*SOArchitecture_EditorUtility.HasPropertyDrawer(type)*/)
             {
                 EditorGUI.PropertyField(rect, property);
             }
             else
             {
-                property = property.Copy();
+                PropertyDrawIterator iter = new PropertyDrawIterator(rect, property.Copy(), drawLabel);
 
-                DrawIterator iter = new DrawIterator(rect, property, drawLabel);
-                if (property.Next(true))
-                {
-                    while (iter.Next())
-                    {
-                        iter.Draw();
-                    }
+                DrawPropertyDrawerNewInternal(iter);
+            }
+        }
+        public static void DrawPropertyDrawerLayoutNew(SerializedProperty property, Type type, bool drawLabel = true)
+        {
+            if (false/*SOArchitecture_EditorUtility.HasPropertyDrawer(type)*/)
+            {
+                EditorGUILayout.PropertyField(property);
+            }
+            else
+            {
+                PropertyDrawIteratorLayout iter = new PropertyDrawIteratorLayout(property.Copy(), drawLabel);
 
-                    iter.End();
-                }
-            }            
+                DrawPropertyDrawerNewInternal(iter);
+
+                //SerializedProperty iter = property.Copy();
+                //if (iter.NextVisible(true))
+                //{
+                //    do
+                //    {
+                //        EditorGUILayout.PropertyField(iter);
+                //    } while (iter.NextVisible(true));
+                //}
+            }
+        }
+        private static void DrawPropertyDrawerNewInternal(IPropertyDrawIterator iter)
+        {
+            do
+            {
+                iter.Draw();
+            }
+            while (iter.Next());
+
+            iter.End();
         }
         public static float GetHeight(SerializedProperty property, Type type)
         {
@@ -43,7 +66,7 @@ namespace ScriptableObjectArchitecture.Editor
 
                 int elements = 0;
 
-                Iterator iter = new Iterator(property);
+                PropertyIterator iter = new PropertyIterator(property);
                 if (property.Next(true))
                 {
                     while (iter.Next())
@@ -61,155 +84,156 @@ namespace ScriptableObjectArchitecture.Editor
             }
         }
 
-        private class Iterator
-        {
-            public Iterator(SerializedProperty property)
-            {
-                iterator = property.Copy();
-                endProperty = iterator.GetEndProperty();
-            }
+        //private class Iterator
+        //{
+        //    public Iterator(SerializedProperty property)
+        //    {
+        //        iterator = property.Copy();
+        //        endProperty = iterator.GetEndProperty();
+        //    }
 
-            protected readonly SerializedProperty iterator;
-            protected readonly SerializedProperty endProperty;
+        //    protected readonly SerializedProperty iterator;
+        //    protected readonly SerializedProperty endProperty;
 
-            private bool consumeChildren;
-            private int parentDepth;
+        //    private bool consumeChildren;
+        //    private int parentDepth;
 
-            public bool Next()
-            {
-                bool nextVisible = iterator.NextVisible(true);
-                bool canDraw = CanDraw();
+        //    public bool Next()
+        //    {
+        //        bool nextVisible = iterator.NextVisible(true);
+        //        bool canDraw = CanDraw();
 
-                if (nextVisible)
-                {
-                    if (consumeChildren)
-                    {
-                        ConsumeSingleLineFields(parentDepth);
-                        consumeChildren = false;
-                    }
+        //        if (nextVisible)
+        //        {
+        //            if (consumeChildren)
+        //            {
+        //                ConsumeSingleLineFields(parentDepth);
+        //                consumeChildren = false;
+        //            }
 
-                    int depth = iterator.depth;
-                    if (IsSingleLine(iterator))
-                    {
-                        parentDepth = depth;
-                        consumeChildren = true;
-                    }
-                }
+        //            int depth = iterator.depth;
+        //            if (IsSingleLine(iterator))
+        //            {
+        //                parentDepth = depth;
+        //                consumeChildren = true;
+        //            }
+        //        }
 
-                return nextVisible && canDraw;
-            }
+        //        return nextVisible && canDraw;
+        //    }
 
-            public virtual void End()
-            {
+        //    public virtual void End()
+        //    {
                 
-            }
-            private bool CanDraw()
-            {
-                return !SerializedProperty.EqualContents(iterator, endProperty);
-            }
-            private void ConsumeSingleLineFields(int depth)
-            {
-                do
-                {
-                    iterator.Next(true);
-                } while (iterator.depth != depth);
-            }
-            private bool IsSingleLine(SerializedProperty property)
-            {
-                switch (property.propertyType)
-                {
-                    case SerializedPropertyType.Vector3:
-                    case SerializedPropertyType.Vector2:
-                    case SerializedPropertyType.Vector3Int:
-                    case SerializedPropertyType.Vector2Int:
-                    case SerializedPropertyType.Rect:
-                    case SerializedPropertyType.RectInt:
-                    case SerializedPropertyType.Bounds:
-                    case SerializedPropertyType.BoundsInt:
-                        return true;
-                }
+        //    }
+        //    private bool CanDraw()
+        //    {
+        //        return !SerializedProperty.EqualContents(iterator, endProperty);
+        //    }
+        //    private void ConsumeSingleLineFields(int depth)
+        //    {
+        //        do
+        //        {
+        //            iterator.Next(true);
+        //        } while (iterator.depth != depth);
+        //    }
+        //    private bool IsSingleLine(SerializedProperty property)
+        //    {
+        //        switch (property.propertyType)
+        //        {
+        //            case SerializedPropertyType.Vector3:
+        //            case SerializedPropertyType.Vector2:
+        //            case SerializedPropertyType.Vector3Int:
+        //            case SerializedPropertyType.Vector2Int:
+        //            case SerializedPropertyType.Vector4:
+        //            case SerializedPropertyType.Quaternion:
+        //            case SerializedPropertyType.Rect:
+        //            case SerializedPropertyType.RectInt:
+        //            case SerializedPropertyType.Bounds:
+        //            case SerializedPropertyType.BoundsInt:
+        //                return true;
+        //        }
 
-                return false;
-            }
-        }
-        private class DrawIterator : Iterator
-        {
-            public DrawIterator(Rect rect, SerializedProperty property, bool drawLabel) : base(property)
-            {
-                this.drawLabel = drawLabel;
-                this.rect = rect;
-                this.rect.height = EditorGUIUtility.singleLineHeight;
-                startIndentLevel = EditorGUI.indentLevel;
-                startDepth = iterator.depth;
-            }
+        //        return false;
+        //    }
+        //}
+        //private class DrawIterator : Iterator
+        //{
+        //    public DrawIterator(Rect rect, SerializedProperty property, bool drawLabel) : base(property)
+        //    {
+        //        this.drawLabel = drawLabel;
+        //        this.rect = rect;
+        //        this.rect.height = EditorGUIUtility.singleLineHeight;
+        //        startIndentLevel = EditorGUI.indentLevel;
+        //        startDepth = iterator.depth;
+        //    }
 
-            private readonly bool drawLabel;
-            private readonly int startIndentLevel;
+        //    private readonly bool drawLabel;
+        //    private readonly int startIndentLevel;
 
-            private int startDepth;
-            private Rect rect;
+        //    private int startDepth;
+        //    private Rect rect;
             
 
-            public void Draw()
-            {
-                EditorGUI.indentLevel = GetIndent(iterator.depth);
+        //    public void Draw()
+        //    {
+        //        EditorGUI.indentLevel = GetIndent(iterator.depth);
 
-                if (IsCustom(iterator))
-                {
-                    DrawHeader();
-                }
-                else
-                {
-                    DrawValue();
-                }
+        //        if (IsCustom(iterator))
+        //        {
+        //            DrawHeader();
+        //        }
+        //        else
+        //        {
+        //            DrawValue();
+        //        }
 
-                rect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            }
+        //        rect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        //    }
 
 
-            public override void End()
-            {
-                base.End();
+        //    public override void End()
+        //    {
+        //        base.End();
 
-                EditorGUI.indentLevel = startIndentLevel;
-            }
-            private void DrawHeader()
-            {
-                EditorGUI.LabelField(rect, iterator.displayName);
-                
-            }
-            private void DrawValue()
-            {
-                if(drawLabel)
-                {
-                    EditorGUI.PropertyField(rect, iterator);
-                }
-                else
-                {
-                    EditorGUI.PropertyField(rect, iterator, GUIContent.none);
-                }               
-            }
+        //        EditorGUI.indentLevel = startIndentLevel;
+        //    }
+        //    private void DrawHeader()
+        //    {
+        //        EditorGUI.LabelField(rect, iterator.displayName);
+        //    }
+        //    private void DrawValue()
+        //    {
+        //        if (drawLabel)
+        //        {
+        //            EditorGUI.PropertyField(rect, iterator);
+        //        }
+        //        else
+        //        {
+        //            EditorGUI.PropertyField(rect, iterator, GUIContent.none);
+        //        }               
+        //    }
             
-            private int GetIndent(int depth)
-            {
-                // Depth starts at 1, whereas indent starts at 0. So we subtract 1
-                return startIndentLevel + (depth - startDepth) - 1;
-            }
-            private Rect GetFieldRect()
-            {
-                return new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
-            }
-            private void NextLine()
-            {
-                rect.y += EditorGUIUtility.singleLineHeight * 3;
-            }
+        //    private int GetIndent(int depth)
+        //    {
+        //        // Depth starts at 1, whereas indent starts at 0. So we subtract 1
+        //        return startIndentLevel + (depth - startDepth) - 1;
+        //    }
+        //    private Rect GetFieldRect()
+        //    {
+        //        return new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
+        //    }
+        //    private void NextLine()
+        //    {
+        //        rect.y += EditorGUIUtility.singleLineHeight * 3;
+        //    }
             
             
-            private bool IsCustom(SerializedProperty property)
-            {
-                return property.propertyType == SerializedPropertyType.Generic;
-            }
-        }
+        //    private bool IsCustom(SerializedProperty property)
+        //    {
+        //        return property.propertyType == SerializedPropertyType.Generic;
+        //    }
+        //}
 
 
 
@@ -217,18 +241,15 @@ namespace ScriptableObjectArchitecture.Editor
         {
             if (errorLabel == GUIContent.none)
                 errorLabel = GetDefaultErrorLabel();
-
-            Debug.Log(type);
+            
             if (IsDrawable(type))
             {
-                Debug.Log(1);
                 //Unity doesn't like it when you have scene objects on assets,
                 //so we do some magic to display it anyway
                 if (typeof(Object).IsAssignableFrom(type)
                     && !EditorUtility.IsPersistent(property.objectReferenceValue)
                     && property.objectReferenceValue != null)
                 {
-                    Debug.Log(2);
                     using (new EditorGUI.DisabledGroupScope(true))
                     {
                         EditorGUI.ObjectField(rect, label, property.objectReferenceValue, type, false);
@@ -236,17 +257,14 @@ namespace ScriptableObjectArchitecture.Editor
                 }
                 else if (TryDrawBuiltinType(rect, label, type, property))
                 {
-                    Debug.Log(3);
                 }
                 else
                 {
-                    Debug.Log(4);
                     EditorGUI.PropertyField(rect, property, label);
                 }
             }
             else
             {
-                Debug.Log(5);
                 EditorGUI.LabelField(rect, errorLabel);
             }
         }
