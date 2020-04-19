@@ -47,6 +47,7 @@ namespace ScriptableObjectArchitecture.Editor
         }
         protected virtual void DrawValue()
         {
+            //EditorGUILayout.PropertyField(_valueProperty);
             GenericPropertyDrawer.DrawPropertyDrawerLayoutNew(_valueProperty, Target.Type);
             //GenericPropertyDrawer.DrawPropertyDrawerLayoutNew(serializedObject.GetIterator(), Target.Type);
 
