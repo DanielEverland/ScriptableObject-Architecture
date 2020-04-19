@@ -71,7 +71,7 @@ namespace ScriptableObjectArchitecture.Editor
 
             EditorGUI.BeginDisabledGroup(DISABLE_ELEMENTS);
 
-            GenericPropertyDrawer.DrawPropertyDrawerNew(rect, property, Target.Type);
+            GenericPropertyDrawer.DrawPropertyDrawer(rect, property, Target.Type);
 
             EditorGUI.EndDisabledGroup();
         }

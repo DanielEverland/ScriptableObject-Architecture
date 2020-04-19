@@ -93,12 +93,12 @@ namespace ScriptableObjectArchitecture.Editor
                     position.y += EditorGUIUtility.singleLineHeight;
                     position.height = GenericPropertyDrawer.GetHeight(constantValue, ValueType);
 
-                    GenericPropertyDrawer.DrawPropertyDrawerNew(position, constantValue, ValueType);
+                    GenericPropertyDrawer.DrawPropertyDrawer(position, constantValue, ValueType);
                 }                
             }
             else
             {
-                GenericPropertyDrawer.DrawPropertyDrawerNew(valueRect, constantValue, ValueType, false);
+                GenericPropertyDrawer.DrawPropertyDrawer(valueRect, constantValue, ValueType, false);
             }
         }
         private Rect GetConstantMultilineRect(Rect position, Rect valueRect)

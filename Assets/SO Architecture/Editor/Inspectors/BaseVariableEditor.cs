@@ -42,22 +42,15 @@ namespace ScriptableObjectArchitecture.Editor
             serializedObject.Update();
 
             DrawValue();
+
+            EditorGUILayout.Space();
+
             DrawClampedFields();
             DrawReadonlyField();
         }
         protected virtual void DrawValue()
         {
-            //EditorGUILayout.PropertyField(_valueProperty);
-            GenericPropertyDrawer.DrawPropertyDrawerLayoutNew(_valueProperty, Target.Type);
-            //GenericPropertyDrawer.DrawPropertyDrawerLayoutNew(serializedObject.GetIterator(), Target.Type);
-
-            EditorGUILayout.Space();
-
-            //Rect rect = new Rect()
-            //rect.height = GenericPropertyDrawer.GetHeight(_valueProperty, Target.Type);
-
-            //GenericPropertyDrawer.DrawPropertyDrawerNew(rect, _valueProperty, Target.Type);
-            //GUILayout.Space(rect.height);
+            GenericPropertyDrawer.DrawPropertyDrawerLayout(_valueProperty, Target.Type);
         }
         protected void DrawClampedFields()
         {
