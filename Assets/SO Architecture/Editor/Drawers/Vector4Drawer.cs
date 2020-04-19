@@ -5,18 +5,14 @@ using UnityEditor;
 
 namespace ScriptableObjectArchitecture.Editor
 {
-    [CustomPropertyDrawer(typeof(Quaternion))]
-    public class QuaternionDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(Vector4))]
+    public class Vector4Drawer : PropertyDrawer
     {
         private const float Height = 20;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            Vector4 vector = property.quaternionValue.ToVector4();
-
-            vector = EditorGUI.Vector4Field(position, label, vector);
-
-            property.quaternionValue = new Quaternion(vector.x, vector.y, vector.z, vector.w);
+            property.vector4Value = EditorGUI.Vector4Field(position, label, property.vector4Value);
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
