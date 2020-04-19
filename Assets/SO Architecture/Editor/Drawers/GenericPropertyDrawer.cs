@@ -12,7 +12,7 @@ namespace ScriptableObjectArchitecture.Editor
 
         public static void DrawPropertyDrawerNew(Rect rect, SerializedProperty property, Type type, bool drawLabel = true)
         {
-            if(false/*SOArchitecture_EditorUtility.HasPropertyDrawer(type)*/)
+            if(SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
                 EditorGUI.PropertyField(rect, property);
             }
@@ -25,7 +25,7 @@ namespace ScriptableObjectArchitecture.Editor
         }
         public static void DrawPropertyDrawerLayoutNew(SerializedProperty property, Type type, bool drawLabel = true)
         {
-            if (false/*SOArchitecture_EditorUtility.HasPropertyDrawer(type)*/)
+            if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
                 EditorGUILayout.PropertyField(property);
             }
@@ -34,15 +34,6 @@ namespace ScriptableObjectArchitecture.Editor
                 PropertyDrawIteratorLayout iter = new PropertyDrawIteratorLayout(property.Copy(), drawLabel);
 
                 DrawPropertyDrawerNewInternal(iter);
-
-                //SerializedProperty iter = property.Copy();
-                //if (iter.NextVisible(true))
-                //{
-                //    do
-                //    {
-                //        EditorGUILayout.PropertyField(iter);
-                //    } while (iter.NextVisible(true));
-                //}
             }
         }
         private static void DrawPropertyDrawerNewInternal(IPropertyDrawIterator iter)

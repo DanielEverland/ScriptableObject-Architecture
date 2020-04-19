@@ -33,13 +33,13 @@ public class NewBehaviourScript : MonoBehaviour
     //private LongReference longReference;
     //[SerializeField]
     //private ObjectReference objectReference;
-    [SerializeField]
-    private QuaternionReference quaternionReference;
+    //[SerializeField]
+    //private QuaternionReference quaternionReference;
     //[SerializeField]
     //private SByteReference sByteReference;
 
-    //[SerializeField]
-    //private SceneReference sceneReference;
+    [SerializeField]
+    private SceneReference sceneReference;
 
     //[SerializeField]
     //private ShortReference shortReference;
