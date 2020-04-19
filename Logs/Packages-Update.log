@@ -122,3 +122,18 @@ The following packages were removed:
   com.unity.ads@2.0.8
   com.unity.analytics@3.3.2
   com.unity.purchasing@2.0.6
+
+=== Sun Apr 19 20:47:32 2020
+
+Packages were changed.
+Update Mode: resetToDefaultDependencies
+
+The following packages were updated:
+  com.unity.test-framework from version 1.0.13 to 1.1.3
+  com.unity.timeline from version 1.1.0 to 1.2.6
+  com.unity.ide.vscode from version 1.1.2 to 1.1.3
+  com.unity.ide.rider from version 1.1.0 to 1.1.4
+The following packages were removed:
+  com.jeffcampbellmakesgames.packagetools@https://github.com/jeffcampbellmakesgames/unity-package-tools.git#release/stable
+  com.unity.ext.nunit@1.0.0
+  com.unity.package-manager-ui@2.2.0

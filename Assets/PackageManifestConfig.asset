@@ -19,8 +19,8 @@ MonoBehaviour:
   legacyPackageDestinationPath: 
   packageName: com.danieleverland.scriptableobjectarchitecture
   displayName: ScriptableObject-Architecture
-  packageVersion: 1.6.4
-  unityVersion: 2019.2
+  packageVersion: 1.7.0
+  unityVersion: 2019.3
   description: Makes using Scriptable Objects as a fundamental part of your architecture
     in Unity super easy
   category: Tools

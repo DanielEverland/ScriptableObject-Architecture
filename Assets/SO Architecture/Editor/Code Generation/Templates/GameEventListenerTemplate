@@ -1,9 +1,0 @@
-﻿using UnityEngine;
-
-namespace ScriptableObjectArchitecture
-{
-	[AddComponentMenu(SOArchitecture_Utility.EVENT_LISTENER_SUBMENU + "$TYPE$")]
-	public sealed class $TYPE_NAME$GameEventListener : BaseGameEventListener<$TYPE$, $TYPE_NAME$GameEvent, $TYPE_NAME$UnityEvent>
-	{
-	}
-}
