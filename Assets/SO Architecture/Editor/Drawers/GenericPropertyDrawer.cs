@@ -73,15 +73,13 @@ namespace ScriptableObjectArchitecture.Editor
                 int elements = 0;
 
                 PropertyIterator iter = new PropertyIterator(property);
-                if (property.Next(true))
+                do
                 {
-                    while (iter.Next())
-                    {
-                        ++elements;
-                    }
-
-                    iter.End();
+                    ++elements;
                 }
+                while (iter.Next());
+
+                iter.End();
 
                 float spacing = (elements - 1) * EditorGUIUtility.standardVerticalSpacing;
                 float elementHeights = elements * EditorGUIUtility.singleLineHeight;
