@@ -35,6 +35,9 @@ namespace ScriptableObjectArchitecture.Editor
                 nextVisible = iterator.NextVisible(true);
             }
 
+            if (!CanDraw())
+                return false;
+
             if(nextVisible)
             {
                 if (iterator.propertyType == SerializedPropertyType.Generic)
