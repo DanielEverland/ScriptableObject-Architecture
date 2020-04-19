@@ -14,7 +14,14 @@ namespace ScriptableObjectArchitecture.Editor
         {
             if(SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
-                EditorGUI.PropertyField(rect, property);
+                if(drawLabel)
+                {
+                    EditorGUI.PropertyField(rect, property);
+                }
+                else
+                {
+                    EditorGUI.PropertyField(rect, property, GUIContent.none);
+                }
             }
             else
             {
@@ -27,7 +34,14 @@ namespace ScriptableObjectArchitecture.Editor
         {
             if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
-                EditorGUILayout.PropertyField(property);
+                if (drawLabel)
+                {
+                    EditorGUILayout.PropertyField(property);
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(property, GUIContent.none);
+                }
             }
             else
             {

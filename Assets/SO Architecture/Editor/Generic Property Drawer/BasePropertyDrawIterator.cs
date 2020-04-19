@@ -27,7 +27,14 @@ namespace ScriptableObjectArchitecture.Editor
 
             if (IsCustom(iterator))
             {
-                DrawPropertyWithLabel();
+                if (drawLabel)
+                {
+                    DrawPropertyWithLabel();
+                }
+                else
+                {
+                    DrawProperty();
+                }
             }
             else
             {

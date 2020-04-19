@@ -38,8 +38,8 @@ public class NewBehaviourScript : MonoBehaviour
     //[SerializeField]
     //private SByteReference sByteReference;
 
-    [SerializeField]
-    private SceneReference sceneReference;
+    //[SerializeField]
+    //private SceneReference sceneReference;
 
     //[SerializeField]
     //private ShortReference shortReference;
