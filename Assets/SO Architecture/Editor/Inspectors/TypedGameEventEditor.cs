@@ -22,7 +22,9 @@ namespace ScriptableObjectArchitecture.Editor
 
             using (var scope = new EditorGUI.ChangeCheckScope())
             {
-                EditorGUILayout.PropertyField(property);
+                Type debugValueType = GetDebugValueType(property);
+                //EditorGUILayout.PropertyField(property);
+                GenericPropertyDrawer.DrawPropertyDrawerLayoutNew(property, debugValueType);
 
                 if (scope.changed)
                 {
@@ -41,6 +43,13 @@ namespace ScriptableObjectArchitecture.Editor
             FieldInfo targetField = targetType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
 
             return targetField.GetValue(property.serializedObject.targetObject);
+        }
+        private Type GetDebugValueType(SerializedProperty property)
+        {
+            Type targetType = property.serializedObject.targetObject.GetType();
+            FieldInfo targetField = targetType.GetField("_debugValue", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            return targetField.FieldType;
         }
         private void CallMethod(object value)
         {
