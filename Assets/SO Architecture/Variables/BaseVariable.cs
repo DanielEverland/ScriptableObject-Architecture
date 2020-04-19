@@ -125,7 +125,7 @@ namespace ScriptableObjectArchitecture
     public abstract class BaseVariable<T, TEvent> : BaseVariable<T> where TEvent : UnityEvent<T>
     {
         [SerializeField]
-        private TEvent _event = default;
+        private TEvent _event = default(TEvent);
 
         public override T SetValue(T value)
         {
