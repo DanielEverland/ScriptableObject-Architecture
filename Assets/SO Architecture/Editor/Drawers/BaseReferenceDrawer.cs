@@ -18,6 +18,8 @@ namespace ScriptableObjectArchitecture.Editor
             "Use Variable"
         };
 
+        private const float MultilineThreshold = 20;
+
         // Property Names
         private const string VARIABLE_PROPERTY_NAME = "_variable";
         private const string CONSTANT_VALUE_PROPERTY_NAME = "_constantValue";
@@ -55,7 +57,7 @@ namespace ScriptableObjectArchitecture.Editor
         }
         private bool IsConstantValueMultiline(SerializedProperty property)
         {
-            return GenericPropertyDrawer.GetHeight(property, ValueType) > EditorGUIUtility.singleLineHeight;
+            return GenericPropertyDrawer.GetHeight(property, ValueType) > MultilineThreshold;
         }
         private Rect DrawLabel(Rect position, SerializedProperty property, GUIContent label)
         {
