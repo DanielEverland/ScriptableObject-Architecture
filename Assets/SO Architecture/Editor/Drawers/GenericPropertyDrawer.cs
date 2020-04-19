@@ -9,10 +9,17 @@ namespace ScriptableObjectArchitecture.Editor
     public static class GenericPropertyDrawer
     {
         private const string DefaultErrorLabelText = "Type is not drawable! Please implement property drawer";
+        private const string NullPropertyText = "SerializedProperty is null. Your custom type is probably missing the [Serializable] attribute";
 
         public static void DrawPropertyDrawerNew(Rect rect, SerializedProperty property, Type type, bool drawLabel = true)
         {
-            if(SOArchitecture_EditorUtility.HasPropertyDrawer(type))
+            if (property == null)
+            {
+                Debug.LogError(NullPropertyText);
+                return;
+            }
+
+            if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
                 if(drawLabel)
                 {
@@ -32,6 +39,12 @@ namespace ScriptableObjectArchitecture.Editor
         }
         public static void DrawPropertyDrawerLayoutNew(SerializedProperty property, Type type, bool drawLabel = true)
         {
+            if(property == null)
+            {
+                Debug.LogError(NullPropertyText);
+                return;
+            }
+
             if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
             {
                 if (drawLabel)

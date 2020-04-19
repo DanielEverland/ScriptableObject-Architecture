@@ -63,4 +63,7 @@ public class NewBehaviourScript : MonoBehaviour
     //private Quaternion quaternion;
     //[SerializeField]
     //private Vector3 vector;
+
+    [SerializeField]
+    private TestTypeReference testTypeReference;
 }

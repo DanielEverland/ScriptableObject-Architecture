@@ -11,6 +11,9 @@ namespace ScriptableObjectArchitecture.Editor
         {
             iterator = property.Copy();
             endProperty = iterator.GetEndProperty();
+
+            if (iterator.propertyType == SerializedPropertyType.Generic)
+                iterator.NextVisible(true);
         }
 
         protected readonly SerializedProperty iterator;
@@ -30,6 +33,12 @@ namespace ScriptableObjectArchitecture.Editor
             else
             {
                 nextVisible = iterator.NextVisible(true);
+            }
+
+            if(nextVisible)
+            {
+                if (iterator.propertyType == SerializedPropertyType.Generic)
+                    nextVisible = iterator.NextVisible(true);
             }
             
             return nextVisible && CanDraw();
