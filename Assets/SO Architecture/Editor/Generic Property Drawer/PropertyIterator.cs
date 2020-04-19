@@ -9,9 +9,7 @@ namespace ScriptableObjectArchitecture.Editor
     {
         public PropertyIterator(SerializedProperty property)
         {
-            iterator = property;
-            Next();
-            
+            iterator = property.Copy();
             endProperty = iterator.GetEndProperty();
         }
 
@@ -23,44 +21,33 @@ namespace ScriptableObjectArchitecture.Editor
 
         public virtual bool Next()
         {
-            bool nextVisible = iterator.NextVisible(true);
-            bool canDraw = CanDraw();
-
-            if (nextVisible)
+            bool nextVisible = false;
+            if(IsSingleLine(iterator))
             {
-                if (IsScriptField(iterator))
-                    nextVisible = NextVisible();
-
-                if (consumeChildren)
-                {
-                    ConsumeSingleLineFields(parentDepth);
-                    consumeChildren = false;
-                }
-
-                int depth = iterator.depth;
-                if (IsSingleLine(iterator))
-                {
-                    parentDepth = depth;
-                    consumeChildren = true;
-                }
+                parentDepth = iterator.depth;
+                nextVisible = iterator.NextVisible(false);
             }
-
-            return nextVisible && canDraw;
+            else
+            {
+                nextVisible = iterator.NextVisible(true);
+            }
+            
+            return nextVisible && CanDraw();
         }
         public virtual void End()
         {
         }
+        private void UpdateState(SerializedProperty property)
+        {
+            if (IsSingleLine(iterator))
+            {
+                parentDepth = iterator.depth;
+                consumeChildren = true;
+            }
+        }
         private bool CanDraw()
         {
             return !SerializedProperty.EqualContents(iterator, endProperty);
-        }
-        private void ConsumeSingleLineFields(int depth)
-        {
-            do
-            {
-                iterator.Next(true);
-            }
-            while (iterator.depth != depth);
         }
         private bool IsSingleLine(SerializedProperty property)
         {
@@ -80,10 +67,6 @@ namespace ScriptableObjectArchitecture.Editor
             }
 
             return false;
-        }
-        private bool IsScriptField(SerializedProperty property)
-        {
-            return property.propertyPath == "m_Script";
         }
         private bool NextVisible()
         {
