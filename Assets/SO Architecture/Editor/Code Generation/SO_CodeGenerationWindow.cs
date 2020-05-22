@@ -122,16 +122,16 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUILayout.LabelField("Information", EditorStyles.boldLabel);
 
             // Type name.
+            _typeName = EditorGUILayout.TextField(new GUIContent("Type Name", "Case sensitive, ensure exact match with actual type name"), _typeName);
+
             if (string.IsNullOrEmpty(_typeName))
                 EditorGUILayout.HelpBox("Please fill out the Type Name", MessageType.Error);
 
-            _typeName = EditorGUILayout.TextField(new GUIContent("Type Name", "Case sensitive, ensure exact match with actual type name"), _typeName);
+            // Namespace
+            _namespace = EditorGUILayout.TextField(new GUIContent("Namespace", "Case sensitive, ensure exact match with actual namespace"), _namespace);
 
             if (string.IsNullOrEmpty(_namespace))
                 EditorGUILayout.HelpBox("Please fill out the Namespace", MessageType.Error);
-
-            // Namespace
-            _namespace = EditorGUILayout.TextField(new GUIContent("Namespace", "Case sensitive, ensure exact match with actual namespace"), _namespace);
 
             // Menu name.
             _menuAnim.target = RequiresMenu();
