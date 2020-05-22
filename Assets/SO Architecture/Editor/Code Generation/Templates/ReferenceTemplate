@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using ScriptableObjectArchitecture;
 
-namespace ScriptableObjectArchitecture
+namespace $NAMESPACE$
 {
 	[System.Serializable]
 	public sealed class $TYPE_NAME$Reference : BaseReference<$TYPE$, $TYPE_NAME$Variable>

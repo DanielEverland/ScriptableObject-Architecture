@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using ScriptableObjectArchitecture;
 
-namespace ScriptableObjectArchitecture
+namespace $NAMESPACE$
 {
 	[CreateAssetMenu(
 	    fileName = "$TYPE_NAME$Collection.asset",

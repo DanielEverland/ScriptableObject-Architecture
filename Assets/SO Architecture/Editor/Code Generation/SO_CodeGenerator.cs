@@ -70,6 +70,7 @@ namespace ScriptableObjectArchitecture.Editor
             public bool[] Types;
             public string TypeName;
             public string MenuName;
+            public string Namespace;
             public int Order;
         }
 
@@ -101,12 +102,13 @@ namespace ScriptableObjectArchitecture.Editor
 
         public static void Generate(Data data)
         {
-            _replacementStrings = new string[4, 2]
+            _replacementStrings = new string[5, 2]
             {
             { "$TYPE$", data.TypeName },
             { "$TYPE_NAME$", CapitalizeFirstLetter(data.TypeName) },
             { "$MENU_NAME$", data.MenuName },
             { "$ORDER$", data.Order.ToString() },
+            { "$NAMESPACE$", data.Namespace}
             };
 
             for (int i = 0; i < TYPE_COUNT; i++)
