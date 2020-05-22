@@ -79,6 +79,9 @@ namespace ScriptableObjectArchitecture.Editor
 
             DataFields();
 
+            if (string.IsNullOrEmpty(_typeName) || string.IsNullOrEmpty(_namespace))
+                GUI.enabled = false;
+
             if (GUILayout.Button("Generate"))
             {
                 SO_CodeGenerator.Data data = new SO_CodeGenerator.Data()
