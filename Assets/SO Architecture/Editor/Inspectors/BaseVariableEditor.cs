@@ -12,6 +12,7 @@ namespace ScriptableObjectArchitecture.Editor
         protected bool IsClamped { get { return Target.IsClamped; } }
 
         private SerializedProperty _valueProperty;
+        private SerializedProperty _developerDescription;
         private SerializedProperty _readOnly;
         private SerializedProperty _raiseWarning;
         private SerializedProperty _isClamped;
@@ -30,6 +31,7 @@ namespace ScriptableObjectArchitecture.Editor
             _isClamped = serializedObject.FindProperty("_isClamped");
             _minValueProperty = serializedObject.FindProperty("_minClampedValue");
             _maxValueProperty = serializedObject.FindProperty("_maxClampedValue");
+            _developerDescription = serializedObject.FindProperty("developerDescription");
 
             _raiseWarningAnimation = new AnimBool(_readOnly.boolValue);
             _raiseWarningAnimation.valueChanged.AddListener(Repaint);
@@ -40,6 +42,9 @@ namespace ScriptableObjectArchitecture.Editor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            DrawDeveloperDescription();
+
+            EditorGUILayout.Space();
 
             DrawValue();
 
@@ -47,10 +52,24 @@ namespace ScriptableObjectArchitecture.Editor
 
             DrawClampedFields();
             DrawReadonlyField();
+            EditorGUILayout.Space();
+            DrawRaiseButton();
         }
         protected virtual void DrawValue()
         {
-            GenericPropertyDrawer.DrawPropertyDrawerLayout(_valueProperty, Target.Type);
+            using (var scope = new EditorGUI.ChangeCheckScope())
+            {
+                string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
+                GenericPropertyDrawer.DrawPropertyDrawerLayout(_valueProperty, Target.Type);
+
+                if (scope.changed)
+                {
+                    serializedObject.ApplyModifiedProperties();
+
+                    // Value changed, raise events
+                    Target.Raise();
+                }
+            }
         }
         protected void DrawClampedFields()
         {
@@ -73,9 +92,16 @@ namespace ScriptableObjectArchitecture.Editor
             }
             
         }
+        protected virtual void DrawRaiseButton()
+        {
+            if (GUILayout.Button("Raise"))
+            {
+                Target.Raise();
+            }
+        }
         protected void DrawReadonlyField()
         {
-            if (IsClampable)
+            if (_isClamped.boolValue)
                 return;
 
             EditorGUILayout.PropertyField(_readOnly, new GUIContent("Read Only", READONLY_TOOLTIP));
@@ -90,6 +116,10 @@ namespace ScriptableObjectArchitecture.Editor
                     EditorGUI.indentLevel--;
                 }
             }
+        }
+        protected void DrawDeveloperDescription()
+        {
+            EditorGUILayout.PropertyField(_developerDescription);
         }
     }
     [CustomEditor(typeof(BaseVariable<,>), true)]
