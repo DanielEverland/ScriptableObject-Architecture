@@ -52,6 +52,7 @@ namespace ScriptableObjectArchitecture.Editor
         private int _order;
         private string _typeName;
         private string _menuName;
+        private string _namespace;
         private AnimBool _menuAnim;
         private AnimBool _clampedValueHelpBoxAnim;
 
@@ -78,6 +79,9 @@ namespace ScriptableObjectArchitecture.Editor
 
             DataFields();
 
+            if (string.IsNullOrEmpty(_typeName) || string.IsNullOrEmpty(_namespace))
+                GUI.enabled = false;
+
             if (GUILayout.Button("Generate"))
             {
                 SO_CodeGenerator.Data data = new SO_CodeGenerator.Data()
@@ -85,6 +89,7 @@ namespace ScriptableObjectArchitecture.Editor
                     Types = _states,
                     TypeName = _typeName,
                     MenuName = RequiresMenu() ? _menuName : default(string),
+                    Namespace = _namespace,
                     Order = _order,
                 };
 
@@ -118,6 +123,15 @@ namespace ScriptableObjectArchitecture.Editor
 
             // Type name.
             _typeName = EditorGUILayout.TextField(new GUIContent("Type Name", "Case sensitive, ensure exact match with actual type name"), _typeName);
+
+            if (string.IsNullOrEmpty(_typeName))
+                EditorGUILayout.HelpBox("Please fill out the Type Name", MessageType.Error);
+
+            // Namespace
+            _namespace = EditorGUILayout.TextField(new GUIContent("Namespace", "Case sensitive, ensure exact match with actual namespace"), _namespace);
+
+            if (string.IsNullOrEmpty(_namespace))
+                EditorGUILayout.HelpBox("Please fill out the Namespace", MessageType.Error);
 
             // Menu name.
             _menuAnim.target = RequiresMenu();

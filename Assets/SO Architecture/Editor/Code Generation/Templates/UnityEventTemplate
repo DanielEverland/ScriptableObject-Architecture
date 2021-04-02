@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using ScriptableObjectArchitecture;
 
-namespace ScriptableObjectArchitecture
+namespace $NAMESPACE$
 {
 	[System.Serializable]
 	public sealed class $TYPE_NAME$UnityEvent : UnityEvent<$TYPE$>
