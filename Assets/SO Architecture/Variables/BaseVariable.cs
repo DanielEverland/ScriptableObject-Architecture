@@ -22,7 +22,6 @@ namespace ScriptableObjectArchitecture
             set
             {
                 _value = SetValue(value);
-                Raise();
             }
         }
         public virtual T MinClampValue
@@ -66,8 +65,7 @@ namespace ScriptableObjectArchitecture
             }
             set
             {
-                _value = SetValue((T)value);
-                Raise();
+                SetValue((T)value);
             }
         }
 
@@ -83,12 +81,14 @@ namespace ScriptableObjectArchitecture
         protected T _minClampedValue = default(T);
         [SerializeField]
         protected T _maxClampedValue = default(T);
+        
+        private T _oldValue;
 
         public virtual T SetValue(BaseVariable<T> value)
         {
             return SetValue(value.Value);
         }
-        public virtual T SetValue(T value)
+        public virtual T SetValue(T newValue)
         {
             if (_readOnly)
             {
@@ -97,11 +97,21 @@ namespace ScriptableObjectArchitecture
             }
             else if(Clampable && IsClamped)
             {
-                return ClampValue(value);
+                newValue = ClampValue(newValue);
             }
 
-            return value;
-        }        
+            if (!AreValuesEqual(newValue, _oldValue))
+                Raise();
+
+            _value = newValue;
+            _oldValue = _value;
+
+            return newValue;
+        }
+        protected virtual bool AreValuesEqual(T a, T b)
+        {
+            return a.Equals(b);
+        }
         protected virtual T ClampValue(T value)
         {
             return value;
@@ -121,21 +131,25 @@ namespace ScriptableObjectArchitecture
         {
             return variable.Value;
         }
+        public void OnValidate()
+        {
+            SetValue(Value);
+        }
+        public void OnEnable()
+        {
+            _oldValue = _value;
+        }
     }
     public abstract class BaseVariable<T, TEvent> : BaseVariable<T> where TEvent : UnityEvent<T>
     {
         [SerializeField]
         private TEvent _event = default(TEvent);
 
-        public override T SetValue(T value)
+        public override void Raise()
         {
-            T oldValue = _value;
-            T newValue = base.SetValue(value);
+            base.Raise();
 
-            if (!newValue.Equals(oldValue))
-                _event.Invoke(newValue);
-
-            return newValue;
+            _event.Invoke(Value);
         }
         public void AddListener(UnityAction<T> callback)
         {

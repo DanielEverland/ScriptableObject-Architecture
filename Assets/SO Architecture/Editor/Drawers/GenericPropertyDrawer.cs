@@ -19,22 +19,30 @@ namespace ScriptableObjectArchitecture.Editor
                 return;
             }
 
-            if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
+            using (var scope = new EditorGUI.ChangeCheckScope())
             {
-                if(drawLabel)
+                if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
                 {
-                    EditorGUI.PropertyField(rect, property);
+                    if (drawLabel)
+                    {
+                        EditorGUI.PropertyField(rect, property);
+                    }
+                    else
+                    {
+                        EditorGUI.PropertyField(rect, property, GUIContent.none);
+                    }
                 }
                 else
                 {
-                    EditorGUI.PropertyField(rect, property, GUIContent.none);
-                }
-            }
-            else
-            {
-                PropertyDrawIterator iter = new PropertyDrawIterator(rect, property.Copy(), drawLabel);
+                    PropertyDrawIterator iter = new PropertyDrawIterator(rect, property.Copy(), drawLabel);
 
-                DrawPropertyDrawerInternal(iter);
+                    DrawPropertyDrawerInternal(iter);
+                }
+
+                if (scope.changed)
+                {
+                    EditorUtility.SetDirty(property.serializedObject.targetObject);
+                }
             }
         }
         public static void DrawPropertyDrawerLayout(SerializedProperty property, Type type, bool drawLabel = true)
@@ -45,23 +53,32 @@ namespace ScriptableObjectArchitecture.Editor
                 return;
             }
 
-            if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
+            using (var scope = new EditorGUI.ChangeCheckScope())
             {
-                if (drawLabel)
+                if (SOArchitecture_EditorUtility.HasPropertyDrawer(type))
                 {
-                    EditorGUILayout.PropertyField(property);
+                    if (drawLabel)
+                    {
+                        EditorGUILayout.PropertyField(property);
+                    }
+                    else
+                    {
+                        EditorGUILayout.PropertyField(property, GUIContent.none);
+                    }
                 }
                 else
                 {
-                    EditorGUILayout.PropertyField(property, GUIContent.none);
+                    PropertyDrawIteratorLayout iter = new PropertyDrawIteratorLayout(property.Copy(), drawLabel);
+
+                    DrawPropertyDrawerInternal(iter);
+                }
+
+                if (scope.changed)
+                {
+                    EditorUtility.SetDirty(property.serializedObject.targetObject);
                 }
             }
-            else
-            {
-                PropertyDrawIteratorLayout iter = new PropertyDrawIteratorLayout(property.Copy(), drawLabel);
-
-                DrawPropertyDrawerInternal(iter);
-            }
+            
         }
         private static void DrawPropertyDrawerInternal(IPropertyDrawIterator iter)
         {

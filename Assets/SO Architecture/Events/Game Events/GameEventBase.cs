@@ -75,7 +75,7 @@ namespace ScriptableObjectArchitecture
 #endif
         }
 
-        public void Raise()
+        public virtual void Raise()
         {
             AddStackTrace();
 

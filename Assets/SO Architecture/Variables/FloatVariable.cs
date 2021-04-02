@@ -28,5 +28,9 @@ namespace ScriptableObjectArchitecture
                 return value;
             }
         }
+        protected override bool AreValuesEqual(float a, float b)
+        {
+            return Mathf.Abs(a - b) < Mathf.Epsilon;
+        }
     } 
 }
