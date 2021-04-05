@@ -110,7 +110,9 @@ namespace ScriptableObjectArchitecture
         }
         protected virtual bool AreValuesEqual(T a, T b)
         {
-            return a.Equals(b);
+            if (a != null) return a.Equals(b);
+
+            return b == null;
         }
         protected virtual T ClampValue(T value)
         {
