@@ -100,10 +100,11 @@ namespace ScriptableObjectArchitecture
                 newValue = ClampValue(newValue);
             }
 
+            _value = newValue;
+
             if (!AreValuesEqual(newValue, _oldValue))
                 Raise();
 
-            _value = newValue;
             _oldValue = _value;
 
             return newValue;
