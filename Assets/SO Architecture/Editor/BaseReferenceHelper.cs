@@ -23,6 +23,7 @@ public static class BaseReferenceHelper
         }
         else if(IsList(referenceType))
         {
+            Debug.Log("Is list!");
             referenceType = referenceType.GetGenericArguments()[0];
         }
         
@@ -32,6 +33,6 @@ public static class BaseReferenceHelper
     }
     private static bool IsList(Type referenceType)
     {
-        return referenceType.IsGenericType;
+        return typeof(IList).IsAssignableFrom(referenceType);
     }
 }

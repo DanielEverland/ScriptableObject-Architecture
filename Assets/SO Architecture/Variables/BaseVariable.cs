@@ -9,7 +9,9 @@ namespace ScriptableObjectArchitecture
         public abstract bool Clampable { get; }
         public abstract bool ReadOnly { get; }
         public abstract System.Type Type { get; }
+        public abstract System.Type ReferenceType { get; }
         public abstract object BaseValue { get; set; }
+        public abstract bool UseDefaultValue { get; }
     }
     public abstract class BaseVariable<T> : BaseVariable
     {
@@ -24,6 +26,13 @@ namespace ScriptableObjectArchitecture
                 _value = SetValue(value);
             }
         }
+
+        public T DefaultValue
+        {
+            get => _defaultValue;
+            set => _defaultValue = value;
+        }
+
         public virtual T MinClampValue
         {
             get
@@ -38,6 +47,7 @@ namespace ScriptableObjectArchitecture
                 }
             }
         }
+
         public virtual T MaxClampValue
         {
             get
@@ -57,6 +67,9 @@ namespace ScriptableObjectArchitecture
         public override bool ReadOnly { get { return _readOnly; } }
         public override bool IsClamped { get { return _isClamped; } }
         public override System.Type Type { get { return typeof(T); } }
+        public override System.Type ReferenceType => typeof(BaseReference<T, BaseVariable<T>>);
+        public override bool UseDefaultValue => _useDefaultValue;
+
         public override object BaseValue
         {
             get
@@ -74,6 +87,8 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private bool _readOnly = false;
         [SerializeField]
+        private bool _useDefaultValue = false;
+        [SerializeField]
         private bool _raiseWarning = true;
         [SerializeField]
         protected bool _isClamped = false;
@@ -81,6 +96,8 @@ namespace ScriptableObjectArchitecture
         protected T _minClampedValue = default(T);
         [SerializeField]
         protected T _maxClampedValue = default(T);
+        [SerializeField]
+        protected T _defaultValue;
         
         private T _oldValue;
 
@@ -141,6 +158,14 @@ namespace ScriptableObjectArchitecture
         public void OnEnable()
         {
             _oldValue = _value;
+
+            if(UseDefaultValue)
+                ResetToDefaultValue();
+        }
+
+        private void ResetToDefaultValue()
+        {
+            Value = _defaultValue;
         }
     }
     public abstract class BaseVariable<T, TEvent> : BaseVariable<T> where TEvent : UnityEvent<T>

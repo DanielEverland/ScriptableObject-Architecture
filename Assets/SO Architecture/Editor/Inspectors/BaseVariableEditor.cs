@@ -17,6 +17,10 @@ namespace ScriptableObjectArchitecture.Editor
         private SerializedProperty _isClamped;
         private SerializedProperty _minValueProperty;
         private SerializedProperty _maxValueProperty;
+        private SerializedProperty _defaultValueProperty;
+        private SerializedProperty _useDefaultProperty;
+
+        private AnimBool _useDefaultValueAnimation;
         private AnimBool _raiseWarningAnimation;
         private AnimBool _isClampedVariableAnimation;
         
@@ -30,6 +34,11 @@ namespace ScriptableObjectArchitecture.Editor
             _isClamped = serializedObject.FindProperty("_isClamped");
             _minValueProperty = serializedObject.FindProperty("_minClampedValue");
             _maxValueProperty = serializedObject.FindProperty("_maxClampedValue");
+            _defaultValueProperty = serializedObject.FindProperty("_defaultValue");
+            _useDefaultProperty = serializedObject.FindProperty("_useDefaultValue");
+
+            _useDefaultValueAnimation = new AnimBool(_useDefaultProperty.boolValue);
+            _useDefaultValueAnimation.valueChanged.AddListener(Repaint);
 
             _raiseWarningAnimation = new AnimBool(_readOnly.boolValue);
             _raiseWarningAnimation.valueChanged.AddListener(Repaint);
@@ -51,6 +60,19 @@ namespace ScriptableObjectArchitecture.Editor
         protected virtual void DrawValue()
         {
             GenericPropertyDrawer.DrawPropertyDrawerLayout(_valueProperty, Target.Type);
+
+            EditorGUILayout.PropertyField(_useDefaultProperty);
+            _useDefaultValueAnimation.target = _useDefaultProperty.boolValue;
+            using (var anim = new EditorGUILayout.FadeGroupScope(_useDefaultValueAnimation.faded))
+            {
+                if (anim.visible)
+                {
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        GenericPropertyDrawer.DrawPropertyDrawerLayout(_defaultValueProperty, Target.ReferenceType);
+                    }
+                }
+            }
         }
         protected void DrawClampedFields()
         {
