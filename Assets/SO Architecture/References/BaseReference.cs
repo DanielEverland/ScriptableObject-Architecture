@@ -19,6 +19,16 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         protected TVariable _variable = default(TVariable);
 
+        public TVariable Variable
+        {
+            get => _variable;
+            set
+            {
+                _useConstant = false;
+                _variable = value;
+            }
+        }
+
         public TBase Value
         {
             get
