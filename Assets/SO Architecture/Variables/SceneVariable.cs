@@ -111,13 +111,20 @@ namespace ScriptableObjectArchitecture
                 var scenes = UnityEditor.EditorBuildSettings.scenes;
 
                 SceneIndex = -1;
+                int enabledSceneIndex = 0;//scenes are only given a build index if enabled.
                 for (var i = 0; i < scenes.Length; i++)
                 {
+                    bool sceneIsEnabled = scenes[i].enabled;
                     if (scenes[i].guid.ToString() == sceneAssetGUID)
                     {
-                        SceneIndex = i;
-                        IsSceneEnabled = scenes[i].enabled;
+                        if(sceneIsEnabled)
+                            SceneIndex = enabledSceneIndex++;
+                        IsSceneEnabled = sceneIsEnabled;
                         break;
+                    }
+                    else if (sceneIsEnabled)
+                    {
+                        ++enabledSceneIndex;
                     }
                 }
             }
