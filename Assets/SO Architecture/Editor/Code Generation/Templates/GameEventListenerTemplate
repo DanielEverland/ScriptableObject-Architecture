@@ -3,7 +3,7 @@ using ScriptableObjectArchitecture;
 
 namespace $NAMESPACE$
 {
-	[AddComponentMenu(SOArchitecture_Utility.EVENT_LISTENER_SUBMENU + "$TYPE$")]
+	[AddComponentMenu(SOArchitecture_Utility.EVENT_LISTENER_SUBMENU + "$TYPE$" + " Event Listener")]
 	public sealed class $TYPE_NAME$GameEventListener : BaseGameEventListener<$TYPE$, $TYPE_NAME$GameEvent, $TYPE_NAME$UnityEvent>
 	{
 	}
