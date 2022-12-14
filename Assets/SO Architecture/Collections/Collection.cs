@@ -40,15 +40,28 @@ namespace ScriptableObjectArchitecture
         public void Add(T obj)
         {
             _list.Add(obj);
+            Raise();
         }
+
+        public void AddRange(IList<T> obj)
+        {
+            _list.AddRange(obj);
+            Raise();
+        }
+
         public void Remove(T obj)
         {
             if (_list.Contains(obj))
+            {
                 _list.Remove(obj);
+                Raise();
+            }
+
         }
         public void Clear()
         {
             _list.Clear();
+            Raise();
         }
         public bool Contains(T value)
         {
@@ -61,10 +74,12 @@ namespace ScriptableObjectArchitecture
         public void RemoveAt(int index)
         {
             _list.RemoveAt(index);
+            Raise();
         }
         public void Insert(int index, T value)
         {
             _list.Insert(index, value);
+            Raise();
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -78,8 +93,9 @@ namespace ScriptableObjectArchitecture
         {
             return "Collection<" + typeof(T) + ">(" + Count + ")";
         }
-        public T[] ToArray() {
+        public T[] ToArray()
+        {
             return _list.ToArray();
         }
-    } 
+    }
 }
